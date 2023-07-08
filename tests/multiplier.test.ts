@@ -1,12 +1,12 @@
-import { Circomkit } from "circomkit";
+import { Circomkit, WitnessTester } from "circomkit";
 
 // exercise: make this test work for all numbers, not just 3
 describe("multiplier", () => {
   let circuit: WitnessTester<["in"], ["out"]>;
 
   before(async () => {
-    const circomkit = new Circomkit();
-    circuit = await circomkit.WitnessTester('multiplier_3', {
+    const circomkit = new Circomkit({ verbose: false });
+    circuit = await circomkit.WitnessTester("multiplier_3", {
       file: "multiplier",
       template: "Multiplier",
       params: [3],
