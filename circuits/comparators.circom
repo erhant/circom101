@@ -5,8 +5,8 @@ include "circomlib/circuits/binsum.circom";
 
 // Returns `out = 1` if `in == 0`.
 template IsZero() {
-  signal input {bool} in;
-  signal output {bool} out;
+  signal input in;
+  signal output out;
 
   // find inverse
   // 0 doesn't have an inverse, so it gives 1/0 = 0
@@ -23,7 +23,7 @@ template IsZero() {
 // Returns `out = 1` if `in[0] == in[1]`.
 template IsEqual() {
   signal input in[2];
-  signal output {bool} out;
+  signal output out;
 
   component isz = IsZero();
 
@@ -36,7 +36,7 @@ template IsEqual() {
 template LessThan(n) {
     assert(n <= 252);
     signal input in[2];
-    signal output {bool} out;
+    signal output out;
 
     component n2b = Num2Bits(n+1);
 
@@ -51,7 +51,7 @@ template LessThan(n) {
 // The MSF is the sign bit.
 template LessEqThan(n) {
     signal input in[2];
-    signal output {bool} out;
+    signal output out;
 
     component lt = LessThan(n);
 
@@ -64,7 +64,7 @@ template LessEqThan(n) {
 // The MSF is the sign bit.
 template GreaterThan(n) {
     signal input in[2];
-    signal output {bool} out;
+    signal output out;
 
     component lt = LessThan(n);
 
@@ -77,7 +77,7 @@ template GreaterThan(n) {
 // The MSF is the sign bit.
 template GreaterEqThan(n) {
     signal input in[2];
-    signal output {bool} out;
+    signal output out;
 
     component lt = LessThan(n);
 

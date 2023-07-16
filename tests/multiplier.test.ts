@@ -1,19 +1,45 @@
-import { Circomkit, WitnessTester } from "circomkit";
+import type { WitnessTester } from "circomkit";
+import { circomkit } from "./common";
 
-// exercise: make this test work for all numbers, not just 3
 describe("multiplier", () => {
+  const N = 3;
   let circuit: WitnessTester<["in"], ["out"]>;
 
   before(async () => {
-    const circomkit = new Circomkit({ verbose: false });
-    circuit = await circomkit.WitnessTester("multiplier_3", {
+    circuit = await circomkit.WitnessTester(`multiplier_${N}`, {
       file: "multiplier",
       template: "Multiplier",
-      params: [3],
+      params: [N],
+    });
+  });
+
+  it("should have correct number of constraints", async () => {
+    await circuit.expectConstraintCount(N - 1);
+  });
+
+  it("should multiply correctly", async () => {
+    const randomNumbers = Array.from({ length: N }, () =>
+      Math.floor(Math.random() * 100 * N)
+    );
+    await circuit.expectPass(
+      { in: randomNumbers },
+      { out: randomNumbers.reduce((prev, acc) => acc * prev) }
+    );
+  });
+});
+
+describe("multiplication gate", () => {
+  let circuit: WitnessTester<["in"], ["out"]>;
+
+  before(async () => {
+    circuit = await circomkit.WitnessTester("mulgate", {
+      file: "multiplier",
+      template: "MultiplicationGate",
+      dir: "test/multiplier",
     });
   });
 
   it("should multiply correctly", async () => {
-    await circuit.expectPass({ in: [2, 4, 10] }, { out: 80 });
+    await circuit.expectPass({ in: [7, 5] }, { out: 7 * 5 });
   });
 });

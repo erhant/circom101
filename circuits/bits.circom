@@ -1,8 +1,9 @@
 pragma circom 2.1.0;
 
-template Num2Bits(n) {
+// Asserts that a given number is representable by `n` bits.
+template AssertBits(n) {
+  assert(n < 254);
   signal input in;
-  signal output {binary} out[n];
 
   var sum = 0;
   var bit_value = 1;
@@ -17,17 +18,38 @@ template Num2Bits(n) {
   sum === in;
 }
 
+// Converts a number to bits.
+template Num2Bits(n) {
+  assert(n < 254);
+  signal input in;
+  signal output {binary} out[n];
 
-template Bits2Num(n) {
-signal input in[n];
-signal output {binary} out;
-var lc1=0;
+  var lc = 0;
+  var bit_value = 1;
 
-var e2 = 1;
-for (var i = 0; i<n; i++) {
-  lc1 += in[i] * e2;
-  e2 = e2 + e2;
+  for (var i = 0; i<n; i++) {
+    out[i] <-- (in >> i) & 1;
+    out[i] * (out[i] - 1) === 0;
+    lc += out[i] * bit_value;
+    bit_value <<= 1;
+  }
+
+  lc === in;
 }
 
-lc1 ==> out;
+// Converts a bit-array to a number.
+template Bits2Num(n) {
+  assert(n < 254);
+  signal input in[n];
+  signal output {binary} out;
+
+  var lc = 0;
+  var bit_value = 1;
+  for (var i = 0; i < n; i++) {
+    in[i] * (in[i] - 1) === 0;
+    lc += in[i] * bit_value;
+    bit_value <<= 1;
+  }
+
+  out <== lc;
 }

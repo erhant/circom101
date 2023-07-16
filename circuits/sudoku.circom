@@ -2,24 +2,23 @@ pragma circom 2.0.0;
 
 include "circomlib/circuits/bitify.circom";
 
-// Finds Math.floor(log2(n))
-function log2(n) {
+// Returns the minimum number of bits needed to represent `n`
+function numBits(n) {
   var tmp = 1, ans = 1;
   while (tmp < n) {
     ans++;
-    tmp *= 2;
+    tmp <<= 1;
   }
-  return ans;
+  return ans + 1;
 }
 
 // Assert that two elements are not equal
 template NonEqual() {
   signal input in[2];
-  signal inv;
 
   // we check if (in[0] - in[1] != 0)
   // because 1/0 results in 0, so the constraint won't hold
-  inv <-- 1 / (in[1] - in[0]);
+  signal inv <-- 1 / (in[1] - in[0]);
   inv * (in[1] - in[0]) === 1;
 }
 
@@ -46,9 +45,7 @@ template InRange(MIN, MAX) {
   assert(MIN < MAX);
   signal input in;
   
-  // number of bits to represent MAX
-  var b = log2(MAX) + 1; 
-
+  var b = numBits(MAX); 
   component lowerBound = AssertBitLength(b);
   component upperBound = AssertBitLength(b);
   lowerBound.in <== in - MIN; // e.g. 1 - 1 = 0 (for 0 <= in)
