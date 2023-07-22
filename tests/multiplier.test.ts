@@ -1,13 +1,14 @@
 import type { WitnessTester } from "circomkit";
 import { circomkit } from "./common";
 
+const N = 3;
+
 describe("multiplier", () => {
-  const N = 3;
   let circuit: WitnessTester<["in"], ["out"]>;
 
   before(async () => {
     circuit = await circomkit.WitnessTester(`multiplier_${N}`, {
-      file: "multiplier",
+      file: "examples/multiplier",
       template: "Multiplier",
       params: [N],
     });
@@ -33,8 +34,8 @@ describe("multiplication gate", () => {
 
   before(async () => {
     circuit = await circomkit.WitnessTester("mulgate", {
-      file: "multiplier",
-      template: "MultiplicationGate",
+      file: "examples/multiplier",
+      template: "Mul",
       dir: "test/multiplier",
     });
   });

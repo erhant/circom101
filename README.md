@@ -13,3 +13,5 @@ We make heavy use of [Circomlib](./node_modules/circomlib/circuits).
 1. Arrays, Sorting
 
 We use `mdbook` to create the book, see the [book](./book/) folder.
+
+For each circuit, we dive deep into the constraints and tests them out.

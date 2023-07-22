@@ -1,6 +1,6 @@
 import type { WitnessTester } from "circomkit";
 import { circomkit } from "./common";
-import { BOARD_SIZES, SUDOKU_INPUTS } from "./utilities/sudoku";
+import { BOARD_SIZES, SUDOKU_INPUTS } from "./data/sudoku";
 
 BOARD_SIZES.map((N) =>
   describe(`sudoku (${N} by ${N})`, () => {
@@ -9,7 +9,7 @@ BOARD_SIZES.map((N) =>
 
     before(async () => {
       circuit = await circomkit.WitnessTester(`sudoku_${N}x${N}`, {
-        file: "sudoku",
+        file: "examples/sudoku",
         template: "Sudoku",
         pubs: ["puzzle"],
         params: [Math.sqrt(N)],
@@ -60,7 +60,7 @@ describe("sudoku utilities", () => {
 
     before(async () => {
       circuit = await circomkit.WitnessTester(`bitlen_${b}`, {
-        file: "sudoku",
+        file: "examples/sudoku",
         template: "AssertBitLength",
         dir: "test/sudoku",
         params: [b],
@@ -89,7 +89,7 @@ describe("sudoku utilities", () => {
 
     before(async () => {
       circuit = await circomkit.WitnessTester(`distinct_${n}`, {
-        file: "sudoku",
+        file: "examples/sudoku",
         template: "Distinct",
         dir: "test/sudoku",
         params: [n],
@@ -123,7 +123,7 @@ describe("sudoku utilities", () => {
 
     before(async () => {
       circuit = await circomkit.WitnessTester(`inRange_${MIN}_${MAX}`, {
-        file: "sudoku",
+        file: "examples/sudoku",
         template: "InRange",
         dir: "test/sudoku",
         params: [MIN, MAX],

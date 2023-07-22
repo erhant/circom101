@@ -1,35 +1,19 @@
 pragma circom 2.1.0;
 
-// Asserts that a given number is representable by `n` bits.
-template AssertBits(n) {
-  assert(n < 254);
-  signal input in;
-
-  var sum = 0;
-  var bit_value = 1;
-
-  for (var i = 0; i<n; i++) {
-    out[i] <-- (in >> i) & 1;
-    out[i] * (out[i] - 1) === 0;
-    sum += out[i] * bit_value;
-    bit_value <<= 1;
-  }
-
-  sum === in;
-}
-
-// Converts a number to bits.
+// Converts a number to bits while asserting that
+// is is `n`-bit representable.
 template Num2Bits(n) {
   assert(n < 254);
   signal input in;
-  signal output {binary} out[n];
+  signal output out[n];
 
   var lc = 0;
   var bit_value = 1;
 
-  for (var i = 0; i<n; i++) {
+  for (var i = 0; i < n; i++) {
     out[i] <-- (in >> i) & 1;
     out[i] * (out[i] - 1) === 0;
+
     lc += out[i] * bit_value;
     bit_value <<= 1;
   }
@@ -40,13 +24,14 @@ template Num2Bits(n) {
 // Converts a bit-array to a number.
 template Bits2Num(n) {
   assert(n < 254);
-  signal input in[n];
-  signal output {binary} out;
+  signal input  in[n];
+  signal output out;
 
   var lc = 0;
   var bit_value = 1;
   for (var i = 0; i < n; i++) {
     in[i] * (in[i] - 1) === 0;
+
     lc += in[i] * bit_value;
     bit_value <<= 1;
   }
