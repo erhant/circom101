@@ -1,6 +1,6 @@
 pragma circom 2.1.0;
 
-// Multiply two numbers `a` and `b`.
+// Multiply two numbers.
 template Mul() {
   signal input in[2];
   signal output out;

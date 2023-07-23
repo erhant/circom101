@@ -15,24 +15,7 @@ describe("fibonacci", () => {
     console.log("#constraints:", await circuit.getConstraintCount());
   });
 
-  it("should compute correctly", async () => {
-    await circuit.expectPass({ in: [1, 1] }, { out: fibonacci([1, 1], N) });
-  });
-});
-
-describe("fibonacci recursive", () => {
-  let circuit: WitnessTester<["in"], ["out"]>;
-
-  before(async () => {
-    circuit = await circomkit.WitnessTester(`fibonacci_${N}_recursive`, {
-      file: "examples/fibonacci",
-      template: "FibonacciRecursive",
-      params: [N],
-    });
-    console.log("#constraints:", await circuit.getConstraintCount());
-  });
-
-  it("should compute correctly", async () => {
+  it("should return n'th fibonacci number", async () => {
     await circuit.expectPass({ in: [1, 1] }, { out: fibonacci([1, 1], N) });
   });
 });

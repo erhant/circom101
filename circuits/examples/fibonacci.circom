@@ -16,7 +16,6 @@ template Fibonacci(n) {
   out <== fib[n];
 }
 
-// Fibonacci with custom starting numbers, recursive & inefficient
 template FibonacciRecursive(n) {
   signal input in[2];
   signal output out;
@@ -24,8 +23,8 @@ template FibonacciRecursive(n) {
   if (n <= 1) {
     out <== in[n];
   } else {
-    var l = FibonacciRecursive(n-1)(in);
-    var r = FibonacciRecursive(n-2)(in);
-    out <== l + r;
+    var prev = FibonacciRecursive(n-1)(in);
+    var prevprev = FibonacciRecursive(n-2)(in);
+    out <== prev + prevprev;
   }
 }
