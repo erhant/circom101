@@ -5,7 +5,7 @@ include "./bits.circom";
 // Returns 1 if `in == 0`.
 template IsZero() {
   signal input in;
-  signal output  out;
+  signal output out;
 
   signal inv <-- in != 0 ? 1 / in : 0;
   out <== -in * inv + 1;
@@ -25,7 +25,7 @@ template IsEqual() {
 template LessThan(n) {
   assert(n <= 252);
   signal input in[2];
-  signal output  out;
+  signal output out;
 
   // convert in[0] - in[1] + 2^n to bits
   // if in[0] > in[1], 2^n'th bit should be set
@@ -41,7 +41,7 @@ template LessThan(n) {
 // The MSF is the sign bit.
 template LessEqThan(n) {
   signal input in[2];
-  signal output  out;
+  signal output out;
 
   out <== LessThan(n)([in[0], in[1]+1]);
 }
@@ -50,7 +50,7 @@ template LessEqThan(n) {
 // The MSF is the sign bit.
 template GreaterThan(n) {
   signal input in[2];
-  signal output  out;
+  signal output out;
 
   out <== LessThan(n)([in[1], in[0]]);
 }

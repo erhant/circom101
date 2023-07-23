@@ -1,6 +1,5 @@
 pragma circom 2.1.0;
 
-// Prove that you know a magic square of size `n * n`.
 template MagicSquare(n) {
   signal input in[n][n];
   signal output sum;

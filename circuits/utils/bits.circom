@@ -10,8 +10,14 @@ function numBits(n) {
   return ans + 1;
 }
 
+// Asserts that a given input is binary.
+template AssertBit() {
+  signal input in;
+  in * (in - 1) === 0;
+}
+
 // Converts a number to bits while asserting that
-// is is `n`-bit representable.
+// it is `n`-bit representable.
 template Num2Bits(n) {
   assert(n < 254);
   signal input in;
@@ -22,7 +28,7 @@ template Num2Bits(n) {
 
   for (var i = 0; i < n; i++) {
     out[i] <-- (in >> i) & 1;
-    out[i] * (out[i] - 1) === 0;
+    AssertBit()(out[i]);
 
     lc += out[i] * bit_value;
     bit_value <<= 1;
@@ -31,16 +37,16 @@ template Num2Bits(n) {
   lc === in;
 }
 
-// Converts a bit-array to a number.
+// Converts an `n`-bit number in binary form to decimal form.
 template Bits2Num(n) {
   assert(n < 254);
-  signal input  in[n];
+  signal input in[n];
   signal output out;
 
   var lc = 0;
   var bit_value = 1;
   for (var i = 0; i < n; i++) {
-    in[i] * (in[i] - 1) === 0;
+    AssertBit()(in[i]);
 
     lc += in[i] * bit_value;
     bit_value <<= 1;
@@ -59,7 +65,7 @@ template AssertBits(n) {
   signal bits[n];
   for (var i = 0; i < n; i++) {
     bits[i] <-- (in >> i) & 1;
-    bits[i] * (bits[i] - 1) === 0;
+    AssertBit()(bits[i]);
 
     lc += bits[i] * bit_value;
     bit_value <<= 1;
