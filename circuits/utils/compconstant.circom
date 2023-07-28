@@ -35,27 +35,24 @@ template CompConstant(constant) {
     var part_bit_a;
     var part_bit_b;
     if ((constant_msb == 0) && (constant_lsb == 0)) {
-      part_bit_a = 0;
+      part_bit_a = 1;
       part_bit_b = in_msb + in_lsb - in_msb*in_lsb;
     } 
     else if ((constant_msb == 0) && (constant_lsb == 1)) {
-      part_bit_a = 1 - (in_msb + in_lsb - in_msb*in_lsb);
+      part_bit_a = in_msb + in_lsb - in_msb*in_lsb;
       part_bit_b = in_msb;
-      // part_bit = (a * in_msb * in_lsb) + (-a * in_lsb) + (b * in_msb) + (-a * in_msb) + a;
     } 
     else if ((constant_msb == 1) && (constant_lsb == 0)) {
-      part_bit_a = 1 - (in_msb);
+      part_bit_a = in_msb;
       part_bit_b = in_msb*in_lsb;
-      // part_bit = (b * in_msb * in_lsb) + (-a * in_msb) + a;
     } 
     else if ((constant_msb == 1) && (constant_lsb == 1)) {
-      part_bit_a = 1 - (in_msb*in_lsb);
+      part_bit_a = in_msb*in_lsb;
       part_bit_b = 0;
-      // part_bit = (-a * in_msb * in_lsb) + a;
     }
     else assert(0 != 0); // impossible case
 
-    parts[i] <== (a * part_bit_a) + (b * part_bit_b);
+    parts[i] <== (a * (1 - part_bit_a)) + (b * part_bit_b);
     
     // log(constant_msb, constant_lsb, " | ", in_msb, in_lsb, " : ", part_bit_a, part_bit_b);
 
