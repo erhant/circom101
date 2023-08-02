@@ -1,6 +1,7 @@
 # Summary
 
 - [Introduction](./README.md)
+
 - [Basics](./basics/README.md)
   - [Multiplier](./basics/multiplier.md)
   - [Fibonacci](./basics/fibonacci.md)
@@ -20,3 +21,6 @@
   - [Read & Write](./arrays/read-write.md)
   - [Shift & Rotate](./arrays/shift-rotate.md)
   - [Sorting](./arrays/sorting.md)
+- [Merkle Trees](./merkle-trees/README.md)
+  - [Vanilla](./merkle-trees/smt.md)
+  - [Sparse Merkle Tree](./merkle-trees/smt.md)
