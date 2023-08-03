@@ -15,16 +15,3 @@ template Fibonacci(n) {
 
   out <== fib[n];
 }
-
-template FibonacciRecursive(n) {
-  signal input in[2];
-  signal output out;
-  
-  if (n <= 1) {
-    out <== in[n];
-  } else {
-    var prev = FibonacciRecursive(n-1)(in);
-    var prevprev = FibonacciRecursive(n-2)(in);
-    out <== prev + prevprev;
-  }
-}

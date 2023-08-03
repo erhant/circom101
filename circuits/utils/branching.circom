@@ -27,6 +27,7 @@ template IfElse() {
 //
 // Outputs:
 // - `out`: two numbers either swapped or not
+//
 template Switch() {
   signal input cond;
   signal input in[2];

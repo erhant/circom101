@@ -31,7 +31,7 @@ template LessThan(n) {
   // if in[0] > in[1], 2^n'th bit should be set
   // if in[0] < in[1], 2^n'th bit should be reset due to borrow
   component toBits = Num2Bits(n+1);
-  toBits.in <== in[0]+ (1<<n) - in[1];
+  toBits.in <== ((1 << n) + in[0]) - in[1];
 
   out <== 1 - toBits.out[n];
 }
