@@ -8,8 +8,9 @@ describe("multiplier", () => {
 
   before(async () => {
     circuit = await circomkit.WitnessTester(`multiplier_${N}`, {
-      file: "examples/multiplier",
+      file: "circuits/basics/multiplier",
       template: "Multiplier",
+      dir: "test/multiplier",
       params: [N],
     });
   });
@@ -28,7 +29,7 @@ describe("multiplier", () => {
 
     before(async () => {
       circuit = await circomkit.WitnessTester("mulgate", {
-        file: "examples/multiplier",
+        file: "circuits/basics/multiplier",
         template: "Mul",
         dir: "test/multiplier",
       });

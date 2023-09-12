@@ -12,7 +12,7 @@ MAGIC_SIZES.map((N) =>
 
     before(async () => {
       circuit = await circomkit.WitnessTester(`magic_${N}x${N}`, {
-        file: "examples/magic",
+        file: "circuits/basics/magic",
         template: "MagicSquare",
         params: [N],
       });

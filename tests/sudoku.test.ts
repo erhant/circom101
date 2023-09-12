@@ -9,7 +9,7 @@ BOARD_SIZES.map((N) =>
 
     before(async () => {
       circuit = await circomkit.WitnessTester(`sudoku_${N}x${N}`, {
-        file: "examples/sudoku",
+        file: "circuits/basics/sudoku",
         template: "Sudoku",
         pubs: ["puzzle"],
         params: [Math.sqrt(N)],

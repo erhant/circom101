@@ -8,7 +8,7 @@ describe("arrays", () => {
 
     before(async () => {
       circuit = await circomkit.WitnessTester(`distinct_${N}`, {
-        file: "utils/arrays",
+        file: "circuits/utils/arrays",
         template: "AssertDistinct",
         dir: "test/arrays",
         params: [N],
