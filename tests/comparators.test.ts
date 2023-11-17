@@ -8,7 +8,7 @@ describe("comparators", () => {
 
     before(async () => {
       circuit = await circomkit.WitnessTester(`inRange_${MIN}_${MAX}`, {
-        file: "circuits/utils/comparators",
+        file: "utils/comparators",
         template: "AssertInRange",
         dir: "test/comparators",
         params: [MIN, MAX],

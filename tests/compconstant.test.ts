@@ -8,7 +8,7 @@ describe("compconstant", () => {
 
   before(async () => {
     circuit = await circomkit.WitnessTester(`compconstant`, {
-      file: "circuits/utils/compconstant",
+      file: "utils/compconstant",
       template: "CompConstant",
       params: [CONSTANT],
     });

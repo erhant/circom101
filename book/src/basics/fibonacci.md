@@ -19,9 +19,7 @@ template Fibonacci(n) {
 
 Calculating `n`'th Fibonacci number is yet another "Hello World!" of Circom. We simply constrain the starting numbers (given as input `in`) and assert the recurrence relation
 
-$$
-a_n = a_{n-1} + a_{n-2}
-$$
+$$a_n = a_{n-1} + a_{n-2}$$
 
 Here is how computing the 4'th Fibonacci number looks like:
 

@@ -5,9 +5,9 @@ include "../utils/arrays.circom";
 include "../utils/comparators.circom";
 
 template Sudoku(n_sqrt) {
-  var n = n_sqrt * n_sqrt;
+  var n = n_sqrt * n_sqrt;     // board size is a perfect square
   signal input solution[n][n]; // solution is a 2D array of numbers
-  signal input puzzle[n][n]; // puzzle is the same, but a zero indicates a blank
+  signal input puzzle[n][n];   // puzzle is the same, but a zero indicates a blank
 
   // ensure that solution & puzzle agrees
   for (var row_i = 0; row_i < n; row_i++) {

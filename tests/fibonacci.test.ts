@@ -8,9 +8,9 @@ describe("fibonacci", () => {
 
   before(async () => {
     circuit = await circomkit.WitnessTester(`fibonacci_${N}`, {
-      file: "circuits/basics/fibonacci",
+      file: "basics/fibonacci",
       template: "Fibonacci",
-      dir: 'test/basics',
+      dir: "test/basics",
       params: [N],
     });
     console.log("#constraints:", await circuit.getConstraintCount());

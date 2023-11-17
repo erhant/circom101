@@ -5,6 +5,7 @@
   // https://raw.githubusercontent.com/PKief/vscode-material-icon-theme/main/images/folderIcons.png
   "material-icon-theme.folders.associations": {
     "circuits": "App",
-    "inputs": "Json"
+    "inputs": "Json",
+    "book": "Docs"
   }
 }
