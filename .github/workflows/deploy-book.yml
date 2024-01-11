@@ -43,11 +43,11 @@ jobs:
           owner: badboy
           name: mdbook-toc
 
-      - name: Generate static content for the book
-        run: mdbook build
-
       - name: Setup Node.js (required to install Vercel CLI)
         uses: actions/setup-node@v3
+
+      - name: Generate static content for the book
+        run: npm run book:build
 
       - name: Install Vercel CLI
         run: npm install --global vercel
