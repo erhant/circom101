@@ -1,7 +1,7 @@
 pragma circom 2.1.0;
 
 include "./comparators.circom";
-include "./controlflow.circom";
+include "./branching.circom";
 
 // Array access `out <== in[index]`.
 // If `index >= n`, then this returns 0

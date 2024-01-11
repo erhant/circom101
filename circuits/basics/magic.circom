@@ -30,4 +30,6 @@ template MagicSquare(n) {
     }
     sum === colsums[j];
   }
+
+  // TODO: complete circuit
 }

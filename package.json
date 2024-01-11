@@ -1,15 +1,14 @@
 {
   "author": "erhant",
-  "private": "true",
+  "private": true,
+  "license": "MIT",
   "scripts": {
     "test": "npx mocha",
-    "test:fib": "yarn test -g fibonacci",
-    "test:mul": "yarn test -g multiplier",
     "book": "cd book && mdbook serve --open",
     "book:build": "cd book && mdbook build"
   },
   "dependencies": {
-    "circomkit": "^0.0.16",
+    "circomkit": "^0.0.19",
     "circomlib": "^2.0.5"
   },
   "devDependencies": {

@@ -21,31 +21,31 @@ BOARD_SIZES.map((N) =>
     });
 
     it("should NOT accept non-distinct rows", async () => {
-      const badInput = JSON.parse(JSON.stringify(INPUT));
+      const badInput = { ...INPUT };
       badInput.solution[0][0] = badInput.solution[0][1];
       await circuit.expectFail(badInput);
     });
 
     it("should NOT accept non-distinct columns", async () => {
-      const badInput = JSON.parse(JSON.stringify(INPUT));
+      const badInput = { ...INPUT };
       badInput.solution[0][0] = badInput.solution[1][0];
       await circuit.expectFail(badInput);
     });
 
     it("should NOT accept non-distinct square", async () => {
-      const badInput = JSON.parse(JSON.stringify(INPUT));
+      const badInput = { ...INPUT };
       badInput.solution[0][0] = badInput.solution[1][1];
       await circuit.expectFail(badInput);
     });
 
     it("should NOT accept empty value in solution", async () => {
-      const badInput = JSON.parse(JSON.stringify(INPUT));
+      const badInput = { ...INPUT };
       badInput.solution[0][0] = 0;
       await circuit.expectFail(badInput);
     });
 
     it("should NOT accept out-of-range values", async () => {
-      const badInput = JSON.parse(JSON.stringify(INPUT));
+      const badInput = { ...INPUT };
       badInput.solution[0][0] = 99999;
       await circuit.expectFail(badInput);
     });

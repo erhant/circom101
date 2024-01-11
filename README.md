@@ -1,22 +1,30 @@
 # Circom by Examples
 
-> Deep dive into Circom circuits.
+Deep dive into Circom circuits.
 
 We make heavy use of [Circomlib](./node_modules/circomlib/circuits).
 
-1. Multiplier, Fibonacci.
-1. Logical Gates, Comparators, IsZero.
-1. Sudoku
-1. If-Else, Switcher, Multiplexing
-1. Hash Functions: Poseidon, MIMC and SHA256.
-1. Merkle Trees. (Incremential, Sparse, Naive)
-1. Arrays, Sorting
+## Setup
 
-We use `mdbook` to create the book, see the [book](./book/) folder.
+Install packages with:
 
-For each circuit, we dive deep into the constraints and tests them out.
+```sh
+yarn
+```
 
-TIPS:
+### Book
 
-- if expensive: compute outside, verify inside
-- disable checks if enabled trick
+We use `mdbook` to create the book, see the [book](./book/) folder. Serve the book locally with:
+
+```sh
+yarn book
+yarn book:build # without serving
+```
+
+## Testing
+
+Run circuit tests with:
+
+```sh
+yarn test
+```

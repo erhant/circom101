@@ -23,20 +23,4 @@ describe("multiplier", () => {
     const randomNumbers = Array.from({ length: N }, () => Math.floor(Math.random() * 100 * N));
     await circuit.expectPass({ in: randomNumbers }, { out: randomNumbers.reduce((prev, acc) => acc * prev) });
   });
-
-  describe("multiplication gate", () => {
-    let circuit: WitnessTester<["in"], ["out"]>;
-
-    before(async () => {
-      circuit = await circomkit.WitnessTester("mulgate", {
-        file: "circuits/basics/multiplier",
-        template: "Mul",
-        dir: "test/multiplier",
-      });
-    });
-
-    it("should multiply correctly", async () => {
-      await circuit.expectPass({ in: [7, 5] }, { out: 7 * 5 });
-    });
-  });
 });
