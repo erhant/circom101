@@ -9,7 +9,7 @@ env:
 on: workflow_dispatch
 
 jobs:
-  buildAndDeploy:
+  deploy-book:
     runs-on: ubuntu-latest
     permissions:
       contents: write # To push a branch
@@ -56,4 +56,4 @@ jobs:
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy to Vercel
-        run: vercel book --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel ./book/book --prod --token=${{ secrets.VERCEL_TOKEN }}
