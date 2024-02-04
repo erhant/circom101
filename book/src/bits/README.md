@@ -12,7 +12,7 @@ template AssertBit() {
 }
 ```
 
-To assert that a given number $n$ is bit (i.e. 0 or 1) you only have to check that $n^2 = n$, as there are only two numbers whose square equals to itself: 0 and 1.
+To assert that a given number $n$ is bit (i.e. 0 or 1) you only have to check that $n^2 = n$, as there are only two numbers whose square equals to itself: 0 and 1. This expression is equivalent to $n \times (n - 1) = 0$, which is how we've written in the circuit above.
 
 Normally people assert that a signal is bit without the template above; instead, it is preferred to do this inline where it is needed. Well, nothing really stops you from using templates.
 
@@ -49,6 +49,37 @@ The important constraint in this template is that `out` when converted back to d
 lc = out[0]*1 + out[1]*2 + out[2]*4 + ... + out[n-1]*2^(n-2)
 ```
 
-Thankfully, this is a quadratic constraint and we can simply check if `lc === in` to ensure the bitwise representation is correct.
+Thankfully, this entire equality is a quadratic constraint and we can simply check if `lc === in` to ensure the bitwise representation is correct.
 
 > **Exercise**: How would you modify `Num2Bits` above to obtain a template like `AssertBits(n)` that ensures a number can be represented by `n` bits?
+
+## `Bits2Num`
+
+```cs
+template Bits2Num(n) {
+  assert(n < 254);
+  signal input in[n];
+  signal output out;
+
+  var lc = 0;
+  var bit_value = 1;
+  for (var i = 0; i < n; i++) {
+    AssertBit()(in[i]);
+
+    lc += in[i] * bit_value;
+    bit_value <<= 1;
+  }
+
+  out <== lc;
+}
+```
+
+If we can convert from an `n`-bit number to its binary representation, surely we should be able to convert from the binary representation with `n`-bits to the number itself. We do that with `Bits2Num`. This operation is rather straightforward, we just need to compute:
+
+$$
+n = \sum_{i = 0}^{n-1}\texttt{in}_i2^i
+$$
+
+We use `bit_value` to keep track of $2^i$, and this entire sum expression is stored within the `lc` (linear combination). In the end, we constrain the output signal to be equal to this expression.
+
+> Note that for both `Num2Bits` and `Bits2Num`, the most-significant bit is the last element of the array, and least-significant bit is the first element of the array. To demonstrate, consider the 4-bit number 11, normally shown as $(1011)_2$ in maths. However, in these circuits we store the array `[1, 1, 0, 1]`, in the opposite order!

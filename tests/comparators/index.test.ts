@@ -1,5 +1,5 @@
 import type { WitnessTester } from "circomkit";
-import { circomkit } from "./common";
+import { circomkit } from "../common";
 
 describe("comparators", () => {
   describe("range", () => {
@@ -8,7 +8,7 @@ describe("comparators", () => {
 
     before(async () => {
       circuit = await circomkit.WitnessTester(`inRange_${MIN}_${MAX}`, {
-        file: "utils/comparators",
+        file: "comparators/index",
         template: "AssertInRange",
         dir: "test/comparators",
         params: [MIN, MAX],

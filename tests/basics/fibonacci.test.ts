@@ -1,5 +1,5 @@
 import type { WitnessTester } from "circomkit";
-import { circomkit } from "./common";
+import { circomkit } from "../common";
 
 const N = 14;
 

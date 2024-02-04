@@ -1,4 +1,4 @@
-import { Circomkit } from "circomkit";
+import { Circomkit, type CircomkitConfig } from "circomkit";
 
 export const circomkit = new Circomkit({ verbose: false });
 
@@ -6,7 +6,7 @@ export const circomkit = new Circomkit({ verbose: false });
 // By default, returns 254 bit representation.
 //
 // The result is in little-endian, i.e. bit[0] is the LSB.
-export function toBinary(n: number, bits: number = 254) {
+export function toBinary(n: number | bigint, bits: number = 254) {
   if (bits > 254) {
     throw new Error("Bits must be less-eq than 254.");
   }
@@ -27,7 +27,7 @@ export function toBinary(n: number, bits: number = 254) {
   }
 }
 
-export const primes = {
+export const primes: Record<CircomkitConfig["prime"], bigint> = {
   bn128: 21888242871839275222246405745257275088548364400416034343698204186575808495617n,
   bls12381: 52435875175126190479447740508185965837690552500527637822603658699938581184513n,
   goldilocks: 18446744069414584321n,

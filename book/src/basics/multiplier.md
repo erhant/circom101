@@ -45,3 +45,21 @@ There is really not much more to talk about in this circuit. It is simply a grea
 > ```
 >
 > Then, within the `Multiplier` you can use the `Mul` gate for each multiplication.
+
+## Soundness
+
+Imagine that you would like to use the circuit above to prove that you know the prime factors $p_1, p_2, \ldots, p_n$ for some number:
+
+$$
+k = \prod_{i=1}^{n}p_i
+$$
+
+Would it be okay to use the circuit above as given, with `out` as the only public signal?
+
+If you think about this for a while, you will realize that the circuit does not care if a factor is 1 or not! Meaning that one can provide the same proof just by providing an array `[k, 1, ..., 1]` since:
+
+$$
+k = \prod_{i=1}^{n}p_i = k \times \prod_{i=2}^{n}1
+$$
+
+The circuit author is responsible from checking these edge-cases, and writing the necessary constrains to prevent such soundness errors.

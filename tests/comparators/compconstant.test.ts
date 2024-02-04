@@ -1,5 +1,5 @@
 import type { WitnessTester } from "circomkit";
-import { circomkit, toBinary } from "./common";
+import { circomkit, toBinary } from "../common";
 
 describe("compconstant", () => {
   let circuit: WitnessTester<["in"], ["out"]>;
@@ -8,8 +8,9 @@ describe("compconstant", () => {
 
   before(async () => {
     circuit = await circomkit.WitnessTester(`compconstant`, {
-      file: "utils/compconstant",
+      file: "comparators/compconstant",
       template: "CompConstant",
+      dir: "test/comparators",
       params: [CONSTANT],
     });
     console.log("#constraints:", await circuit.getConstraintCount());

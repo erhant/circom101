@@ -1,4 +1,5 @@
 {
+  // https://raw.githubusercontent.com/PKief/vscode-material-icon-theme/main/images/fileIcons.png
   "material-icon-theme.files.associations": {
     "*.circom": "Verilog"
   },
@@ -6,6 +7,11 @@
   "material-icon-theme.folders.associations": {
     "circuits": "App",
     "inputs": "Json",
-    "book": "Docs"
+    "book": "Docs",
+    "arrays": "Constant",
+    "basics": "Resolver",
+    "control-flow": "Routes",
+    "comparators": "Benchmark",
+    "bits": "Base"
   }
 }

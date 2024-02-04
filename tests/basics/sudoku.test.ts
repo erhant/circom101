@@ -1,6 +1,6 @@
 import type { WitnessTester } from "circomkit";
-import { circomkit } from "./common";
-import { BOARD_SIZES, SUDOKU_INPUTS } from "./data/sudoku";
+import { circomkit } from "../common";
+import { BOARD_SIZES, SUDOKU_INPUTS } from "../data/sudoku";
 
 BOARD_SIZES.map((N) =>
   describe(`sudoku (${N} by ${N})`, () => {
@@ -11,6 +11,7 @@ BOARD_SIZES.map((N) =>
       circuit = await circomkit.WitnessTester(`sudoku_${N}x${N}`, {
         file: "basics/sudoku",
         template: "Sudoku",
+        dir: "test/basics",
         pubs: ["puzzle"],
         params: [Math.sqrt(N)],
       });

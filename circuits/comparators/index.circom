@@ -1,6 +1,6 @@
 pragma circom 2.1.0;
 
-include "./bits.circom";
+include "../bits/index.circom";
 
 // Returns 1 if `in == 0`.
 template IsZero() {

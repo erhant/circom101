@@ -1,5 +1,5 @@
 import type { WitnessTester } from "circomkit";
-import { circomkit } from "./common";
+import { circomkit } from "../common";
 
 const N = 3;
 
@@ -10,7 +10,7 @@ describe("multiplier", () => {
     circuit = await circomkit.WitnessTester(`multiplier_${N}`, {
       file: "basics/multiplier",
       template: "Multiplier",
-      dir: "test/multiplier",
+      dir: "test/basics",
       params: [N],
     });
   });

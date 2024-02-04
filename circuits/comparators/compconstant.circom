@@ -1,6 +1,6 @@
 pragma circom 2.1.0;
 
-include "./bits.circom";
+include "../bits/index.circom";
 
 // Compares a signal against a constant value.
 // If `in` is greater than constant, returns 1.

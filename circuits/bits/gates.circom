@@ -1,12 +1,5 @@
 pragma circom 2.1.0;
 
-template XOR() {
-  signal input in[2];
-  signal output out;
-
-  out <== in[0] + in[1] - 2*in[0]*in[1];
-}
-
 template AND() {
   signal input in[2];
   signal output out;
@@ -19,6 +12,13 @@ template OR() {
   signal output out;
 
   out <== in[0] + in[1] - in[0]*in[1];
+}
+
+template XOR() {
+  signal input in[2];
+  signal output out;
+
+  out <== in[0] + in[1] - 2*in[0]*in[1];
 }
 
 template NOT() {

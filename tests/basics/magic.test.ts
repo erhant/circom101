@@ -1,6 +1,6 @@
 import type { WitnessTester } from "circomkit";
-import { circomkit } from "./common";
-import { MAGIC_SIZES, MAGIC_INPUTS } from "./data/magic";
+import { circomkit } from "../common";
+import { MAGIC_SIZES, MAGIC_INPUTS } from "../data/magic";
 
 MAGIC_SIZES.map((N) =>
   describe(`magic (${N} by ${N})`, () => {
@@ -14,6 +14,7 @@ MAGIC_SIZES.map((N) =>
       circuit = await circomkit.WitnessTester(`magic_${N}x${N}`, {
         file: "basics/magic",
         template: "MagicSquare",
+        dir: "test/basics",
         params: [N],
       });
     });

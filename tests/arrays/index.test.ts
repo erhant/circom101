@@ -1,5 +1,5 @@
 import type { WitnessTester } from "circomkit";
-import { circomkit } from "./common";
+import { circomkit } from "../common";
 
 describe("arrays", () => {
   describe("distinct", () => {
@@ -8,7 +8,7 @@ describe("arrays", () => {
 
     before(async () => {
       circuit = await circomkit.WitnessTester(`distinct_${N}`, {
-        file: "utils/arrays",
+        file: "arrays/index",
         template: "AssertDistinct",
         dir: "test/arrays",
         params: [N],

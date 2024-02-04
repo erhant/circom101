@@ -1,8 +1,8 @@
 pragma circom 2.1.0;
 
-include "../utils/bits.circom";
-include "../utils/arrays.circom";
-include "../utils/comparators.circom";
+include "../bits/index.circom";
+include "../arrays/index.circom";
+include "../comparators/index.circom";
 
 template Sudoku(n_sqrt) {
   var n = n_sqrt * n_sqrt;     // board size is a perfect square

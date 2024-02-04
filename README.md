@@ -1,9 +1,9 @@
 <p align="center">
   <h1 align="center">
-    <kbd>circom101</kbd>
+    Circom101
   </h1>
   <p align="center">
-    <i>Deep dive into Circom circuits like never before.</i>
+    <i>Circom circuit implementations with in-depth explanations.</i>
   </p>
 </p>
 
@@ -24,10 +24,10 @@
 Install packages with:
 
 ```sh
-yarn
+yarn install
 ```
 
-### Book
+## Book
 
 We use `mdbook` to create the book, see the [book](./book/) folder. Serve the book locally with:
 
@@ -36,10 +36,12 @@ yarn book
 yarn book:build # without serving
 ```
 
-## Testing
+## Tests
 
 Run circuit tests with:
 
 ```sh
 yarn test
 ```
+
+The tests make use of [Circomkit](https://github.com/erhant/circomkit).

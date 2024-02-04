@@ -1,3 +1,3 @@
-# Magic Square
+# `MagicSquare`
 
 TODO
