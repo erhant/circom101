@@ -29,11 +29,11 @@ yarn install
 
 ## Book
 
-We use `mdbook` to create the book, see the [book](./book/) folder. Serve the book locally with:
+We use `mdbook` to create the book, see the [book](./book/) folder. You can build the book with the following:
 
 ```sh
-yarn book
-yarn book:build # without serving
+yarn book # automatically serve the book
+yarn book:build # build without serving
 ```
 
 ## Tests
@@ -42,6 +42,20 @@ Run circuit tests with:
 
 ```sh
 yarn test
+
+# with pattern matching
+yarn test pattern-name
+
+# with explicit paths
+yarn test ./path/to/some.test.ts
 ```
 
 The tests make use of [Circomkit](https://github.com/erhant/circomkit).
+
+## Style
+
+Check the formatting of test codes using:
+
+```sh
+yarn format
+```

@@ -10,7 +10,7 @@ MAGIC_SIZES.map((N) =>
     };
     let circuit: WitnessTester<["in"], ["sum"]>;
 
-    before(async () => {
+    beforeAll(async () => {
       circuit = await circomkit.WitnessTester(`magic_${N}x${N}`, {
         file: "basics/magic",
         template: "MagicSquare",
@@ -24,5 +24,5 @@ MAGIC_SIZES.map((N) =>
     });
 
     // TODO fail checks
-  })
+  }),
 );

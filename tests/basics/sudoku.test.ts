@@ -7,7 +7,7 @@ BOARD_SIZES.map((N) =>
     const INPUT = SUDOKU_INPUTS[N];
     let circuit: WitnessTester<["solution", "puzzle"]>;
 
-    before(async () => {
+    beforeAll(async () => {
       circuit = await circomkit.WitnessTester(`sudoku_${N}x${N}`, {
         file: "basics/sudoku",
         template: "Sudoku",
@@ -50,5 +50,5 @@ BOARD_SIZES.map((N) =>
       badInput.solution[0][0] = 99999;
       await circuit.expectFail(badInput);
     });
-  })
+  }),
 );

@@ -6,7 +6,7 @@ const N = 14;
 describe("fibonacci", () => {
   let circuit: WitnessTester<["in"], ["out"]>;
 
-  before(async () => {
+  beforeAll(async () => {
     circuit = await circomkit.WitnessTester(`fibonacci_${N}`, {
       file: "basics/fibonacci",
       template: "Fibonacci",

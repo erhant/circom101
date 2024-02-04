@@ -1,6 +1,6 @@
 import { Circomkit, type CircomkitConfig } from "circomkit";
 
-export const circomkit = new Circomkit({ verbose: false });
+export const circomkit = new Circomkit({ verbose: false, inspect: true });
 
 // Convert a number to its binary representation with `bits` bits.
 // By default, returns 254 bit representation.

@@ -3,6 +3,7 @@ pragma circom 2.1.0;
 include "../bits/index.circom";
 include "../arrays/index.circom";
 include "../comparators/index.circom";
+include "../comparators/range.circom";
 
 template Sudoku(n_sqrt) {
   var n = n_sqrt * n_sqrt;     // board size is a perfect square

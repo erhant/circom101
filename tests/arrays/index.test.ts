@@ -6,7 +6,7 @@ describe("arrays", () => {
     const N = 3;
     let circuit: WitnessTester<["in"]>;
 
-    before(async () => {
+    beforeAll(async () => {
       circuit = await circomkit.WitnessTester(`distinct_${N}`, {
         file: "arrays/index",
         template: "AssertDistinct",

@@ -83,3 +83,23 @@ $$
 We use `bit_value` to keep track of $2^i$, and this entire sum expression is stored within the `lc` (linear combination). In the end, we constrain the output signal to be equal to this expression.
 
 > Note that for both `Num2Bits` and `Bits2Num`, the most-significant bit is the last element of the array, and least-significant bit is the first element of the array. To demonstrate, consider the 4-bit number 11, normally shown as $(1011)_2$ in maths. However, in these circuits we store the array `[1, 1, 0, 1]`, in the opposite order!
+
+## Function: `nbits`
+
+```cs
+function nbits(n) {
+  var ans = 0;
+
+  var tmp = 1;
+  while (tmp - 1 < n) {
+      ans++;
+      tmp <<= 1;
+  }
+
+  return ans;
+}
+```
+
+We might want to find the minimum number of bits required to represent a **known** value; we use a function called `nbits` (as in Circomlib) for that. Here, our parameter `n` is known at compile time, perhaps a generic argument or some constant somewhere.
+
+The idea of this function is to construct $2^i - 1$ until it becomes greater than our input.

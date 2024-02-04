@@ -72,6 +72,8 @@ template IsFive() {
 
 If `isEnabled = 1` both circuits are equivalent, but if `isEnabled = 0` this circuit will always have `0 === 0` regardless of the `in` signal.
 
+> Circomlib has a circuit that makes use of this trick, see [`ForceEqualIfEnabled`](https://github.com/iden3/circomlib/blob/master/circuits/comparators.circom).
+
 ## `Switch`
 
 ```cs
@@ -86,3 +88,18 @@ template Switch() {
 ```
 
 It is often useful to switch the places of two signals based on a condition, which can be achieved with two `IfElse` lines together.
+
+> You can do this with a single multiplication too!
+>
+> ```cs
+> template Switch() {
+>   signal input cond;
+>   signal input in[2];
+>   signal output out[2];
+>
+>   aux <== (in[1] - in[0]) * cond;
+>
+>   out[0] <==  aux + in[0];
+>   out[1] <== -aux + in[1];
+> }
+> ```

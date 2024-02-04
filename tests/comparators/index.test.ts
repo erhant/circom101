@@ -6,9 +6,9 @@ describe("comparators", () => {
     const [MIN, MAX] = [1, 9];
     let circuit: WitnessTester<["in"]>;
 
-    before(async () => {
+    beforeAll(async () => {
       circuit = await circomkit.WitnessTester(`inRange_${MIN}_${MAX}`, {
-        file: "comparators/index",
+        file: "comparators/range",
         template: "AssertInRange",
         dir: "test/comparators",
         params: [MIN, MAX],

@@ -23,18 +23,19 @@ template IfElse() {
 //
 // Inputs:
 // - `cond`: a boolean condition
-// - `in`: two numbers
+// - `in`: two signals
 //
 // Outputs:
-// - `out`: two numbers either swapped or not
+// - `out`: two signals either swapped or not
 //
 template Switch() {
   signal input cond;
   signal input in[2];
   signal output out[2];
 
-  out[0] <== cond * (in[1] - in[0]) + in[0];
-  out[1] <== cond * (in[0] - in[1]) + in[1];
-}
+  // auxillary variable to store the condition multiplication
+  signal aux <== (in[1] - in[0]) * cond;
 
-// TODO: add muxes
+  out[0] <==  aux + in[0];
+  out[1] <== -aux + in[1];
+}

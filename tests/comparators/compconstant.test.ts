@@ -6,7 +6,7 @@ describe("compconstant", () => {
 
   const CONSTANT = Math.round(Math.random() * 10000);
 
-  before(async () => {
+  beforeAll(async () => {
     circuit = await circomkit.WitnessTester(`compconstant`, {
       file: "comparators/compconstant",
       template: "CompConstant",

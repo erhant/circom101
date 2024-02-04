@@ -64,15 +64,3 @@ template GreaterEqThan(n) {
   out <== LessThan(n)([in[1], in[0]+1]);
 }
 
-// Checks that `in` is in range [MIN, MAX]
-// In other words, `MIN <= in <= MAX`.
-template AssertInRange(MIN, MAX) {
-  assert(MIN < MAX);
-  signal input in;
-  
-  var b = numBits(MAX); 
-  component lowerBound = Num2Bits(b);
-  component upperBound = Num2Bits(b);
-  lowerBound.in <== in - MIN;                // e.g. 1 - 1 = 0 (for 0 <= in)
-  upperBound.in <== in + (2 ** b) - MAX - 1; // e.g. 9 + (15 - 9) = 15 (for in <= 15)
-}

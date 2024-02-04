@@ -6,7 +6,7 @@ const N = 3;
 describe("multiplier", () => {
   let circuit: WitnessTester<["in"], ["out"]>;
 
-  before(async () => {
+  beforeAll(async () => {
     circuit = await circomkit.WitnessTester(`multiplier_${N}`, {
       file: "basics/multiplier",
       template: "Multiplier",
