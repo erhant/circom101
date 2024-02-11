@@ -5,11 +5,14 @@ include "../bits/index.circom";
 // Compares a signal against a constant value.
 // If `in` is greater than constant, returns 1.
 //
+// Parameters:
+// - constant: a constant value
+//
 // Inputs:
-// - `in`: 254-bit binary representation of a number
+// - in: 254-bit binary representation of a number
 //
 // Outputs:
-// - `out`: 1 if `in > constant`
+// - out: 1 if `in > constant`
 template CompConstant(constant) {
   signal input in[254];
   signal output out;
@@ -34,7 +37,7 @@ template CompConstant(constant) {
 
     var part_bit_a;
     var part_bit_b;
-    if ((constant_msb == 0) && (constant_lsb == 0)) {
+    /**/ if ((constant_msb == 0) && (constant_lsb == 0)) {
       part_bit_a = 1;
       part_bit_b = in_msb + in_lsb - in_msb*in_lsb;
     } 

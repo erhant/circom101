@@ -1,7 +1,9 @@
 # Summary
 
 - [Introduction](./README.md)
-
+- [Preliminary](./preliminary/README.md)
+  - [Group Theory](./preliminary/group-theory.md)
+  - [Commitments](./preliminary/commitments.md)
 - [Basics](./basics/README.md)
   - [Multiplier](./basics/multiplier.md)
   - [Fibonacci](./basics/fibonacci.md)
@@ -16,7 +18,11 @@
 - [Control Flow](./control-flow/README.md)
   - [Multiplexing](./control-flow/mux.md)
 - [Arrays](./arrays/README.md)
+  - [Distinct](./arrays/distinct.md)
   - [Sorting](./arrays/sorting.md)
+- [Hashing](./hashing/README.md)
+  - [Poseidon](./hashing/poseidon.md)
+  - [MiMC](./hashing/mimc.md)
 - [Merkle Trees](./merkle-trees/README.md)
   - [Dense Merkle Tree](./merkle-trees/dense.md)
   - [Sparse Merkle Tree](./merkle-trees/smt.md)

@@ -1,5 +1,15 @@
 pragma circom 2.1.0;
 
+// Prove that you know an N-by-N Magic Square with the magic `sum`.
+//
+// Parameters:
+// - n: width/height of the square
+//
+// Inputs:
+// - in: an N-by-N square
+//
+// Outputs:
+// - sum: the magic sum
 template MagicSquare(n) {
   signal input in[n][n];
   signal output sum;

@@ -2,8 +2,15 @@ pragma circom 2.1.0;
 
 include "../bits/index.circom";
 
-// Checks that `in` is in range [MIN, MAX]
+// Asserts that `in` is in range [MIN, MAX].
 // In other words, `MIN <= in <= MAX`.
+//
+// Parameters:
+// - MIN: minimum allowed value
+// - MAX: maximum allowed value
+//
+// Inputs:
+// - in: an input signal
 template AssertInRange(MIN, MAX) {
   assert(MIN < MAX);
   signal input in;

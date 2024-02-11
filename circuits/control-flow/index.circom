@@ -1,15 +1,14 @@
 pragma circom 2.1.0;
 
-// If-else branching.
+// Conditionally returns one of the signals.
 //
 // Inputs:
-// - `cond`: a boolean condition
-// - `ifTrue`: signal to be returned if condition is true
-// - `ifFalse`: signal to be returned if condition is false
+// - cond: a boolean condition
+// - ifTrue: signal to be returned if condition is true
+// - ifFalse: signal to be returned if condition is false
 //
 // Outputs:
-// - `out`: equals `cond ? ifTrue : ifFalse`
-//
+// - out: equals `cond ? ifTrue : ifFalse`
 template IfElse() {
   signal input cond;
   signal input ifTrue;
@@ -19,14 +18,14 @@ template IfElse() {
   out <== cond * (ifTrue - ifFalse) + ifFalse;
 }
 
-// Swaps in[0] ~ in[1] if `cond` is true.
+// Swaps `in[0]` and `in[1]` if `cond` is true.
 //
 // Inputs:
-// - `cond`: a boolean condition
-// - `in`: two signals
+// - cond: a boolean condition
+// - in: two signals
 //
 // Outputs:
-// - `out`: two signals either swapped or not
+// - out: the two input signals, either swapped or not
 //
 template Switch() {
   signal input cond;

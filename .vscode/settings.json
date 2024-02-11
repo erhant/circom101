@@ -12,6 +12,8 @@
     "basics": "Resolver",
     "control-flow": "Routes",
     "comparators": "Benchmark",
-    "bits": "Base"
+    "bits": "Base",
+    "merkle-trees": "Context",
+    "hashing": "App"
   }
 }

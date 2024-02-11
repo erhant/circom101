@@ -1,10 +1,18 @@
 pragma circom 2.1.0;
 
 include "../bits/index.circom";
-include "../arrays/index.circom";
+include "../arrays/distinct.circom";
 include "../comparators/index.circom";
 include "../comparators/range.circom";
 
+// Asserts that a solution is valid w.r.t a given public puzzle of an NxN square board.
+//
+// Parameters:
+// - n_sqrt: Square root of `N` as described above 
+//
+// Inputs:
+// - solution[N][N]: the solution
+// - puzzle[N][N]: the initial puzzle board
 template Sudoku(n_sqrt) {
   var n = n_sqrt * n_sqrt;     // board size is a perfect square
   signal input solution[n][n]; // solution is a 2D array of numbers

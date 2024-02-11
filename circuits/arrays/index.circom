@@ -15,7 +15,6 @@ include "../control-flow/index.circom";
 //
 // Outputs:
 // - `out`: value at `in[index]`
-//
 template ArrayRead(n) {
   signal input in[n];
   signal input index;
@@ -42,7 +41,6 @@ template ArrayRead(n) {
 //
 // Outputs:
 // - `out`: array
-//
 template ArrayWrite(n) {
   signal input in[n];
   signal input index;
@@ -65,7 +63,6 @@ template ArrayWrite(n) {
 //
 // Outputs:
 // - `out`: sum of all values in `in`
-//
 template Sum(n) {
   signal input in[n];
   signal output out;
@@ -75,23 +72,4 @@ template Sum(n) {
     lc += in[i];
   }
   out <== lc;
-}
-
-// Asserts that values in an array are unique.
-//
-// Parameters:
-// - `n`: length of `in`
-//
-// Inputs:
-// - `in`: an array of `n` values
-//
-template AssertDistinct(n) {
-  signal input in[n];
-
-  for (var i = 0; i < n-1; i++){
-    for (var j = i+1; j < n; j++){
-      var eq = IsEqual()([in[i], in[j]]);
-      eq === 0;
-    }
-  }
 }

@@ -1,4 +1,10 @@
-# `AssertInRange`
+# Range Check
+
+A range-check is a common utility, asserting that a number is in some range `[MIN, MAX]`. It is important to keep in mind that you can make use of bit-decompositions to check for range `[0, 2^n)`, which would be done by simply checking if a number is representable with `n`-bits.
+
+> Lookup-tables are often used for range checks in other zkDSLs, but I dont yet know how to use them in Circom.
+
+## `AssertInRange`
 
 ```cs
 template AssertInRange(MIN, MAX) {
@@ -15,7 +21,7 @@ template AssertInRange(MIN, MAX) {
 }
 ```
 
-A range-check is a common utility, asserting that a number is in some range `[MIN, MAX]`. Above is one way of doing that. Our approach here is to check:
+Above is one way of doing a generic range check. Our approach here is to check:
 
 - `in - MIN` is a b-bit value
 - `in + 2^b - 1 - MAX` is a b-bit value
