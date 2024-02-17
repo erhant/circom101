@@ -24,5 +24,5 @@
   - [Poseidon](./hashing/poseidon.md)
   - [MiMC](./hashing/mimc.md)
 - [Merkle Trees](./merkle-trees/README.md)
-  - [Dense Merkle Tree](./merkle-trees/dense.md)
   - [Sparse Merkle Tree](./merkle-trees/smt.md)
+- [Advanced](./advanced/README.md)

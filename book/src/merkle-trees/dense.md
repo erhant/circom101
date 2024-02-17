@@ -1,3 +1,0 @@
-# Dense Merkle Tree
-
-TODO
