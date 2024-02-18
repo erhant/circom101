@@ -1,6 +1,6 @@
 # Merkle Trees
 
-If you have been in the world of crypto for a while, it is highly likely that you have heard the term [Merkle Tree](https://brilliant.org/wiki/merkle-tree/), also known as Merkle Hash Tree. A Merkle Tree is a hash-based data structure, an can serve as a cryptographic commitment scheme.
+If you have been in the world of crypto for a while, it is highly likely that you have heard the term [Merkle Tree](https://brilliant.org/wiki/merkle-tree/), also known as Merkle Hash Tree. A Merkle Tree is a hash-based data structure, and can serve as a cryptographic commitment scheme.
 
 You can commit to a set of values using a merkle tree, such as:
 
@@ -40,7 +40,7 @@ In a Merkle Tree, every node is made up of the hash of its children. In this exa
 - $h_3 = H(h_6, h_7)$
 - and so on.
 
-The leaf nodes are the hashes of elements of the committed set of data. The final hash $h1$ at the root of the tree is called the **Merkle Root**.
+The leaf nodes are the hashes of elements of the committed set of data. The final hash $h_1$ at the root of the tree is called the **Merkle Root**.
 
 > Merkle Trees are often implemented as binary trees, but the concept works for $n$-ary trees as well, where each node has $n$ children.
 
@@ -89,13 +89,6 @@ graph BT
 ```
 
 You see, we only needed to provide 3 hashes here, although our data had 8 elements! In fact, if you have $n$ elements you only need to provide $\log_2{n}$ elements to the verifier, this is so much more efficient than the naive method of sending all the data to the verifier.
-
-- The root is the **commitment** to the vector.
-- The **reveal** a value in the commitment (which is a leaf in the tree) prover does the following:
-  - Send sibling hashes of all nodes on root-to-leaf path.
-  - Verifier checks if the hashes are consistent with the root hash.
-  - The size of this proof to reveal a value is $\mathcal{O}(\log n)$ hash values.
-- This is a **binding** scheme: once the root hash is sent, the committer is bound to the committed vector. Opening any leaf to two different values requires finding a hash collision, assumed to be intractable.
 
 ## As a Commitment Scheme
 

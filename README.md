@@ -54,8 +54,10 @@ The tests make use of [Circomkit](https://github.com/erhant/circomkit).
 
 ## Style
 
-Check the formatting of test codes using:
+Check the formatting with the following command:
 
 ```sh
 yarn format
 ```
+
+This command checks the test code with [Prettier](https://www.npmjs.com/package/prettier), and lints the book with [Markdownlint](https://www.npmjs.com/package/markdownlint).

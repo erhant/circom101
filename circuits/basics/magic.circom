@@ -7,12 +7,10 @@ pragma circom 2.1.0;
 //
 // Inputs:
 // - in: an N-by-N square
-//
-// Outputs:
-// - sum: the magic sum
+// - sum (public): the magic sum
 template MagicSquare(n) {
   signal input in[n][n];
-  signal output sum;
+  signal input sum;
 
   // sum diagonals
   var diags[2];
@@ -20,8 +18,8 @@ template MagicSquare(n) {
     diags[0] += in[d][d];     // top-left -> bottom-right
     diags[1] += in[n-1-d][d]; // bottom-left -> top-right
   }
-  sum <== diags[0]; // assign this one
-  sum === diags[1]; // check others with equality
+  sum === diags[0];
+  sum === diags[1];
   
   // sum rows
   var rowsums[n];
@@ -40,6 +38,4 @@ template MagicSquare(n) {
     }
     sum === colsums[j];
   }
-
-  // TODO: complete circuit
 }

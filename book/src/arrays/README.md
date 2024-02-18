@@ -5,7 +5,7 @@ Circom arrays are a different kind of beast. The main reason is that in Circom, 
 - Array sizes are fixed, e.g. you can't define an array based on the user input after compiling the circuit.
 - Array indexing should be known at compile time, e.g. you can't ask a user for index `i` and return `arr[i]` like you _normally_ do.
 
-Before we get to the problematic unknown-at-compile-time stuff, let's quickly recap the known-time array operations:
+Before we get to the problematic unknown-at-compile-time stuff, let's quickly recap the known-at-compile-time array operations:
 
 ```cs
 // an array with N elements
@@ -17,7 +17,7 @@ signal arr[N][M];
 // read element at index i for known i
 foo <== arr[i];
 
-// write to element at index j for known i
+// write to element at index j for known j
 arr[j] <== bar;
 ```
 

@@ -1,5 +1,5 @@
 node_modules
-circuits/test
-circuits/main
+# circuits/test # keep the test files
+# circuits/main # keep the main files
 build
 .yarn

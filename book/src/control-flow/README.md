@@ -97,7 +97,7 @@ It is often useful to switch the places of two signals based on a condition, whi
 >   signal input in[2];
 >   signal output out[2];
 >
->   aux <== (in[1] - in[0]) * cond;
+>   signal aux <== (in[1] - in[0]) * cond;
 >
 >   out[0] <==  aux + in[0];
 >   out[1] <== -aux + in[1];
