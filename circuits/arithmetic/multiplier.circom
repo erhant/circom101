@@ -19,7 +19,7 @@ template Multiplier(n) {
 
   signal inner[n-1];
   inner[0] <== in[0] * in[1];
-  for(var i = 0; i < n - 2; i++) {
+  for (var i = 0; i < n - 2; i++) {
     inner[i+1] <== inner[i] * in[i+2];
   }
 

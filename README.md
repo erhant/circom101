@@ -36,6 +36,8 @@ yarn book # automatically serve the book
 yarn book:build # build without serving
 ```
 
+The book is based on my [mdBook template](https://github.com/erhant/mdbook-template).
+
 ## Tests
 
 Run circuit tests with:

@@ -3,4 +3,4 @@ pragma circom 2.0.0;
 
 include "../../arrays/index.circom";
 
-component main = Sum(10);
+component main = ArrayWrite(10);

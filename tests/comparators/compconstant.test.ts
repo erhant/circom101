@@ -13,7 +13,7 @@ describe("compconstant", () => {
       dir: "test/comparators",
       params: [CONSTANT],
     });
-    console.log("#constraints:", await circuit.getConstraintCount());
+    // console.log("#constraints:", await circuit.getConstraintCount());
   });
 
   it("should return 0 when `in` < constant", async () => {

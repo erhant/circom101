@@ -1,5 +1,5 @@
 import type { WitnessTester } from "circomkit";
-import { circomkit } from "../common";
+import { circomkit } from "../../common";
 
 const BOARD_SIZES = [4, 9] as const;
 type BOARD_SIZES = (typeof BOARD_SIZES)[number];
@@ -54,9 +54,9 @@ BOARD_SIZES.map((N) =>
 
     beforeAll(async () => {
       circuit = await circomkit.WitnessTester(`sudoku_${N}x${N}`, {
-        file: "basics/sudoku",
+        file: "examples/intermediate/sudoku",
         template: "Sudoku",
-        dir: "test/basics",
+        dir: "test/examples/intermediate",
         pubs: ["puzzle"],
         params: [Math.sqrt(N)],
       });

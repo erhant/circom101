@@ -1,9 +1,9 @@
 pragma circom 2.1.0;
 
-include "../bits/index.circom";
-include "../arrays/distinct.circom";
-include "../comparators/index.circom";
-include "../comparators/range.circom";
+include "../../bits/index.circom";
+include "../../arrays/distinct.circom";
+include "../../comparators/index.circom";
+include "../../comparators/range.circom";
 
 // Asserts that a solution is valid w.r.t a given public puzzle of an NxN square board.
 //

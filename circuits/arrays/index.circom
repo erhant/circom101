@@ -1,6 +1,7 @@
 pragma circom 2.1.0;
 
 include "../comparators/index.circom";
+include "../arithmetic/adder.circom";
 include "../control-flow/index.circom";
 
 // Array access `out <== in[index]`.
@@ -26,7 +27,7 @@ template ArrayRead(n) {
     intermediate[i] <== isIndex * in[i];
   }
 
-  out <== Sum(n)(intermediate);
+  out <== Adder(n)(intermediate);
 }
 
 // Array write `in[index] <== value`.
@@ -53,23 +54,3 @@ template ArrayWrite(n) {
   }
 }
 
-// Finds the sum of an array of signals.
-//
-// Parameters:
-// - `n`: length of `in`
-//
-// Inputs:
-// - `in`: an array of `n` values
-//
-// Outputs:
-// - `out`: sum of all values in `in`
-template Sum(n) {
-  signal input in[n];
-  signal output out;
-
-  var lc = 0;
-  for (var i = 0; i < n; i++) {
-    lc += in[i];
-  }
-  out <== lc;
-}

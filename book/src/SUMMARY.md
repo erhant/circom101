@@ -4,10 +4,11 @@
 - [Preliminary](./preliminary/README.md)
   - [Group Theory](./preliminary/group-theory.md)
   - [Commitments](./preliminary/commitments.md)
-- [Basics](./basics/README.md)
-  - [Multiplier](./basics/multiplier.md)
-  - [Fibonacci](./basics/fibonacci.md)
-  - [Magic Square](./basics/magic.md)
+- [Arithmetic](./arithmetic/README.md)
+  - [Multiplication](./arithmetic/multiplication.md)
+  - [Addition](./arithmetic/addition.md)
+  - [Integer Division](./arithmetic/int-div.md)
+  - [Modular Arithmetic](./arithmetic/modular.md)
 - [Bits](./bits/README.md)
   - [Logic Gates](./bits/logic-gates.md)
 - [Comparators](./comparators/README.md)
@@ -26,3 +27,11 @@
 - [Merkle Trees](./merkle-trees/README.md)
   - [Sparse Merkle Tree](./merkle-trees/smt.md)
 - [Advanced](./advanced/README.md)
+
+# Examples
+
+- [Simple](./examples/simple/README.md)
+  - [Fibonacci](./examples/simple/fibonacci.md)
+  - [Magic Square](./examples/simple/magic.md)
+- [Intermediate](./examples/intermediate/README.md)
+  - [Sudoku](./examples/intermediate/sudoku.md)

@@ -1,5 +1,5 @@
 import type { WitnessTester } from "circomkit";
-import { circomkit } from "../common";
+import { circomkit } from "../../common";
 
 const N = 14;
 
@@ -8,9 +8,9 @@ describe("fibonacci", () => {
 
   beforeAll(async () => {
     circuit = await circomkit.WitnessTester(`fibonacci_${N}`, {
-      file: "basics/fibonacci",
+      file: "examples/simple/fibonacci",
       template: "Fibonacci",
-      dir: "test/basics",
+      dir: "test/examples/simple",
       params: [N],
     });
     console.log("#constraints:", await circuit.getConstraintCount());

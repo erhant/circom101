@@ -8,9 +8,9 @@ describe("multiplier", () => {
 
   beforeAll(async () => {
     circuit = await circomkit.WitnessTester(`multiplier_${N}`, {
-      file: "basics/multiplier",
+      file: "arithmetic/multiplier",
       template: "Multiplier",
-      dir: "test/basics",
+      dir: "test/arithmetic",
       params: [N],
     });
   });

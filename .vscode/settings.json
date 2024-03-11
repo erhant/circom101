@@ -9,11 +9,14 @@
     "inputs": "Json",
     "book": "Docs",
     "arrays": "Constant",
-    "basics": "Resolver",
+    "simple": "Resolver",
     "control-flow": "Routes",
     "comparators": "Benchmark",
     "bits": "Base",
     "merkle-trees": "Context",
-    "hashing": "App"
+    "arithmetic": "Import",
+    "hashing": "App",
+    "preliminary": "Custom",
+    "advanced": "Font"
   }
 }

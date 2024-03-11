@@ -1,5 +1,5 @@
 import type { WitnessTester } from "circomkit";
-import { circomkit } from "../common";
+import { circomkit } from "../../common";
 
 // board sizes
 const MAGIC_SIZES = [3, 4] as const;
@@ -37,9 +37,9 @@ MAGIC_SIZES.map((N) =>
 
     beforeAll(async () => {
       circuit = await circomkit.WitnessTester(`magic_${N}x${N}`, {
-        file: "basics/magic",
+        file: "examples/simple/magic",
         template: "MagicSquare",
-        dir: "test/basics",
+        dir: "test/examples/simple",
         params: [N],
         pubs: ["sum"],
       });

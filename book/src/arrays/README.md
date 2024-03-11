@@ -37,7 +37,8 @@ template ArrayRead(n) {
     intermediate[i] <== isIndex * in[i];
   }
 
-  out <== Sum(n)(intermediate);
+  // adder from "Arithmetics" section
+  out <== Adder(n)(intermediate);
 }
 ```
 
@@ -51,7 +52,7 @@ arr_i =
 + A[n-1] * (i == n-1)
 ```
 
-This way, our array accesses are known at compile-time but we are still able to get the value at index `i`.
+This way, our array accesses are known at compile-time but we are still able to get the value at index `i`, albeit at the cost of some constraints.
 
 ```py
 arr_i =
@@ -64,28 +65,7 @@ arr_i =
 = A[i]
 ```
 
-Note that this will incur some contraint costs.
-
-> The `Sum(n)` here is rather straight-forward:
->
-> ```cs
-> template Sum(n) {
->   signal input in[n];
->   signal output out;
->
->   var lc = 0;
->   for (var i = 0; i < n; i++) {
->     lc += in[i];
->   }
->   out <== lc;
-> }
-> ```
->
-> `lc` here means "linear combination" and its just a variable that stores:
->
-> ```py
-> lc = in[0] + in[1] + ... + in[n-1]
-> ```
+In the paper [xJsnark](https://akosba.github.io/papers/xjsnark.pdf), this method is referred to as "Linear Scan".
 
 ## `ArrayWrite`
 

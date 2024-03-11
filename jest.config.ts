@@ -9,7 +9,7 @@ const config: JestConfigWithTsJest = {
   },
   verbose: true,
   testTimeout: 40_000,
-  testPathIgnorePatterns: ["/node_modules/", "/examples/", "/book/", "/circuits/"],
+  testPathIgnorePatterns: ["/node_modules/", "/book/", "/circuits/"],
 };
 
 export default config;

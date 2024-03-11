@@ -55,23 +55,4 @@ describe("arrays", () => {
       await circuit.expectPass({ in: arr, index: -1, value: -1 }, { out: arr });
     });
   });
-
-  describe("sum", () => {
-    let circuit: WitnessTester<["in"], ["out"]>;
-
-    beforeAll(async () => {
-      circuit = await circomkit.WitnessTester(`arr_sum_${N}`, {
-        file: "arrays/index",
-        template: "Sum",
-        dir: "test/arrays",
-        params: [N],
-      });
-    });
-
-    it("should sum correctly", async () => {
-      // NOTE: may give wrong results for large N, use modulo if you have to
-      const sum = arr.reduce((acc, cur) => acc + cur);
-      await circuit.expectPass({ in: arr }, { out: sum });
-    });
-  });
 });
