@@ -14,7 +14,7 @@ template IsZero() {
   signal output out;
 
   signal inv <-- in != 0 ? 1 / in : 0;
-  out <== -in * inv + 1;
+  out <== 1 - (in * inv);
 
   in * out === 0;
 }

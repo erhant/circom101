@@ -8,14 +8,14 @@ include "../control-flow/index.circom";
 // If `index >= n`, then this returns 0
 //
 // Parameters:
-// - `n`: length of `in`
+// - n: length of `in`
 //
 // Inputs:
-// - `in`: an array of `n` values
-// - `index`: index to access
+// - in: an array of `n` values
+// - index: index to access
 //
 // Outputs:
-// - `out`: value at `in[index]`
+// - out: value at `in[index]`
 template ArrayRead(n) {
   signal input in[n];
   signal input index;
@@ -33,15 +33,15 @@ template ArrayRead(n) {
 // Array write `in[index] <== value`.
 //
 // Parameters:
-// - `n`: length of `in`
+// - n: length of `in`
 //
 // Inputs:
-// - `in`: an array of `n` values
-// - `index`: index to write to
-// - `value`: value to be written
+// - in: an array of `n` values
+// - index: index to write to
+// - value: value to be written
 //
 // Outputs:
-// - `out`: array
+// - out: array
 template ArrayWrite(n) {
   signal input in[n];
   signal input index;
