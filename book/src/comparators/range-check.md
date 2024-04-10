@@ -1,4 +1,4 @@
-# Range Check
+# Range Checks
 
 A range-check is a common utility, asserting that a number is in some range `[MIN, MAX]`. It is important to keep in mind that you can make use of bit-decompositions to check for range `[0, 2^n)`, which would be done by simply checking if a number is representable with `n`-bits.
 

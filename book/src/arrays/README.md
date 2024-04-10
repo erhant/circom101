@@ -85,4 +85,4 @@ template ArrayWrite(n) {
 
 Writing to an unknown-index works in a similar way to reading one. The idea is to simply copy the input signal array to an output array, but only at the index `i` we will use our new value instead of the existing one at `in[i]`.
 
-We had defined the `IfElse` template at [control-flow](../control-flow/) section.
+> We have defined the `IfElse` template under the [Control Flow](../control-flow/) section.

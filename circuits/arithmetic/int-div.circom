@@ -31,9 +31,9 @@ template IntDiv(n) {
   // in[0] = in[1] * q + r and 0 <= r < |in[1]|
   in[0] === quot * in[1] + rem;
 
-  // quot edge case is when `rem = 0` and `in[1] = 1`
-  signal quot_is_valid <== LessEqThan(n)([quot, in[0]+1]);
-  1 === quot_is_valid;
+  // OPTIONAL: quot edge case is when `rem = 0` and `in[1] = 1`
+  // signal quot_is_valid <== LessEqThan(n)([quot, in[0]]);
+  // 1 === quot_is_valid;
 
   signal rem_is_valid <== LessThan(n)([rem, in[1]]);
   1 === rem_is_valid;

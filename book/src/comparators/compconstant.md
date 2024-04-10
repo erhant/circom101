@@ -1,3 +1,3 @@
-# Compare Constant
+# `CompConstant`
 
-TODO
+TODO: the circuit code is written but I cant yet explain how it works...

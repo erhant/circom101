@@ -36,7 +36,7 @@ yarn book # automatically serve the book
 yarn book:build # build without serving
 ```
 
-The book is based on my [mdBook template](https://github.com/erhant/mdbook-template).
+The book is based on the [mdBook template](https://github.com/erhant/mdbook-template) and is published at <https://circom.erhant.me>.
 
 ## Tests
 

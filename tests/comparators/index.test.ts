@@ -2,31 +2,47 @@ import type { WitnessTester } from "circomkit";
 import { circomkit } from "../common";
 
 describe("comparators", () => {
-  describe("range", () => {
-    const [MIN, MAX] = [1, 9];
-    let circuit: WitnessTester<["in"]>;
+  describe("is zero", () => {
+    let circuit: WitnessTester<["in"], ["out"]>;
 
     beforeAll(async () => {
-      circuit = await circomkit.WitnessTester(`inRange_${MIN}_${MAX}`, {
-        file: "comparators/range",
-        template: "AssertInRange",
+      circuit = await circomkit.WitnessTester(`is_zero`, {
+        file: "comparators/index",
+        template: "IsZero",
         dir: "test/comparators",
-        params: [MIN, MAX],
       });
     });
 
-    it("should pass for in range", async () => {
-      await circuit.expectPass({ in: MAX });
-      await circuit.expectPass({ in: MIN });
-      await circuit.expectPass({ in: Math.floor((MIN + MAX) / 2) });
+    it("should return 1 for zero", async () => {
+      await circuit.expectPass({ in: 0 }, { out: 1 });
     });
 
-    it("should fail for out of range (upper bound)", async () => {
-      await circuit.expectFail({ in: MAX + 1 });
+    it("should return 0 for non-zero values", async () => {
+      await circuit.expectPass({ in: 1 }, { out: 0 });
+      await circuit.expectPass({ in: 100 }, { out: 0 });
+      await circuit.expectPass({ in: 100_000 }, { out: 0 });
+    });
+  });
+
+  describe("is equal", () => {
+    let circuit: WitnessTester<["in"], ["out"]>;
+
+    beforeAll(async () => {
+      circuit = await circomkit.WitnessTester(`is_equal`, {
+        file: "comparators/index",
+        template: "IsEqual",
+        dir: "test/comparators",
+      });
     });
 
-    it("should fail for out of range (lower bound)", async () => {
-      await circuit.expectFail({ in: Math.max(MIN, 1) - 1 });
+    it("should return 1 for equal values", async () => {
+      await circuit.expectPass({ in: [0, 0] }, { out: 1 });
+      await circuit.expectPass({ in: [10, 10] }, { out: 1 });
+    });
+
+    it("should return 0 for non-equal values", async () => {
+      await circuit.expectPass({ in: [10, 0] }, { out: 0 });
+      await circuit.expectPass({ in: [0, 10] }, { out: 0 });
     });
   });
 });

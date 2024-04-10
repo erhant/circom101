@@ -2,7 +2,7 @@ pragma circom 2.1.0;
 
 include "../bits/index.circom";
 
-// Compares a signal against a constant value.
+// Compares a signal against a constant (compile-time known) value.
 // If `in` is greater than constant, returns 1.
 //
 // Parameters:
@@ -56,8 +56,6 @@ template CompConstant(constant) {
     else assert(0 != 0); // impossible case
 
     parts[i] <== (a * (1 - part_bit_a)) + (b * part_bit_b);
-    
-    // log(constant_msb, constant_lsb, " | ", in_msb, in_lsb, " : ", part_bit_a, part_bit_b);
 
     // accumulate parts
     sum += parts[i];
