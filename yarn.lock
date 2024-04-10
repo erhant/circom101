@@ -1460,9 +1460,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"circomkit@npm:^0.0.22":
-  version: 0.0.22
-  resolution: "circomkit@npm:0.0.22"
+"circomkit@npm:^0.0.24":
+  version: 0.0.24
+  resolution: "circomkit@npm:0.0.24"
   dependencies:
     chai: "npm:^4.3.7"
     circom_tester: "npm:^0.0.19"
@@ -1470,7 +1470,7 @@ __metadata:
     snarkjs: "npm:^0.7.0"
   bin:
     circomkit: dist/bin/index.js
-  checksum: 10c0/d33e62e932cabc35351903f0dccf7b15d43d1d32edef9fa644935a2056f9a20a9bc510f0df544c28a1e0776c3ded5fa260b9358a714c794e8d11592b19bae18e
+  checksum: 10c0/4d90e22e7d8fdc55a305422fde9d15dbcf0d58ddd0a199f19d8581cf9b12a531ba6e0edfdfe799dbca32785ab9484ca6b324b93f11d9e41e8508d34b5f29731d
   languageName: node
   linkType: hard
 
@@ -3668,7 +3668,7 @@ __metadata:
   dependencies:
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.16"
-    circomkit: "npm:^0.0.22"
+    circomkit: "npm:^0.0.24"
     circomlib: "npm:^2.0.5"
     jest: "npm:^29.7.0"
     markdownlint: "npm:^0.33.0"

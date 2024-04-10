@@ -13,7 +13,7 @@ describe("fibonacci", () => {
       dir: "test/examples/simple",
       params: [N],
     });
-    console.log("#constraints:", await circuit.getConstraintCount());
+    // console.log("#constraints:", await circuit.getConstraintCount());
   });
 
   it("should return n'th fibonacci number", async () => {

@@ -6,7 +6,7 @@ describe("integer division", () => {
   const N = 16; // 16-bit integer division
   beforeAll(async () => {
     circuit = await circomkit.WitnessTester(`intdiv_${N}`, {
-      file: "arithmetic/intdiv",
+      file: "arithmetic/int-div",
       template: "IntDiv",
       dir: "test/arithmetic",
       params: [N],

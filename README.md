@@ -62,4 +62,4 @@ Check the formatting with the following command:
 yarn format
 ```
 
-This command checks the test code with [Prettier](https://www.npmjs.com/package/prettier), and lints the book with [Markdownlint](https://www.npmjs.com/package/markdownlint).
+This command checks the test code with [Prettier](https://www.npmjs.com/package/prettier).
