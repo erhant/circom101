@@ -1,8 +1,5 @@
 # Arithmetic
 
-We start with the basics:
+Our starting point is arithmetics, for a good reason: in the world of arithmetic circuits, we are only allowed to do two things: **addition** and **multiplication**.
 
-1. Addition of $n$ signals
-2. Multiplication of $n$ signals
-3. Integer divison within a circuit
-4. Modular arithmetic within a circuit
+First, we will look at [adding](./addition.md) and [multiplying](./multiplication.md) many numbers within a circuit, then we move on to more advanced operations such as [multiplicative inverse](./inverse.md), [integer-division](./int-div.md) and [modular arithmetic](./modular.md).

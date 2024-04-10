@@ -1,6 +1,17 @@
-# `IntDiv`
+pragma circom 2.1.0;
 
-```cs
+include "../comparators/index.circom";
+
+// Integer division.
+//
+// Parameters:
+// - n: number of bits for the numbers
+//
+// Inputs:
+// - in: 2 numbers as [dividend, divisor]
+//
+// Outputs:
+// - out: `in[0] / in[1]`
 template IntDiv(n) {
   signal input in[2];
   signal output out;
@@ -29,8 +40,3 @@ template IntDiv(n) {
 
   out <-- quot;
 }
-```
-
-Doing integer division within a circuit is more costly than what one might one expect, it actually comes with a range check!
-
-TODO
