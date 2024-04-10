@@ -8,12 +8,15 @@ We may often require to check if an array has non-repeating values, also known a
 template AssertDistinct(n) {
   signal input in[n];
 
+  var acc = 0;
   for (var i = 0; i < n-1; i++){
     for (var j = i+1; j < n; j++){
       var eq = IsEqual()([in[i], in[j]]);
-      eq === 0;
+      acc += 1 - eq;
     }
   }
+
+  acc === n * (n - 1) / 2;
 }
 ```
 
@@ -27,6 +30,8 @@ IsEqual()([in[1], in[2]]) === 0
 IsEqual()([in[1], in[3]]) === 0
 IsEqual()([in[2], in[3]]) === 0
 ```
+
+We could have a constraint on each iteration, but instead we can sum all the results and see if all were zero in one constraint, as done with the `acc` variable above.
 
 ## `IsDistinct`
 
