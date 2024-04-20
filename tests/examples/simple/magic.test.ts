@@ -1,5 +1,6 @@
 import type { WitnessTester } from "circomkit";
 import { circomkit } from "../../common";
+import { describe, beforeAll, it } from "bun:test";
 
 // board sizes
 const MAGIC_SIZES = [3, 4] as const;

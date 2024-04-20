@@ -1,5 +1,6 @@
 import type { WitnessTester } from "circomkit";
 import { circomkit } from "../../common";
+import { describe, beforeAll, it } from "bun:test";
 
 const BOARD_SIZES = [4, 9] as const;
 type BOARD_SIZES = (typeof BOARD_SIZES)[number];
