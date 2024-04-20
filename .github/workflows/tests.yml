@@ -14,11 +14,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
 
-      - name: Enable Corepack for Yarn
-        run: corepack enable
-
-      - name: Install dependencies
+      - name: Install Circom dependencies
         run: |
           sudo apt-get update
           sudo apt-get install --yes \
@@ -37,8 +37,8 @@ jobs:
       - name: Print Circom version
         run: circom --version
 
-      - name: Install dependencies
-        run: yarn
+      - name: Install JS dependencies
+        run: bun install
 
       - name: Run tests
-        run: yarn test
+        run: bun test
