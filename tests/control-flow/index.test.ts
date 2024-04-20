@@ -1,4 +1,5 @@
 import { circomkit } from "../common";
+import { describe, beforeAll, it } from "bun:test";
 
 describe("control-flow", () => {
   it("if-else", async () => {

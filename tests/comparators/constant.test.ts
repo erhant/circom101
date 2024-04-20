@@ -1,5 +1,6 @@
 import type { WitnessTester } from "circomkit";
 import { circomkit, primes, toBinary } from "../common";
+import { describe, beforeAll, it, expect } from "bun:test";
 
 describe("constant", () => {
   describe("compconstant", () => {

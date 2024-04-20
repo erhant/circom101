@@ -24,7 +24,7 @@
 Install packages with:
 
 ```sh
-yarn install
+bun install
 ```
 
 ## Book
@@ -32,8 +32,8 @@ yarn install
 We use `mdbook` to create the book, see the [book](./book/) folder. You can build the book with the following:
 
 ```sh
-yarn book # automatically serve the book
-yarn book:build # build without serving
+bun book # automatically serve the book
+bun book:build # build without serving
 ```
 
 The book is based on the [mdBook template](https://github.com/erhant/mdbook-template) and is published at <https://circom.erhant.me>.
@@ -43,13 +43,13 @@ The book is based on the [mdBook template](https://github.com/erhant/mdbook-temp
 Run circuit tests with:
 
 ```sh
-yarn test
+bun test
 
 # with pattern matching
-yarn test pattern-name
+bun test pattern-name
 
 # with explicit paths
-yarn test ./path/to/some.test.ts
+bun test ./path/to/some.test.ts
 ```
 
 The tests make use of [Circomkit](https://github.com/erhant/circomkit).

@@ -1,5 +1,6 @@
 import type { WitnessTester } from "circomkit";
 import { circomkit } from "../common";
+import { describe, beforeAll, it } from "bun:test";
 
 describe("inverse", () => {
   let circuit: WitnessTester<["in"], ["out"]>;

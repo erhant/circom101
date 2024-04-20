@@ -3,4 +3,4 @@ pragma circom 2.0.0;
 
 include "../../comparators/constant.circom";
 
-component main = CompConstant(1693);
+component main = CompConstant(1017);
