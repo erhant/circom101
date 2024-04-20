@@ -59,7 +59,7 @@ The tests make use of [Circomkit](https://github.com/erhant/circomkit).
 Check the formatting with the following command:
 
 ```sh
-yarn format
+bun format
 ```
 
 This command checks the test code with [Prettier](https://www.npmjs.com/package/prettier).
