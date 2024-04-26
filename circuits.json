@@ -1,0 +1,8 @@
+{
+  "sudoku_9x9": {
+    "file": "./examples/intermediate/sudoku",
+    "template": "Sudoku",
+    "params": [3],
+    "pubs": ["puzzle"]
+  }
+}

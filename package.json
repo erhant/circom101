@@ -11,7 +11,7 @@
     "book:build": "cd book && mdbook build"
   },
   "dependencies": {
-    "circomkit": "^0.0.24",
+    "circomkit": "^0.1.0",
     "circomlib": "^2.0.5"
   },
   "devDependencies": {
