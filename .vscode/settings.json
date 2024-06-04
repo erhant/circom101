@@ -18,5 +18,6 @@
     "hashing": "App",
     "preliminary": "Custom",
     "advanced": "Font"
-  }
+  },
+  "jestrunner.jestCommand": "bun test"
 }

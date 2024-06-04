@@ -9,8 +9,7 @@ sequenceDiagram
 	actor A as Alice
 	actor B as Bob
 
-	note over A: Alice commits to x
-  note over A: [x] := x
+  note over A: [x] := Commit(x)
   A ->> B: [x]
 
   note over A, B: sometime later
@@ -24,5 +23,3 @@ A cryptographic commitment scheme has two notable properties:
 
 - **Hiding**: A commitment $\boxed{x}$ should reveal nothing about the underlying $x$.
 - **Binding**: A commitment $\boxed{x}$, should only be revealed to $x$, i.e. for some $x' \ne x$ we shouldn't be able to compute a commitment $\boxed{x'} = \boxed{x}$.
-
-TODO: more needed
