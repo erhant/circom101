@@ -27,7 +27,7 @@ template IntDiv(n) {
   signal rem_is_valid <== LessThan(n)([rem, in[1]]);
   1 === rem_is_valid;
 
-  out <-- quot;
+  out <== quot;
 }
 ```
 
