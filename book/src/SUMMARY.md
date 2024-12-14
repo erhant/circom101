@@ -24,6 +24,10 @@
   - [MiMC 🚧](./hashing/mimc.md)
 - [Merkle Trees](./merkle-trees/README.md)
   - [Sparse Merkle Tree 🚧](./merkle-trees/smt.md)
+  - [Dense Merkle Tree 🚧](./merkle-trees/dmt.md)
+  - [Incremential Merkle Tree 🚧](./merkle-trees/imt.md)
+  - [Complete Binary Merkle Tree 🚧](./merkle-trees/cbmt.md)
+  - [Merkle Mountain Range 🚧](./merkle-trees/mmr.md)
 - [Advanced](./advanced/README.md)
 
 # Examples

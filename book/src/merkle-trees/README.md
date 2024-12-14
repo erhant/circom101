@@ -1,8 +1,20 @@
 # Merkle Trees
 
-If you have been in the world of crypto for a while, it is highly likely that you have heard the term [Merkle Tree](https://brilliant.org/wiki/merkle-tree/), also known as Merkle Hash Tree. A Merkle Tree is a hash-based data structure, and can serve as a cryptographic commitment scheme.
+If you have been in the world of crypto for a while, it is highly likely that you have heard the term [Merkle Tree](https://brilliant.org/wiki/merkle-tree/), also known as Merkle Hash Tree.
 
-You can commit to a set of values using a merkle tree, such as:
+They play a huge role in many applications, especially in Blockchain; and there are several types of it, such as:
+
+- [Binary Merkle Tree](./bmt.md)
+- [Complete Binary Merkle Tree](./cbmt.md)
+- [Sparse Merkle Tree](./smt.md)
+- [Incremential Merkle Tree](./imt.md)
+- [Merkle Mountain Range](./mmr.md)
+
+## Merkle Tree Basics
+
+A Merkle Tree is a hash-based data structure, and can serve as a **cryptographic commitment scheme**.
+
+You can commit to a set of values using a Merkle Tree, such as:
 
 - Evaluations of a function
 - Coefficients of a polynomial
@@ -90,16 +102,15 @@ graph BT
 
 You see, we only needed to provide 3 hashes here, although our data had 8 elements! In fact, if you have $n$ elements you only need to provide $\log_2{n}$ elements to the verifier, this is so much more efficient than the naive method of sending all the data to the verifier.
 
-## As a Commitment Scheme
-
-A Merkle Root can serve as a cryptographic **commitment** to a set of data.
-
-- It is **hiding** because you can't find the preimage of an hash efficiently.
-- It is **binding** because assuming otherwise would require you to find a hash-collision efficiently, which is known to be intractable.
-
-To **reveal** that some value is part of the comitted set of data at a specific point, you only need to reveal the path from that node to the root, along with the value itself, as described [above](#merkle-proof).
+> A Merkle Root can serve as a cryptographic **commitment** to a set of data.
+>
+> - It is **hiding** because you can't find the preimage of an hash efficiently.
+> - It is **binding** because assuming otherwise would require you to find a hash-collision efficiently, which is known to be intractable.
+>
+> To **reveal** that some value is part of the comitted set of data at a specific point, you only need to reveal the path from that node to the root, along with the value itself, as described [above](#merkle-proof).
 
 ## Further Reading
 
 - The original paper is ["A Digital Signature Based on a Conventional Encryption Function"](https://people.eecs.berkeley.edu/~raluca/cs261-f15/readings/me) by Ralph Merkle.
 - ["Providing Authentication and Integrity in Outsourced Databases using Merkle Hash Tree's"](https://people.eecs.berkeley.edu/~raluca/cs261-f15/readings/merkleodb.pdf) by Mykletun, Narasimha, Tsudik is another paper that is slightly easier to read.
+- RareSkills Merkle Tree second-preimage attack [blog post](https://www.rareskills.io/post/merkle-tree-second-preimage-attack).
