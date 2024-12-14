@@ -48,10 +48,10 @@ There is really not much more to talk about in this circuit. It is simply a grea
 
 ## Soundness
 
-Imagine that you would like to use the circuit above to prove that you know the prime factors $p_1, p_2, \ldots, p_n$ for some number:
+Imagine that you would like to use the circuit above to prove that you know some factors $q_1, q_2, \ldots, q_n$ for some number:
 
 $$
-k = \prod_{i=1}^{n}p_i
+k = \prod_{i=1}^{n}q_i
 $$
 
 Would it be okay to use the circuit above as given, with `out` as the only public signal?
@@ -59,7 +59,15 @@ Would it be okay to use the circuit above as given, with `out` as the only publi
 If you think about this for a while, you will realize that the circuit does not care if a factor is 1 or not! Meaning that one can provide the same proof just by providing an array `[k, 1, ..., 1]` since:
 
 $$
-k = \prod_{i=1}^{n}p_i = k \times \prod_{i=2}^{n}1
+k = \prod_{i=1}^{n}q_i = k \times \prod_{i=2}^{n}1
 $$
 
-The circuit author is responsible from checking these edge-cases, and writing the necessary constrains to prevent such soundness errors.
+Even further, if $n$ is even one can do:
+
+$$
+k = k \times \prod_{i=2}^{n/2} r_i \times r_i^{-1}
+$$
+
+These are classified as soundness errors, as they allow creating of valid proofs without actually proving the intended statement.
+
+> The circuit author is responsible from checking these edge-cases, and writing the necessary constrains to prevent soundness errors.
