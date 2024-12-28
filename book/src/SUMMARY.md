@@ -1,9 +1,10 @@
 # Summary
 
 - [Introduction](./README.md)
-- [Preliminary](./preliminary/README.md)
-  - [Group Theory](./preliminary/group-theory.md)
-  - [Commitments](./preliminary/commitments.md)
+- [Concepts](./concepts/README.md)
+  - [Group Theory](./concepts/group-theory.md)
+  - [Commitments](./concepts/commitments.md)
+  - [Merkle Trees](./concepts/merkle-trees.md)
 - [Arithmetic](./arithmetic/README.md)
   - [Multiplication](./arithmetic/multiplication.md)
   - [Addition](./arithmetic/addition.md)

@@ -1,6 +1,6 @@
 import { poseidon1, poseidon2 } from "poseidon-lite";
 import { circomkit } from "../common";
-import { describe, beforeAll, it } from "bun:test";
+import { describe, it } from "bun:test";
 
 function binaryMerkleTree(leafs: bigint[]) {
   if (leafs.length === 0) {
@@ -18,7 +18,7 @@ function binaryMerkleTree(leafs: bigint[]) {
 
   // compute hashes of leaves
   for (let i = 0; i < NUM_LEAVES; i++) {
-    nodes[NUM_NODES - 1 - i] = poseidon1([leafs[i]]);
+    nodes[NUM_NODES - 1 - i] = poseidon1([leafs[NUM_LEAVES - 1 - i]]);
   }
 
   // build the tree from the leaves to the root in reverse
@@ -31,29 +31,58 @@ function binaryMerkleTree(leafs: bigint[]) {
 }
 
 describe("binary merkle tree", () => {
-  it("n = 1", async () => {
-    const circuit = await circomkit.WitnessTester<["leafs"], ["root"]>("bmt-1", {
-      file: "merkle-trees/bmt",
-      template: "BinaryMerkleTree",
-      dir: "test/merkle-trees",
-      params: [1],
-    });
+  const [LEFT, RIGHT] = [1, 0] as const;
 
+  describe("n = 1", () => {
     const leafs = [123n, 345n];
-    const { root } = binaryMerkleTree(leafs);
-    await circuit.expectPass({ leafs }, { root });
+    const tree = binaryMerkleTree(leafs);
+
+    it("should build the tree", async () => {
+      const circuit = await circomkit.WitnessTester<["leafs"], ["root"]>("bmt-1-proof", {
+        file: "merkle-trees/bmt",
+        template: "BinaryMerkleTree",
+        dir: "test/merkle-trees",
+        params: [1],
+      });
+
+      await circuit.expectPass({ leafs }, { root: tree.root });
+    });
   });
 
-  it("n = 2", async () => {
-    const circuit = await circomkit.WitnessTester<["leafs"], ["root"]>("bmt-2", {
-      file: "merkle-trees/bmt",
-      template: "BinaryMerkleTree",
-      dir: "test/merkle-trees",
-      params: [2],
+  describe("n = 2", () => {
+    const leafs = [123n, 345n, 678n, 981n];
+    const tree = binaryMerkleTree(leafs);
+
+    it("should build the tree", async () => {
+      const circuit = await circomkit.WitnessTester<["leafs"], ["root"]>("bmt-2", {
+        file: "merkle-trees/bmt",
+        template: "BinaryMerkleTree",
+        dir: "test/merkle-trees",
+        params: [2],
+      });
+
+      await circuit.expectPass({ leafs }, { root: tree.root });
     });
 
-    const leafs = [123n, 345n, 678n, 981n];
-    const { root } = binaryMerkleTree(leafs);
-    await circuit.expectPass({ leafs }, { root });
+    it("should generate proof", async () => {
+      const circuit = await circomkit.WitnessTester<["in", "siblings", "indices"], ["root"]>("bmt-2-proof", {
+        file: "merkle-trees/bmt",
+        template: "BinaryMerkleProof",
+        dir: "test/merkle-trees",
+        params: [2],
+      });
+
+      /**
+       *          (0)
+       *      <1>     (2)     right, node[1]
+       *    3    4 (5)   <6>  left,  node[6]
+       *            2 (index)
+       */
+      const [siblings, indices] = [
+        [tree.nodes[1], tree.nodes[6]],
+        [RIGHT, LEFT],
+      ];
+      await circuit.expectPass({ in: leafs[2], siblings, indices }, { root: tree.root });
+    });
   });
 });
