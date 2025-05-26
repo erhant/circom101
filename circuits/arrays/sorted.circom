@@ -17,6 +17,11 @@ template IsSorted(n, b) {
   signal input in[n];
   signal output out;
 
+  // range check
+  for (var i = 0; i < n; i++) {
+    _ <== Num2Bits(b)(in[i]);
+  }
+
   // accumulator for in[i-1] < in[1] checks
   var acc = 0;
   for (var i = 1; i < n; i++) {
@@ -43,6 +48,11 @@ template IsSorted(n, b) {
 // - in: an array of `n` `b`-bit values
 template AssertSorted(n, b) {
   signal input in[n];
+
+  // range check
+  for (var i = 0; i < n; i++) {
+    _ <== Num2Bits(b)(in[i]);
+  }
 
   // accumulator for in[i-1] < in[1] checks
   var acc = 0;
