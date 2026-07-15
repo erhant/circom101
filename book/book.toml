@@ -12,17 +12,11 @@ after = ["links"]
 [preprocessor.mermaid]
 command = "mdbook-mermaid"
 
-# generate table of contents
-[preprocessor.toc]
-command = "mdbook-toc"
-renderer = ["html"]
-
 [output]
 
 [output.html]
 additional-css = ["./utils/custom.css"]
 additional-js = ["./utils/mermaid.min.js", "./utils/mermaid-init.js"]
 git-repository-url = "https://github.com/erhant/circom101"
-git-repository-icon = "fa-github"
 default-theme = "rust"
 preferred-dark-theme = "navy"

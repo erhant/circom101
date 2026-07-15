@@ -17,7 +17,17 @@ template CompConstant(constant) {
   signal input in[254];
   signal output out;
 
-  // TODO: what is a and b?
+  // `a` is the penalty added when the signal pair is LESS than the constant pair.
+  // `b` is the reward added when the signal pair is GREATER than the constant pair.
+  //
+  // They start at a=1, b=2^128-1 and converge toward each other, doubling the
+  // step each iteration. At pair i: a_i = 2^i, b_i = 2^128 - 2^i.
+  //
+  // The key invariant: a single "win" at position i (contributing b_i = 2^128 - 2^i)
+  // always outweighs all possible "losses" at lower positions combined
+  // (worst case: sum of a_j for j < i = 2^i - 1 < b_i).
+  // So the most-significant differing pair decides the outcome — just like
+  // ordinary magnitude comparison.
   var a = 1;
   var b = (1 << (128)) - 1;
 
@@ -27,47 +37,70 @@ template CompConstant(constant) {
   signal parts[127];
   signal out_bits;
   for (var i = 0; i < 127; i++) {
-    // constant LSB and MSB
+    // Extract the i-th 2-bit digit of the constant (bit positions i*2 and i*2+1)
     var constant_lsb = (constant >> (i*2)) & 1;
     var constant_msb = (constant >> (i*2 + 1)) & 1;
 
-    // input LSB and MSB
+    // Extract the i-th 2-bit digit of the input signal
     var in_lsb = in[i*2];
     var in_msb = in[i*2 + 1];
 
+    // part_bit_a: 1 iff the signal's 2-bit digit >= the constant's 2-bit digit
+    // part_bit_b: 1 iff the signal's 2-bit digit >  the constant's 2-bit digit
+    //
+    // These are computed using boolean arithmetic on the input bits.
+    // Note: x + y - x*y = OR(x, y), and x*y = AND(x, y).
     var part_bit_a;
     var part_bit_b;
     /**/ if ((constant_msb == 0) && (constant_lsb == 0)) {
+      // constant pair = 0: signal >= 0 is always true; signal > 0 iff any bit set
       part_bit_a = 1;
-      part_bit_b = in_msb + in_lsb - in_msb*in_lsb;
-    } 
+      part_bit_b = in_msb + in_lsb - in_msb*in_lsb;       // OR(msb, lsb)
+    }
     else if ((constant_msb == 0) && (constant_lsb == 1)) {
-      part_bit_a = in_msb + in_lsb - in_msb*in_lsb;
+      // constant pair = 1: signal >= 1 iff any bit set; signal > 1 iff msb set
+      part_bit_a = in_msb + in_lsb - in_msb*in_lsb;       // OR(msb, lsb)
       part_bit_b = in_msb;
-    } 
+    }
     else if ((constant_msb == 1) && (constant_lsb == 0)) {
+      // constant pair = 2: signal >= 2 iff msb set; signal > 2 iff both bits set
       part_bit_a = in_msb;
-      part_bit_b = in_msb*in_lsb;
-    } 
+      part_bit_b = in_msb*in_lsb;                          // AND(msb, lsb)
+    }
     else if ((constant_msb == 1) && (constant_lsb == 1)) {
-      part_bit_a = in_msb*in_lsb;
+      // constant pair = 3: signal >= 3 iff both set; signal > 3 is impossible
+      part_bit_a = in_msb*in_lsb;                          // AND(msb, lsb)
       part_bit_b = 0;
     }
     else assert(0 != 0); // impossible case
 
+    // Combine into the weighted contribution for this pair:
+    //   signal pair < constant pair  →  part_bit_a=0, part_bit_b=0  →  +a  (penalty)
+    //   signal pair = constant pair  →  part_bit_a=1, part_bit_b=0  →   0  (neutral)
+    //   signal pair > constant pair  →  part_bit_a=1, part_bit_b=1  →  +b  (reward)
     parts[i] <== (a * (1 - part_bit_a)) + (b * part_bit_b);
 
     // accumulate parts
     sum += parts[i];
 
-    // go to next bit
+    // Advance weights: a doubles, b shrinks by the same amount, preserving
+    // the invariant that higher pairs dominate all lower ones.
     b -= bit_value;
     a += bit_value;
     bit_value <<= 1;
   }
 
+  // The sum encodes the comparison result in bit 127:
+  //   - If in > constant, wins dominate → sum >= 2^127, so bit 127 is set.
+  //   - If in <= constant, losses dominate → sum < 2^127, so bit 127 is clear.
+  //
+  // 135 bits are needed because the maximum possible sum is:
+  //   sum_max = Σ(i=0..126) b_i = Σ(i=0..126) (2^128 - 2^i)
+  //           = 127·2^128 - (2^127 - 1)
+  //           = 2^135 - 2^128 - 2^127 + 1
+  // which fits in 135 bits but not 134.
   out_bits <== sum;
-  component num2bits = Num2Bits(135); // TODO: why 135?
+  component num2bits = Num2Bits(135);
   num2bits.in <== out_bits;
   out <== num2bits.out[127];
 }

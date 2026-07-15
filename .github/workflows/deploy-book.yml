@@ -23,6 +23,7 @@ jobs:
         with:
           owner: rust-lang
           name: mdBook
+          version: "0.5.4"
 
       - name: Install KaTeX preprocessor
         uses: extractions/setup-crate@v1
@@ -35,13 +36,6 @@ jobs:
         with:
           owner: badboy
           name: mdbook-mermaid
-
-      # not using this one; but, might at some point
-      - name: Install ToC preprocessor
-        uses: extractions/setup-crate@v1
-        with:
-          owner: badboy
-          name: mdbook-toc
 
       - name: Setup Node.js (required to install Vercel CLI)
         uses: actions/setup-node@v3
