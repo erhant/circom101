@@ -1,5 +1,5 @@
+import { describe, it } from "bun:test";
 import { circomkit } from "../common";
-import { describe, beforeAll, it } from "bun:test";
 
 describe("multiplexing", () => {
   it("2-to-1 multiplex", async () => {

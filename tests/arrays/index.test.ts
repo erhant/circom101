@@ -1,6 +1,6 @@
+import { beforeAll, describe, it } from "bun:test";
 import type { WitnessTester } from "circomkit";
-import { circomkit, primes } from "../common";
-import { describe, beforeAll, it } from "bun:test";
+import { circomkit } from "../common";
 
 describe("arrays", () => {
   const N = 10;

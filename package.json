@@ -4,9 +4,10 @@
   "license": "MIT",
   "scripts": {
     "test": "npx jest",
-    "format": "yarn format:ts",
-    "format:ts": "npx prettier --check ./tests/**/*.ts",
-    "format:md": "echo todo",
+    "format": "prettier --write \"./tests/**/*.ts\"",
+    "format:check": "prettier --check \"./tests/**/*.ts\"",
+    "lint": "biome lint ./tests",
+    "lint:fix": "biome lint --write ./tests",
     "book": "cd book && mdbook serve --open",
     "book:build": "cd book && mdbook build"
   },
@@ -17,6 +18,7 @@
     "snarkjs": "^0.7.5"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.5.5",
     "@types/bun": "^1.1.0",
     "@types/node": "^20.11.16",
     "prettier": "^3.2.5",

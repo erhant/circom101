@@ -1,6 +1,6 @@
+import { describe, it } from "bun:test";
 import { poseidon1, poseidon2 } from "poseidon-lite";
 import { circomkit } from "../common";
-import { describe, it } from "bun:test";
 
 function binaryMerkleTree(leafs: bigint[]) {
   if (leafs.length === 0) {
@@ -9,7 +9,7 @@ function binaryMerkleTree(leafs: bigint[]) {
 
   const n = Math.ceil(Math.log2(leafs.length));
   if (1 << n !== leafs.length) {
-    throw new Error("The number of leafs must be a power of 2 " + `${1 << n} != ${leafs.length}`);
+    throw new Error(`The number of leafs must be a power of 2 ${1 << n} != ${leafs.length}`);
   }
 
   const NUM_LEAVES = 1 << n;

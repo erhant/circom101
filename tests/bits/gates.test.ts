@@ -1,6 +1,5 @@
-import type { WitnessTester } from "circomkit";
+import { describe, it } from "bun:test";
 import { circomkit } from "../common";
-import { describe, beforeAll, it } from "bun:test";
 
 describe("logic gates", () => {
   it("AND", async () => {
