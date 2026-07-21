@@ -1,4 +1,4 @@
-import { Circomkit, type CircomkitConfig } from "circomkit";
+import { Circomkit, type Prime } from "circomkit";
 
 export const circomkit = new Circomkit({ verbose: false, inspect: true });
 
@@ -13,7 +13,7 @@ export function toBinary(n: number | bigint, bits: number = 254) {
 
   const bitStr = BigInt(n).toString(2);
   if (bitStr.length > bits) {
-    throw new Error("Number not representable by " + bits + " bits");
+    throw new Error(`Number not representable by ${bits} bits`);
   } else if (bitStr.length < bits) {
     return ("0".repeat(bits - bitStr.length) + bitStr)
       .split("")
@@ -27,7 +27,7 @@ export function toBinary(n: number | bigint, bits: number = 254) {
   }
 }
 
-export const primes: Record<CircomkitConfig["prime"], bigint> = {
+export const primes: Record<Prime, bigint> = {
   bn128: 21888242871839275222246405745257275088548364400416034343698204186575808495617n,
   bls12381: 52435875175126190479447740508185965837690552500527637822603658699938581184513n,
   goldilocks: 18446744069414584321n,

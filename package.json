@@ -11,7 +11,7 @@
     "book:build": "cd book && mdbook build"
   },
   "dependencies": {
-    "circomkit": "^0.3.1",
+    "circomkit": "file:../circomkit/bindings/napi",
     "circomlib": "^2.0.5",
     "poseidon-lite": "^0.3.0",
     "snarkjs": "^0.7.5"
