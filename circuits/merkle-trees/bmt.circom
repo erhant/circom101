@@ -54,21 +54,26 @@ template BinaryMerkleProof(n) {
   signal input indices[n];
   signal output root;
 
-  // the path from the leaf to the root
-  signal path[n];
+  // the path from the leaf (path[n]) up to the root (path[0]); a depth-n proof
+  // performs n hash combines, so the path visits n+1 nodes.
+  signal path[n + 1];
 
-  // the last element in the path is the leaf hash
-  path[n-1] <== Poseidon(1)([in]);
-  
-  // compute the "audit path" w.r.t indices
-  signal children[n-1][2];
-  for (var i = n-1; i != 0; i--) {
-    // index 0: sibling is on the right
-    // index 1: sibling is on the left
-    children[i-1] <== Switch()(indices[i], [path[i], siblings[i]]);
+  // the deepest element in the path is the leaf hash
+  path[n] <== Poseidon(1)([in]);
+
+  // climb every level, combining the current node with its sibling
+  signal children[n][2];
+  for (var i = n; i != 0; i--) {
+    // indices[i-1] is the position of the *current* node at this level:
+    //   0 -> current is the right child (sibling on the left)
+    //   1 -> current is the left  child (sibling on the right)
+    // Switch swaps its inputs when the condition is 1, so feeding
+    // [sibling, current] yields [sibling, current] for 0 and [current, sibling]
+    // for 1 — i.e. the current node ends up on the correct side.
+    children[i-1] <== Switch()(indices[i-1], [siblings[i-1], path[i]]);
     path[i-1] <== Poseidon(2)(children[i-1]);
   }
 
-  // the last element in the path is the root hash
+  // the top element in the path is the root hash
   root <== path[0];
 }
