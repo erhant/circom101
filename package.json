@@ -6,8 +6,8 @@
     "test": "npx jest",
     "format": "prettier --write \"./tests/**/*.ts\"",
     "format:check": "prettier --check \"./tests/**/*.ts\"",
-    "lint": "biome lint ./tests",
-    "lint:fix": "biome lint --write ./tests",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
     "book": "cd book && mdbook serve --open",
     "book:build": "cd book && mdbook build"
   },

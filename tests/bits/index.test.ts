@@ -1,6 +1,6 @@
+import { beforeAll, describe, expect, it } from "bun:test";
 import type { WitnessTester } from "circomkit";
 import { circomkit } from "../common";
-import { describe, beforeAll, it, expect } from "bun:test";
 
 describe("bits", () => {
   const N = 5;
