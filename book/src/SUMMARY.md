@@ -38,3 +38,5 @@
   - [Magic Square](./examples/simple/magic.md)
 - [Intermediate](./examples/intermediate/README.md)
   - [Sudoku](./examples/intermediate/sudoku.md)
+- [Advanced](./examples/advanced/README.md)
+  - [Filtering Tuples](./examples/advanced/filter.md)
