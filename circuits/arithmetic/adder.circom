@@ -10,6 +10,7 @@ pragma circom 2.1.0;
 //
 // Outputs:
 // - out: sum of all values in `in`
+// ANCHOR: Adder
 template Adder(n) {
   signal input in[n];
   signal output out;
@@ -20,3 +21,4 @@ template Adder(n) {
   }
   out <== lc;
 }
+// ANCHOR_END: Adder

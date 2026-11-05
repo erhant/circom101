@@ -5,12 +5,7 @@ It is often required to do some logical operations like `AND`, `OR`, `NOT` and `
 ## `AND`
 
 ```cs
-template AND() {
-  signal input in[2];
-  signal output out;
-
-  out <== in[0]*in[1];
-}
+{{#include ../../../circuits/bits/gates.circom:AND}}
 ```
 
 The logic table of `AND` is as follows:
@@ -25,12 +20,7 @@ This can be achieved by simply multiplying the two inputs!
 ## `OR`
 
 ```cs
-template OR() {
-  signal input in[2];
-  signal output out;
-
-  out <== in[0] + in[1] - in[0]*in[1];
-}
+{{#include ../../../circuits/bits/gates.circom:OR}}
 ```
 
 The logic table of `OR` is as follows:
@@ -47,12 +37,7 @@ What we have is equivalent to `in[0] + in[1] - AND(in)`.
 ## `XOR`
 
 ```cs
-template XOR() {
-  signal input in[2];
-  signal output out;
-
-  out <== in[0] + in[1] - 2*in[0]*in[1];
-}
+{{#include ../../../circuits/bits/gates.circom:XOR}}
 ```
 
 The logic table of `XOR` is as follows:
@@ -67,12 +52,7 @@ We can use the same trick for `OR`, just once more, to make the `1 + 1` turn to 
 ## `NOT`
 
 ```cs
-template NOT() {
-  signal input in;
-  signal output out;
-
-  out <== 1 - in;
-}
+{{#include ../../../circuits/bits/gates.circom:NOT}}
 ```
 
 A `NOT` gate maps 0 to 1, and 1 to 0. We can achieve this by simply subtracting the signal from 1. Since $1 - 0 = 1$ and $1 - 1 = 0$.
@@ -80,12 +60,7 @@ A `NOT` gate maps 0 to 1, and 1 to 0. We can achieve this by simply subtracting 
 ## `NAND`
 
 ```cs
-template NAND() {
-  signal input in[2];
-  signal output out;
-
-  out <== 1 - in[0]*in[1];
-}
+{{#include ../../../circuits/bits/gates.circom:NAND}}
 ```
 
 `NAND` is equivalent to `NOT(AND(in))`, giving us the circuit above.
@@ -93,12 +68,11 @@ template NAND() {
 ## `NOR`
 
 ```cs
-template NOR() {
-  signal input in[2];
-  signal output out;
-
-  out <== 1 - (in[0] + in[1] - in[0]*in[1]);
-}
+{{#include ../../../circuits/bits/gates.circom:NOR}}
 ```
 
 `NOR` is equivalent to `NOT(OR(in))`, giving us the circuit above.
+
+## Constraint Count
+
+Each gate with two inputs multiplies them once, so `AND`, `OR`, `XOR`, `NAND` and `NOR` have 1 non-linear constraint each, while `NOT` is linear and has none.

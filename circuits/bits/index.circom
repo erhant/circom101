@@ -4,6 +4,7 @@ pragma circom 2.1.0;
 //
 // Inputs:
 // - n: a number
+// ANCHOR: nbits
 function nbits(n) {
   var ans = 0;
 
@@ -15,15 +16,18 @@ function nbits(n) {
 
   return ans;
 }
+// ANCHOR_END: nbits
 
 // Asserts that a given input is binary.
 //
 // Inputs:
 // - in: an input signal, expected to be 0 or 1.
+// ANCHOR: AssertBit
 template AssertBit() {
   signal input in;
   in * (in - 1) === 0;
 }
+// ANCHOR_END: AssertBit
 
 
 // Converts a number to bits while asserting that
@@ -38,6 +42,7 @@ template AssertBit() {
 // Outputs:
 // - out: `n`-bits, with `out[0]` being the least-significant bit
 // and `out[n-1]` being the most-significant bit.
+// ANCHOR: Num2Bits
 template Num2Bits(n) {
   assert(n < 254);
   signal input in;
@@ -56,6 +61,7 @@ template Num2Bits(n) {
 
   lc === in;
 }
+// ANCHOR_END: Num2Bits
 
 // Converts an `n`-bit number in binary form to decimal form.
 //
@@ -68,6 +74,7 @@ template Num2Bits(n) {
 //
 // Outputs:
 // - out: the signal value corresponding to the given bits
+// ANCHOR: Bits2Num
 template Bits2Num(n) {
   assert(n < 254);
   signal input in[n];
@@ -84,6 +91,7 @@ template Bits2Num(n) {
 
   out <== lc;
 }
+// ANCHOR_END: Bits2Num
 
 // Asserts that a number is `n`-bit representable.
 //
@@ -95,7 +103,7 @@ template Bits2Num(n) {
 template AssertBits(n) {
   assert(n < 254);
   signal input in;
-  
+
   var lc = 0;
   var bit_value = 1;
   signal bits[n];

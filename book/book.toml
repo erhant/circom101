@@ -4,6 +4,10 @@ language = "en"
 src = "src"
 title = "Circom101"
 
+[build]
+# rebuild when the circuits change, as the book includes their code
+extra-watch-dirs = ["../circuits"]
+
 # uses KaTeX instead of MathJax, much better interop
 [preprocessor.katex]
 after = ["links"]

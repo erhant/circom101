@@ -5,11 +5,7 @@ A bit value can only be 0 or 1. As such, they can be treated as **booleans** too
 ## `AssertBit`
 
 ```cs
-template AssertBit() {
-  signal input in;
-
-  in * (in - 1) === 0;
-}
+{{#include ../../../circuits/bits/index.circom:AssertBit}}
 ```
 
 To assert that a given number $n$ is bit (i.e. 0 or 1) you only have to check that $n^2 = n$, as there are only two numbers whose square equals to itself: 0 and 1. This expression is equivalent to $n \times (n - 1) = 0$, which is how we've written in the circuit above.
@@ -19,24 +15,7 @@ Normally people assert that a signal is bit without the template above; instead,
 ## `Num2Bits`
 
 ```cs
-template Num2Bits(n) {
-  assert(n < 254);
-  signal input in;
-  signal output out[n];
-
-  var lc = 0;
-  var bit_value = 1;
-
-  for (var i = 0; i < n; i++) {
-    out[i] <-- (in >> i) & 1;
-    AssertBit()(out[i]);
-
-    lc += out[i] * bit_value;
-    bit_value <<= 1;
-  }
-
-  lc === in;
-}
+{{#include ../../../circuits/bits/index.circom:Num2Bits}}
 ```
 
 `Num2Bits` is an often used circuit that decomposes a given number to `n` bits. In doing so, it will assert that the number is representable by that many bits too. The binary decomposition happens the way it is done in most languages: shift and get the last bit, within a loop.
@@ -56,22 +35,7 @@ Thankfully, this entire equality is a quadratic constraint and we can simply che
 ## `Bits2Num`
 
 ```cs
-template Bits2Num(n) {
-  assert(n < 254);
-  signal input in[n];
-  signal output out;
-
-  var lc = 0;
-  var bit_value = 1;
-  for (var i = 0; i < n; i++) {
-    AssertBit()(in[i]);
-
-    lc += in[i] * bit_value;
-    bit_value <<= 1;
-  }
-
-  out <== lc;
-}
+{{#include ../../../circuits/bits/index.circom:Bits2Num}}
 ```
 
 If we can convert from an `n`-bit number to its binary representation, surely we should be able to convert from the binary representation with `n`-bits to the number itself. We do that with `Bits2Num`. This operation is rather straightforward, we just need to compute:
@@ -87,17 +51,7 @@ We use `bit_value` to keep track of $2^i$, and this entire sum expression is sto
 ## Function: `nbits`
 
 ```cs
-function nbits(n) {
-  var ans = 0;
-
-  // shift `n` to the right until all of its bits are consumed
-  while (n != 0) {
-    n >>= 1;
-    ans++;
-  }
-
-  return ans;
-}
+{{#include ../../../circuits/bits/index.circom:nbits}}
 ```
 
 We might want to find the minimum number of bits required to represent a **known** value; we use a function called `nbits` (as in Circomlib) for that. Here, our parameter `n` is known at compile time, perhaps a generic argument or some constant somewhere.
@@ -105,3 +59,13 @@ We might want to find the minimum number of bits required to represent a **known
 The idea of this function is to shift the number to the right one bit at a time, counting how many shifts it takes until nothing is left. For example, $9 = (1001)_2$ becomes $(100)_2$, $(10)_2$, $(1)_2$ and finally $0$, so `nbits(9) = 4`.
 
 > You may think of a loop such as `while (2**ans - 1 < n)` instead, but beware: Circom compares field elements as **signed** numbers, where values larger than $p/2$ are negative. For example, `-1 < 0` is true, even though `-1` is actually $p - 1$ in the field. Shifts on the other hand work with the actual value, so with shifts `nbits(-1)` correctly returns the number of bits of the largest field element, which is 254 for BN254.
+
+## Constraint Count
+
+| Circuit       | Constraints |
+| ------------- | ----------- |
+| `AssertBit`   | 1           |
+| `Num2Bits(n)` | $n$         |
+| `Bits2Num(n)` | $n$         |
+
+Every bit costs one constraint, to assert that it is a bit; the sum of the bits is a linear combination, which is free. The function `nbits` is computed at compile time, so it has no constraints at all.

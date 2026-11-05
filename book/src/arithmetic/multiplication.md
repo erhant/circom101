@@ -1,22 +1,12 @@
-# `Multiplier`
+# Multiplication
+
+There may be several "Hello World!"s of Circom, and multiplying numbers is surely one of them: the `Multiplier` circuit computes the product of all elements in an array.
+
+## `Multiplier`
 
 ```cs
-template Multiplier(n) {
-  assert(n > 1);
-  signal input in[n];
-  signal output out;
-
-  signal inner[n-1];
-  inner[0] <== in[0] * in[1];
-  for(var i = 0; i < n - 2; i++) {
-    inner[i+1] <== inner[i] * in[i+2];
-  }
-
-  out <== inner[n-2];
-}
+{{#include ../../../circuits/arithmetic/multiplier.circom:Multiplier}}
 ```
-
-There may be several "Hello World!"s of Circom, and I believe Multiplier circuit is one of them. All that we are doing here is computing the product of all elements in an array.
 
 Since multiplying more than two signals at once is non-quadratic, we have to do this two at-a-time. Here is how multiplying 4 numbers looks like:
 
@@ -71,3 +61,7 @@ $$
 These are classified as soundness errors, as they allow creating of valid proofs without actually proving the intended statement.
 
 > The circuit author is responsible from checking these edge-cases, and writing the necessary constrains to prevent soundness errors.
+
+## Constraint Count
+
+Each multiplication of two signals is one constraint, so `Multiplier(n)` has $n - 1$ non-linear constraints, e.g. 9 for 10 numbers.

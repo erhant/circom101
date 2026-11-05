@@ -26,20 +26,7 @@ So now, what if we want to read or write to an index unknown at compile time?
 ## `ArrayRead`
 
 ```cs
-template ArrayRead(n) {
-  signal input in[n];
-  signal input index;
-  signal output out;
-
-  signal intermediate[n];
-  for (var i = 0; i < n; i++) {
-    var isIndex = IsEqual()([index, i]);
-    intermediate[i] <== isIndex * in[i];
-  }
-
-  // adder from "Arithmetics" section
-  out <== Adder(n)(intermediate);
-}
+{{#include ../../../circuits/arrays/index.circom:ArrayRead}}
 ```
 
 To read an unknown index, we could instead read ALL signals (which is an operation known-at-compile-time) and then return a linear combination of them, with each value multiplied with an equality-check with our index.
@@ -72,19 +59,13 @@ In the paper [xJsnark](https://akosba.github.io/papers/xjsnark.pdf), this method
 ## `ArrayWrite`
 
 ```cs
-template ArrayWrite(n) {
-  signal input in[n];
-  signal input index;
-  signal input value;
-  signal output out[n];
-
-  for (var i = 0; i < n; i++) {
-    var isIndex = IsEqual()([index, i]);
-    out[i] <== IfElse()(isIndex, value, in[i]);
-  }
-}
+{{#include ../../../circuits/arrays/index.circom:ArrayWrite}}
 ```
 
 Writing to an unknown-index works in a similar way to reading one. The idea is to simply copy the input signal array to an output array, but only at the index `i` we will use our new value instead of the existing one at `in[i]`.
 
 > We have defined the `IfElse` template under the [Control Flow](../control-flow/) section.
+
+## Constraint Count
+
+Both `ArrayRead(n)` and `ArrayWrite(n)` compare the index with every position of the array, using an `IsEqual` (2 constraints) and a multiplication (1 constraint) for each, so they have $3n$ non-linear constraints, e.g. 30 for an array of 10 elements.

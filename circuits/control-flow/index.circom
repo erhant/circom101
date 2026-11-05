@@ -9,14 +9,16 @@ pragma circom 2.1.0;
 //
 // Outputs:
 // - out: equals `cond ? ifTrue : ifFalse`
+// ANCHOR: IfElse
 template IfElse() {
   signal input cond;
   signal input ifTrue;
   signal input ifFalse;
   signal output out;
-  
+
   out <== cond * (ifTrue - ifFalse) + ifFalse;
 }
+// ANCHOR_END: IfElse
 
 // Swaps `in[0]` and `in[1]` if `cond` is true.
 //

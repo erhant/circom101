@@ -12,6 +12,7 @@ pragma circom 2.1.0;
 //
 // Outputs:
 // - out: `in[0] * in[1] * ... * in[n-1]`
+// ANCHOR: Multiplier
 template Multiplier(n) {
   assert(n > 1);
   signal input in[n];
@@ -23,5 +24,6 @@ template Multiplier(n) {
     inner[i+1] <== inner[i] * in[i+2];
   }
 
-  out <== inner[n-2]; 
+  out <== inner[n-2];
 }
+// ANCHOR_END: Multiplier

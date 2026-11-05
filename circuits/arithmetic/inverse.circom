@@ -15,6 +15,7 @@ include "../comparators/index.circom";
 //
 // Outputs:
 // - out: a number such that `in * out == 1`.
+// ANCHOR: Inverse
 template Inverse() {
   signal input in;
   signal output out;
@@ -31,3 +32,4 @@ template Inverse() {
 
   out <== inv;
 }
+// ANCHOR_END: Inverse

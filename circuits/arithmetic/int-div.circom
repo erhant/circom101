@@ -12,6 +12,7 @@ include "../comparators/index.circom";
 //
 // Outputs:
 // - out: `in[0] / in[1]`
+// ANCHOR: IntDiv
 template IntDiv(n) {
   // ensures that `quot * in[1] + rem` can not wrap around the field
   assert(n <= 125);
@@ -45,3 +46,4 @@ template IntDiv(n) {
 
   out <== quot;
 }
+// ANCHOR_END: IntDiv

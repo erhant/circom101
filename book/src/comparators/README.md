@@ -15,15 +15,7 @@ We usually make use of `LessThan` circuit which does `a < b` check, and derive a
 ## `IsZero`
 
 ```cs
-template IsZero() {
-  signal input in;
-  signal output out;
-
-  signal inv <-- in != 0 ? 1 / in : 0;
-  out <== 1 - (in * inv);
-
-  in * out === 0;
-}
+{{#include ../../../circuits/comparators/index.circom:IsZero}}
 ```
 
 Here, we check if the given number has a multiplicative inverse. The only number that does not have an inverse is 0. However, inverting a number is a non-quadratic constraint (hence the `<--` instead of `<==`) so must assume that `signal inv` can be any arbitrary value from the perspective of an adversarial prover. To constrain `inv`, we can invert it again! Notice that:
@@ -51,12 +43,7 @@ Here, `out` could be anything but for `in * (1 - in * x) <== 0` to pass the only
 ## `IsEqual`
 
 ```cs
-template IsEqual() {
-  signal input in[2];
-  signal output out;
-
-  out <== IsZero()(in[1] - in[0]);
-}
+{{#include ../../../circuits/comparators/index.circom:IsEqual}}
 ```
 
 As we mentioned before, if `a = b` then `a - b = 0`, allowing us to re-use the `IsZero` circuit.
@@ -64,17 +51,7 @@ As we mentioned before, if `a = b` then `a - b = 0`, allowing us to re-use the `
 ## `LessThan`
 
 ```cs
-template LessThan(n) {
-  assert(n <= 252);
-  signal input in[2];
-  signal output out;
-
-  component toBits = Num2Bits(n+1);
-  toBits.in <== ((1 << n) + in[0]) - in[1];
-
-  out <== 1 - toBits.out[n];
-  _ <== toBits.out; // only the n'th bit is needed
-}
+{{#include ../../../circuits/comparators/index.circom:LessThan}}
 ```
 
 There is something going on here as you might notice, why are we using `Num2Bits` and what is that `1 << n` doing there? It will all make sense.
@@ -90,12 +67,7 @@ The role of `assert(n <= 252)` is to ensure we can safely set n'th bit to 1. Tha
 ## `LessEqThan`
 
 ```cs
-template LessEqThan(n) {
-  signal input in[2];
-  signal output out;
-
-  out <== LessThan(n)([in[0], in[1]+1]);
-}
+{{#include ../../../circuits/comparators/index.circom:LessEqThan}}
 ```
 
 This is because $a \leq b \implies a < b+1$.
@@ -103,12 +75,7 @@ This is because $a \leq b \implies a < b+1$.
 ## `GreaterThan`
 
 ```cs
-template GreaterThan(n) {
-  signal input in[2];
-  signal output out;
-
-  out <== LessThan(n)([in[1], in[0]]);
-}
+{{#include ../../../circuits/comparators/index.circom:GreaterThan}}
 ```
 
 This is because $a > b \implies b < a$.
@@ -116,12 +83,20 @@ This is because $a > b \implies b < a$.
 ## `GreaterEqThan`
 
 ```cs
-template GreaterEqThan(n) {
-  signal input in[2];
-  signal output out;
-
-  out <== LessThan(n)([in[1], in[0]+1]);
-}
+{{#include ../../../circuits/comparators/index.circom:GreaterEqThan}}
 ```
 
 This is because $a \geq b \implies b \leq a \implies b < a+1$.
+
+## Constraint Count
+
+| Circuit            | Constraints |
+| ------------------ | ----------- |
+| `IsZero`           | 2           |
+| `IsEqual`          | 2           |
+| `LessThan(n)`      | $n + 1$     |
+| `LessEqThan(n)`    | $n + 1$     |
+| `GreaterThan(n)`   | $n + 1$     |
+| `GreaterEqThan(n)` | $n + 1$     |
+
+The cost of `LessThan` is its $(n+1)$-bit decomposition, and the others are just `LessThan` with different inputs.

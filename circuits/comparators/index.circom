@@ -9,6 +9,7 @@ include "../bits/index.circom";
 //
 // Outputs:
 // - out: 1 if `in` is zero, 0 otherwise.
+// ANCHOR: IsZero
 template IsZero() {
   signal input in;
   signal output out;
@@ -18,6 +19,7 @@ template IsZero() {
 
   in * out === 0;
 }
+// ANCHOR_END: IsZero
 
 // Returns a bit-signal indicating whether the input signals are equal.
 // This is equivalent to checking if their difference is zero.
@@ -27,12 +29,14 @@ template IsZero() {
 //
 // Outputs:
 // - out: 1 if `in[0] == in[1]`, 0 otherwise.
+// ANCHOR: IsEqual
 template IsEqual() {
   signal input in[2];
   signal output out;
 
   out <== IsZero()(in[1] - in[0]);
 }
+// ANCHOR_END: IsEqual
 
 // Returns a bit-signal indicating whether `in[0] < in[1]` and both are `n` bits.
 // The inputs are NOT range-checked here: if one of the signals is larger than
@@ -47,6 +51,7 @@ template IsEqual() {
 //
 // Outputs:
 // - out: 1 if `in[0] < in[1]`, 0 otherwise.
+// ANCHOR: LessThan
 template LessThan(n) {
   assert(n <= 252);
   signal input in[2];
@@ -61,6 +66,7 @@ template LessThan(n) {
   out <== 1 - toBits.out[n];
   _ <== toBits.out; // only the n'th bit is needed
 }
+// ANCHOR_END: LessThan
 
 // Returns a bit-signal indicating whether `in[0] <= in[1]` and both are `n` bits.
 // If one of the signals is larger than `n` bits, this will give an error.
@@ -73,12 +79,14 @@ template LessThan(n) {
 //
 // Outputs:
 // - out: 1 if `in[0] <= in[1]`, 0 otherwise.
+// ANCHOR: LessEqThan
 template LessEqThan(n) {
   signal input in[2];
   signal output out;
 
   out <== LessThan(n)([in[0], in[1]+1]);
 }
+// ANCHOR_END: LessEqThan
 
 // Returns a bit-signal indicating whether `in[0] > in[1]` and both are `n` bits.
 // If one of the signals is larger than `n` bits, this will give an error.
@@ -91,12 +99,14 @@ template LessEqThan(n) {
 //
 // Outputs:
 // - out: 1 if `in[0] > in[1]`, 0 otherwise.
+// ANCHOR: GreaterThan
 template GreaterThan(n) {
   signal input in[2];
   signal output out;
 
   out <== LessThan(n)([in[1], in[0]]);
 }
+// ANCHOR_END: GreaterThan
 
 // Returns a bit-signal indicating whether `in[0] >= in[1]` and both are `n` bits.
 // If one of the signals is larger than `n` bits, this will give an error.
@@ -109,10 +119,12 @@ template GreaterThan(n) {
 //
 // Outputs:
 // - out: 1 if `in[0] >= in[1]`, 0 otherwise.
+// ANCHOR: GreaterEqThan
 template GreaterEqThan(n) {
   signal input in[2];
   signal output out;
 
   out <== LessThan(n)([in[1], in[0]+1]);
 }
+// ANCHOR_END: GreaterEqThan
 

@@ -16,6 +16,7 @@ include "../../comparators/range.circom";
 //
 // Outputs:
 // - out: the missing number
+// ANCHOR: MissingNumber
 template MissingNumber(n) {
   signal input nums[n];
   signal output out;
@@ -33,3 +34,4 @@ template MissingNumber(n) {
   }
   out <== n * (n + 1) \ 2 - sum;
 }
+// ANCHOR_END: MissingNumber

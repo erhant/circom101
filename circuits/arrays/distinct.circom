@@ -9,6 +9,7 @@ include "../comparators/index.circom";
 //
 // Inputs:
 // - in: an array of `n` values
+// ANCHOR: AssertDistinct
 template AssertDistinct(n) {
   signal input in[n];
 
@@ -22,6 +23,7 @@ template AssertDistinct(n) {
 
   acc === n * (n - 1) / 2;
 }
+// ANCHOR_END: AssertDistinct
 
 
 // Returns 1 if all values are distinct in a given array.
@@ -34,6 +36,7 @@ template AssertDistinct(n) {
 //
 // Outputs:
 // - out: 1 if all values are distinct
+// ANCHOR: IsDistinct
 template IsDistinct(n) {
   signal input in[n];
   signal output out;
@@ -53,3 +56,4 @@ template IsDistinct(n) {
   signal outs <== acc;
   out <== IsZero()(outs);
 }
+// ANCHOR_END: IsDistinct

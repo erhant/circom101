@@ -8,11 +8,12 @@ include "../../comparators/range.circom";
 // Asserts that a solution is valid w.r.t a given public puzzle of an NxN square board.
 //
 // Parameters:
-// - n_sqrt: Square root of `N` as described above 
+// - n_sqrt: Square root of `N` as described above
 //
 // Inputs:
 // - solution[N][N]: the solution
 // - puzzle[N][N]: the initial puzzle board
+// ANCHOR: Sudoku
 template Sudoku(n_sqrt) {
   var n = n_sqrt * n_sqrt;     // board size is a perfect square
   signal input solution[n][n]; // solution is a 2D array of numbers
@@ -23,7 +24,7 @@ template Sudoku(n_sqrt) {
     for (var col_i = 0; col_i < n; col_i++) {
       // puzzle is either empty (0), or the same as solution
       puzzle[row_i][col_i] * (puzzle[row_i][col_i] - solution[row_i][col_i]) === 0;
-    } 
+    }
   }
 
   // ensure all values in the solution are in range
@@ -62,7 +63,7 @@ template Sudoku(n_sqrt) {
     for (var sc_i = 0; sc_i < n_sqrt; sc_i++) {
       // square index
       distinctSquares[s_i] = AssertDistinct(n);
-      
+
       // (r, c) now marks the start of this square
       var r = sr_i * n_sqrt;
       var c = sc_i * n_sqrt;
@@ -79,3 +80,4 @@ template Sudoku(n_sqrt) {
     }
   }
 }
+// ANCHOR_END: Sudoku

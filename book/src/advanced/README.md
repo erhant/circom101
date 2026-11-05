@@ -1,6 +1,6 @@
-# Advanced
+# Further Topics
 
-The world of Circom is vast, and here we take a look at some more advanced concepts.
+The world of Circom is vast, and here we take a look at some topics beyond writing circuits.
 
 ## Alternative Provers
 

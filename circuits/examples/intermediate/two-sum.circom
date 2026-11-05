@@ -17,6 +17,7 @@ include "../../comparators/range.circom";
 // - target: the target sum
 // - i: index of the first number
 // - j: index of the second number, such that `i < j`
+// ANCHOR: TwoSum
 template TwoSum(n) {
   signal input nums[n];
   signal input target;
@@ -36,3 +37,4 @@ template TwoSum(n) {
   signal b <== ArrayRead(n)(nums, j);
   a + b === target;
 }
+// ANCHOR_END: TwoSum

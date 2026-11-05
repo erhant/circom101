@@ -19,6 +19,7 @@ include "../../comparators/index.circom";
 // Outputs:
 // - num_match: number of tuples whose first entry is `match`
 // - out: the matching tuples in their original order, followed by 0-padding
+// ANCHOR: Filter
 template Filter(n) {
   signal input in[n][2];
   signal input match;
@@ -130,3 +131,4 @@ template Filter(n) {
     out[j][1] <== val[j];
   }
 }
+// ANCHOR_END: Filter

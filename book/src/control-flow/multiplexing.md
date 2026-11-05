@@ -5,13 +5,7 @@ Multiplexing is a technique to select one of many signals based on a control sig
 ## `Mux1`
 
 ```cs
-template Mux1() {
-  signal input in[2];
-  signal input sel;
-  signal output out;
-
-  out <== (in[1] - in[0]) * sel + in[0];
-}
+{{#include ../../../circuits/control-flow/multiplexing.circom:Mux1}}
 ```
 
 `Mux1` is actually the same circuit as `IfElse` we defined in this section. Its just that the naming is a bit different, such that it is generalizable to higher multiplexers.
@@ -26,21 +20,7 @@ The main idea here is that `in` has number of values equal to the number of bits
 ## `Mux2`
 
 ```cs
-template Mux2() {
-  signal input in[4];
-  signal input sel[2];
-  signal output out;
-
-  // due to multiplication we need an auxiliary signal
-  signal sel_0_sel_1 <== sel[1] * sel[0];
-
-  signal a11 <== (in[3] - in[2] - in[1] + in[0]) * sel_0_sel_1;
-  signal a10 <== (in[2] - in[0]) * sel[1];
-  signal a01 <== (in[1] - in[0]) * sel[0];
-  signal a00 <== in[0];
-
-  out <== (a11 + a10 + a01 + a00);
-}
+{{#include ../../../circuits/control-flow/multiplexing.circom:Mux2}}
 ```
 
 `Mux2` is a 2-bit multiplexer, which means it can select one of four inputs based on two control signals. The arithmetic above may look weird, but its actually simple to derive. Just think of the `sel` cases in order (note that the bits are in little-endian):
@@ -69,3 +49,7 @@ template Mux2() {
 ## Larger Multiplexers
 
 There are larger multiplexing circuits, e.g. [`Mux3`](https://github.com/iden3/circomlib/blob/circomlib2/circuits/mux3.circom), [`Mux4`](https://github.com/iden3/circomlib/blob/circomlib2/circuits/mux4.circom), etc. but we will not cover them here. You can construct them with a similar approach as we did for `Mux2`, i.e. by using smaller multiplexers and combining them.
+
+## Constraint Count
+
+`Mux1` has 1 non-linear constraint, the multiplication with `sel`, and `Mux2` has 4: one for `sel[1] * sel[0]`, and three for the multiplications with the selectors.

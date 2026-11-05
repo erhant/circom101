@@ -9,63 +9,12 @@ Note that these circuits take the bits of a number as input, but do not constrai
 ## `CompConstant`
 
 ```cs
-template CompConstant(constant) {
-  signal input in[254];
-  signal output out;
-
-  var a = 1;
-  var b = (1 << (128)) - 1;
-
-  var sum = 0;
-  var bit_value = 1;
-
-  signal parts[127];
-  signal out_bits;
-  for (var i = 0; i < 127; i++) {
-    var constant_lsb = (constant >> (i*2)) & 1;
-    var constant_msb = (constant >> (i*2 + 1)) & 1;
-    var in_lsb = in[i*2];
-    var in_msb = in[i*2 + 1];
-
-    var part_bit_a; // in pair >= constant pair
-    var part_bit_b; // in pair >  constant pair
-    /**/ if ((constant_msb == 0) && (constant_lsb == 0)) {
-      part_bit_a = 1;
-      part_bit_b = in_msb + in_lsb - in_msb*in_lsb; // OR
-    }
-    else if ((constant_msb == 0) && (constant_lsb == 1)) {
-      part_bit_a = in_msb + in_lsb - in_msb*in_lsb; // OR
-      part_bit_b = in_msb;
-    }
-    else if ((constant_msb == 1) && (constant_lsb == 0)) {
-      part_bit_a = in_msb;
-      part_bit_b = in_msb*in_lsb;                   // AND
-    }
-    else if ((constant_msb == 1) && (constant_lsb == 1)) {
-      part_bit_a = in_msb*in_lsb;                   // AND
-      part_bit_b = 0;
-    }
-    else assert(0 != 0);
-
-    parts[i] <== (a * (1 - part_bit_a)) + (b * part_bit_b);
-    sum += parts[i];
-
-    b -= bit_value;
-    a += bit_value;
-    bit_value <<= 1;
-  }
-
-  out_bits <== sum;
-  component num2bits = Num2Bits(135);
-  num2bits.in <== out_bits;
-  out <== num2bits.out[127];
-  _ <== num2bits.out;
-}
+{{#include ../../../circuits/comparators/constant.circom:CompConstant}}
 ```
 
 `CompConstant` returns 1 if `in > constant`, where `in` is given as 254 bits and `constant` is known at compile time. This circuit comes from Circomlib, and it looks rather mysterious at first. Let us take it apart piece by piece.
 
-### Comparing digit by digit
+### Comparing Digit by Digit
 
 Think of how you compare two numbers by hand: you look at their digits from the most significant one, and the first digit where they differ decides the result. For example, $5\textbf{3}21 > 5\textbf{2}99$ because of the second digit, no matter what the remaining digits are.
 
@@ -87,7 +36,7 @@ Since $c_i$ is a constant, we can write these with a simple expression for each 
 
 These are exactly the four branches in the loop, using the [logic gates](../bits/logic-gates.md) `OR(x, y) = x + y - xy` and `AND(x, y) = xy`.
 
-### Weighting the digits
+### Weighting the Digits
 
 Next, each pair contributes a part to a sum:
 
@@ -117,7 +66,7 @@ So, just like comparing by hand, the most significant differing pair decides the
 
 The problem is that there are no negative numbers in our circuits, only field elements. So instead of $-2^i$, `CompConstant` uses $2^{128} - 2^i$, which is how $-2^i$ is represented in 128-bit [two's complement](https://en.wikipedia.org/wiki/Two%27s_complement). That is $b_i$, while $a_i = 2^i$ is the positive term.
 
-### Reading the sign
+### Reading the Sign
 
 In 128-bit two's complement, the sign is the bit 127: a number is negative if and only if its bit 127 is set. So at the end, we decompose the sum into bits with `Num2Bits` and return its bit 127.
 
@@ -141,7 +90,7 @@ As an example, let the constant be $6$, which is $12$ in base-4. Here is what ha
 
 Notice the first row: the lower pair is "greater", so the sum goes beyond $2^{128}$, but it is the higher pair that decides, and bit 127 correctly stays 0.
 
-### Why 135 bits?
+### Why 135 Bits?
 
 The largest possible sum is when all 127 pairs are "greater":
 
@@ -151,24 +100,16 @@ $$
 
 So 135 bits are enough to decompose the sum, and we need all of them even though only bit 127 is used: with fewer bits, `Num2Bits` would fail for large sums. The `_ <== num2bits.out` line tells the compiler that the other bits are unused on purpose.
 
-### Why pairs of bits?
+### Why Pairs of Bits?
 
 It may seem simpler to compare bit by bit, but then we would have 254 digits with weights up to $2^{253}$, and we would need 254-bit two's complement. The sum would be around $254 \cdot 2^{254}$, way larger than the order of the field ($p < 2^{254}$), so it would wrap around and the trick would break.
 
-With pairs, there are only 127 digits, the sum stays below $2^{135}$, and it never wraps around. Comparing a pair with a constant digit still takes a single multiplication (`in_msb * in_lsb`), so each part is one constraint. In total, `CompConstant` has 264 constraints: 127 for the parts, and most of the rest for the 135-bit decomposition. Compare that with a `LessThan(254)`, which is not even possible since `LessThan` requires `n <= 252`!
+With pairs, there are only 127 digits, the sum stays below $2^{135}$, and it never wraps around. Comparing a pair with a constant digit still takes a single multiplication (`in_msb * in_lsb`), so each part is one constraint. In total, `CompConstant` has 262 non-linear constraints: 127 for the parts, and 135 for the decomposition. Compare that with a `LessThan(254)`, which is not even possible since `LessThan` requires `n <= 252`!
 
 ## `AliasCheck`
 
 ```cs
-template AliasCheck() {
-  signal input in[254];
-
-  component comparator = CompConstant(-1);
-  for (var i=0; i<254; i++) {
-    comparator.in[i] <== in[i];
-  }
-  comparator.out === 0;
-}
+{{#include ../../../circuits/comparators/constant.circom:AliasCheck}}
 ```
 
 Alias check simply asserts that a given 254-bit number is within the prime field of BN254. The role of -1 there is just a short-cut to obtain the largest number within the field, $p - 1$.
@@ -178,18 +119,7 @@ Why would we need this? 254 bits can represent numbers up to $2^{254} - 1$, whic
 ## `Sign`
 
 ```cs
-template Sign() {
-  signal input in[254];
-  signal output out;
-
-  var half = 1 / 2;
-  component comparator = CompConstant(half - 1);
-  for (var i = 0; i < 254; i++) {
-      comparator.in[i] <== in[i];
-  }
-
-  out <== comparator.out;
-}
+{{#include ../../../circuits/comparators/constant.circom:Sign}}
 ```
 
 In a prime field, a field element is defined to be positive if it is closer to 0 than it is to the order of the field. `Sign` checks for that property and returns 0 if the number is positive, otherwise 1 if the number is negative. Specifically, for order $p$ and a number $n < p$ the sign of $n$ is:
@@ -198,3 +128,13 @@ In a prime field, a field element is defined to be positive if it is closer to 0
 - negative when $n > (p-1)/2$
 
 Here, `1 / 2` is a field division, i.e. the inverse of 2, which is $(p+1)/2$. So `half - 1` is $(p-1)/2$, and `CompConstant` returns 1 exactly when the number is negative.
+
+## Constraint Count
+
+| Circuit        | Constraints |
+| -------------- | ----------- |
+| `CompConstant` | 262         |
+| `AliasCheck`   | 261         |
+| `Sign`         | 262         |
+
+Note that these take the bits of a number as input, so if you also need to decompose a number into bits with `Num2Bits(254)`, that is another 254 constraints.

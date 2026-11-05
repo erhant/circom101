@@ -11,12 +11,13 @@ include "../bits/index.circom";
 //
 // Inputs:
 // - in: an input signal
+// ANCHOR: AssertInRange
 template AssertInRange(MIN, MAX) {
   assert(MIN < MAX);
   signal input in;
-  
-  var b = nbits(MAX); 
-  
+
+  var b = nbits(MAX);
+
   // find `in - MIN`:
   // if `in > MIN` this is a b-bit value
   // otherwise, it will underflow due to negation,
@@ -31,3 +32,4 @@ template AssertInRange(MIN, MAX) {
   component upperBound = AssertBits(b);
   upperBound.in <== in + (2 ** b) - MAX - 1; // e.g. 9 + (15 - 9) = 15 (for in <= 15)
 }
+// ANCHOR_END: AssertInRange

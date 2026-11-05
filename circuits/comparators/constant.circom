@@ -13,6 +13,7 @@ include "../bits/index.circom";
 //
 // Outputs:
 // - out: 1 if `in > constant`
+// ANCHOR: CompConstant
 template CompConstant(constant) {
   signal input in[254];
   signal output out;
@@ -104,13 +105,15 @@ template CompConstant(constant) {
   num2bits.in <== out_bits;
   out <== num2bits.out[127];
   // only bit 127 is needed, suppress "unused" warning with `_ <==`
-  _ <== num2bits.out; 
+  _ <== num2bits.out;
 }
+// ANCHOR_END: CompConstant
 
 // Asserts that a 254-bit value is within the prime field.
 //
 // Inputs:
 // - in: 254-bit binary representation of a number, NOT constrained to be bits here; the caller must ensure it is
+// ANCHOR: AliasCheck
 template AliasCheck() {
   signal input in[254];
 
@@ -121,6 +124,7 @@ template AliasCheck() {
 
   comparator.out === 0;
 }
+// ANCHOR_END: AliasCheck
 
 // Returns the sign of a 254-bit value within the prime field.
 // If a number is closer to zero than it is to the order of the field,
@@ -131,6 +135,7 @@ template AliasCheck() {
 //
 // Outputs:
 // - out: 0 if positive, 1 if negative.
+// ANCHOR: Sign
 template Sign() {
   signal input in[254];
   signal output out;
@@ -143,4 +148,5 @@ template Sign() {
 
   out <== comparator.out;
 }
+// ANCHOR_END: Sign
 

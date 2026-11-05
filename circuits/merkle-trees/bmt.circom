@@ -15,6 +15,7 @@ include "../control-flow/index.circom";
 // Outputs:
 // - root: the root of the tree
 //
+// ANCHOR: BinaryMerkleTree
 template BinaryMerkleTree(n) {
   assert(n > 0);
   var NUM_LEAVES = 1 << n;
@@ -28,7 +29,7 @@ template BinaryMerkleTree(n) {
   for (var i = 0; i < NUM_LEAVES; i++) {
     nodes[(NUM_NODES - 1) - i] <== Poseidon(1)([leafs[(NUM_LEAVES - 1) - i]]);
   }
-  
+
   // build the tree from the leaves to the root in reverse
   for (var i = NUM_NODES - NUM_LEAVES - 1; i >= 0; i--) {
     nodes[i] <== Poseidon(2)([nodes[2*i + 1], nodes[2*i + 2]]);
@@ -36,18 +37,23 @@ template BinaryMerkleTree(n) {
 
   root <== nodes[0];
 }
+// ANCHOR_END: BinaryMerkleTree
 
-// Binary Merkle Tree
+// Binary Merkle Proof, computes the root from a leaf and its path.
 //
 // Parameters:
 // - n: depth of the tree such that number of leaves is 2^n
 //
 // Inputs:
-// - leafs: the leaves of the tree
+// - in: the leaf
+// - siblings: sibling nodes on the path from the root to the leaf, i.e.
+//   `siblings[0]` is a child of the root and `siblings[n-1]` is the sibling of the leaf
+// - indices: bits for each level, 1 if the sibling is on the left, 0 otherwise
 //
 // Outputs:
 // - root: the root of the tree
 //
+// ANCHOR: BinaryMerkleProof
 template BinaryMerkleProof(n) {
   assert(n > 0);
   signal input in;
@@ -77,3 +83,4 @@ template BinaryMerkleProof(n) {
   // the last element in the path is the root hash
   root <== path[0];
 }
+// ANCHOR_END: BinaryMerkleProof

@@ -11,6 +11,7 @@ include "../../comparators/range.circom";
 //
 // Inputs:
 // - in: an N-by-N square
+// ANCHOR: MagicSquare
 template MagicSquare(n) {
   signal input in[n][n];
 
@@ -36,7 +37,7 @@ template MagicSquare(n) {
   }
   sum === diags[0];
   sum === diags[1];
-  
+
   // sum rows
   var rowsums[n];
   for (var i = 0; i < n; i++) {
@@ -55,3 +56,4 @@ template MagicSquare(n) {
     sum === colsums[j];
   }
 }
+// ANCHOR_END: MagicSquare

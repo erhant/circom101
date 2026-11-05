@@ -13,6 +13,7 @@ include "../../comparators/range.circom";
 //
 // Inputs:
 // - queens: `queens[r]` is the column of the queen in row `r`
+// ANCHOR: NQueens
 template NQueens(n) {
   signal input queens[n];
 
@@ -36,3 +37,4 @@ template NQueens(n) {
   AssertDistinct(n)(diagonals);
   AssertDistinct(n)(antiDiagonals);
 }
+// ANCHOR_END: NQueens

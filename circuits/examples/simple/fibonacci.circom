@@ -7,6 +7,7 @@ pragma circom 2.1.0;
 //
 // Outputs:
 // - out: the `n`th Fibonacci number, w.r.t given starting numbers.
+// ANCHOR: Fibonacci
 template Fibonacci(n) {
   assert(n >= 2);
   signal input in[2];
@@ -21,3 +22,4 @@ template Fibonacci(n) {
 
   out <== fib[n];
 }
+// ANCHOR_END: Fibonacci

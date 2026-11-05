@@ -8,13 +8,15 @@ pragma circom 2.1.0;
 //
 // Outputs:
 // - out: equals in[sel]
+// ANCHOR: Mux1
 template Mux1() {
-  signal input  in[2];
-  signal input  sel;
+  signal input in[2];
+  signal input sel;
   signal output out;
 
   out <== (in[1] - in[0]) * sel + in[0];
 }
+// ANCHOR_END: Mux1
 
 // "4-to-1" multiplexer.
 //
@@ -24,6 +26,7 @@ template Mux1() {
 //
 // Outputs:
 // - out: equals in[2*sel[1] + sel[0]]
+// ANCHOR: Mux2
 template Mux2() {
   signal input in[4];
   signal input sel[2];
@@ -39,4 +42,5 @@ template Mux2() {
 
   out <== (a11 + a10 + a01 + a00);
 }
+// ANCHOR_END: Mux2
 

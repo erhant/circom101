@@ -13,6 +13,7 @@ include "../comparators/index.circom";
 //
 // Outputs:
 // - out: a boolean indicating whether the array is sorted
+// ANCHOR: IsSorted
 template IsSorted(n, b) {
   signal input in[n];
   signal output out;
@@ -32,6 +33,7 @@ template IsSorted(n, b) {
   // sorted only if all `n - 1` pairs are ordered
   out <== IsEqual()([acc, n - 1]);
 }
+// ANCHOR_END: IsSorted
 
 // Asserts that an array is sorted (ascending).
 //
@@ -41,6 +43,7 @@ template IsSorted(n, b) {
 //
 // Inputs:
 // - in: an array of `n` `b`-bit values
+// ANCHOR: AssertSorted
 template AssertSorted(n, b) {
   signal input in[n];
 
@@ -58,3 +61,4 @@ template AssertSorted(n, b) {
 
   acc === n - 1;
 }
+// ANCHOR_END: AssertSorted

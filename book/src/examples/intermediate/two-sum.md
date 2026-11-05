@@ -1,28 +1,12 @@
-# `TwoSum`
-
-```cs
-template TwoSum(n) {
-  signal input nums[n];
-  signal input target;
-  signal input i;
-  signal input j;
-
-  // indices must be within the array, as `ArrayRead` returns 0 otherwise
-  AssertInRange(0, n - 1)(i);
-  AssertInRange(0, n - 1)(j);
-
-  // indices must be different; we require `i < j` so that each pair is given in one order only
-  signal isLess <== LessThan(nbits(n - 1))([i, j]);
-  isLess === 1;
-
-  // the numbers at these indices must sum up to the target
-  signal a <== ArrayRead(n)(nums, i);
-  signal b <== ArrayRead(n)(nums, j);
-  a + b === target;
-}
-```
+# Two Sum
 
 This is [LeetCode 1](https://leetcode.com/problems/two-sum/), perhaps the most famous coding interview question: given an array `nums` and a `target`, find two different indices `i` and `j` such that `nums[i] + nums[j] = target`. For example, for `nums = [2, 7, 11, 15]` and `target = 9`, the answer is `i = 0, j = 1`.
+
+## `TwoSum`
+
+```cs
+{{#include ../../../../circuits/examples/intermediate/two-sum.circom:TwoSum}}
+```
 
 ## Verify, Don't Search
 
@@ -69,7 +53,7 @@ isLess === 1;
 
 ### Indices Within the Array
 
-This one is easy to miss. Recall that [`ArrayRead`](../../arrays/README.md) returns 0 if the index is not within the array. So without a range check, the prover could use an index that is out of bounds to read a 0:
+This one is easy to miss. Recall that [`ArrayRead`](../../arrays/) returns 0 if the index is not within the array. So without a range check, the prover could use an index that is out of bounds to read a 0:
 
 - `nums = [2, 7, 11, 15]` with `target = 2` is "solved" by `i = 0, j = 4`, since `2 + 0 = 2`.
 - The same works with a "negative" index such as `i = -1`, which is a very large number in the field.
@@ -83,7 +67,7 @@ AssertInRange(0, n - 1)(j);
 
 After that, `LessThan` is safe to use as well.
 
-## Cost
+## Constraint Count
 
 Most of the cost comes from the two `ArrayRead`s, each of which compares the index with every position of the array. So the circuit is $O(n)$:
 

@@ -12,25 +12,33 @@ On the other hand, zero-knowledge proofs can serve as proofs of honest computati
 
 The book is organized as follows:
 
-- [Preliminary](./preliminary/) has some preliminary theory for those who are interested in it. It is not 100% required to know the theory & math behind the relevant cryptography areas to write good Circom code; however, it could allow the reader to:
-  - Write more efficient code by utilizing mathematical tricks.
-  - Understand certain low-level code.
-  - Consider more edge cases & write more secure code.
-- [Basics](./basics/) has several hello-world level Circom programs, to get the reader started. The reader is free to skip this part & come back later, however it is strongly recommended to understand how the programs here work.
-- [Bits](./bits/) describe methods related to bits, which are signals with value 0 or 1; you can think of them as booleans as well.
-- [Comparators](./comparators/) describe comparators such as equality, less-than, greater-than-or-equal and such. It also describes some more specialized methods like alias-check and sign-check.
+- [Arithmetic](./arithmetic/) starts with a quick look at finite fields, i.e. what the numbers in a circuit actually are, and then has several hello-world level Circom programs such as addition & multiplication, to get the reader started, followed by inversion & integer division. It is strongly recommended to understand how the programs here work.
+- [Bits](./bits/) describes methods related to bits, which are signals with value 0 or 1; you can think of them as booleans as well.
+- [Comparators](./comparators/) describes comparators such as equality, less-than, greater-than-or-equal and such. It also describes some more specialized methods like alias-check and sign-check.
 - [Control-Flow](./control-flow/) describes how if-else works in the circuit world.
-- [Arrays](./arrays/) describe array methods.
-- [Hashing](./hashing/) describe circuit-friendly hashes, such as Poseidon and MiMC.
-- [Merkle Trees](./merkle-trees/) describe Merkle Trees and their usage in Circom circuits.
-- [Advanced](./advanced/) section has some advanced concepts such as alternative provers, or large circuits.
+- [Arrays](./arrays/) describes array methods.
+- [Hashing](./hashing/) describes circuit-friendly hashes, such as Poseidon and MiMC, and how to build commitments with them.
+- [Merkle Trees](./merkle-trees/) describes Merkle Trees and their usage in Circom circuits, from binary Merkle trees to sparse Merkle trees and Merkle mountain ranges.
+- [Common Pitfalls](./pitfalls.md) collects the mistakes that come up again and again in Circom circuits, and how to avoid them.
+- [Further Topics](./advanced/) covers topics beyond writing circuits, such as alternative provers, large circuits and folding.
+- [Examples](./examples/simple/) puts everything together in complete circuits, from simple ones like Fibonacci & Magic Squares, to puzzles like Sudoku & N-Queens, some well-known LeetCode problems, and a ZK puzzle from Axiom.
+
+## Counting Constraints
+
+Throughout the book, we measure the cost of a circuit by its number of **non-linear constraints**, as reported by the Circom compiler with full simplification:
+
+```sh
+circom circuit.circom --r1cs --O2
+```
+
+Only multiplications of signals create non-linear constraints. Additions and multiplications by constants only create linear constraints, which are free: with `--O2` the compiler eliminates them entirely, by expressing some signals in terms of others. For example, the [Fibonacci](./examples/simple/fibonacci.md) circuit only has additions, so it has no non-linear constraints at all!
 
 ## Follow Along
 
 You can clone the [repository](https://github.com/erhant/circom101) and examine the circuits yourself, we provide documentation within the code as well. We also provide tests via [Circomkit](https://github.com/erhant/circomkit) that demonstrate each circuit described here. In the repository, you can run the command below to run all tests:
 
 ```sh
-yarn test
+bun test
 ```
 
 Alternatively, you can play around with the circuits without ever leaving your browser, just visit [zkrepl.dev](https://zkrepl.dev/)!

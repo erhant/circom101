@@ -33,14 +33,7 @@ cond*(foo() - bar()) + bar();
 ## `IfElse`
 
 ```cs
-template IfElse() {
-  signal input cond;
-  signal input ifTrue;
-  signal input ifFalse;
-  signal output out;
-
-  out <== cond * (ifTrue - ifFalse) + ifFalse;
-}
+{{#include ../../../circuits/control-flow/index.circom:IfElse}}
 ```
 
 Following our description above, an `if-else` is defined by the given circuit. Remember that both `ifTrue` and `ifFalse` signals are computed, regardless of the condition, but only one of them is returned.
@@ -105,3 +98,7 @@ It is often useful to switch the places of two signals based on a condition, whi
 >   out[1] <== -aux + in[1];
 > }
 > ```
+
+## Constraint Count
+
+Both `IfElse` and `Switch` have a single non-linear constraint, the multiplication with `cond`.

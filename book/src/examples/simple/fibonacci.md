@@ -1,25 +1,14 @@
-# `Fibonacci`
-
-```cs
-template Fibonacci(n) {
-  assert(n >= 2);
-  signal input in[2];
-  signal output out;
-
-  signal fib[n+1];
-  fib[0] <== in[0];
-  fib[1] <== in[1];
-  for (var i = 2; i <= n; i++) {
-    fib[i] <== fib[i-2] + fib[i-1];
-  }
-
-  out <== fib[n];
-}
-```
+# Fibonacci
 
 Calculating `n`'th Fibonacci number is yet another "Hello World!" of Circom. We simply constrain the starting numbers (given as input `in`) and assert the recurrence relation
 
 $$a_n = a_{n-1} + a_{n-2}$$
+
+## `Fibonacci`
+
+```cs
+{{#include ../../../../circuits/examples/simple/fibonacci.circom:Fibonacci}}
+```
 
 Here is how computing the 4'th Fibonacci number looks like:
 
@@ -54,4 +43,8 @@ flowchart LR
 > }
 > ```
 >
-> However, the constraint count will be much higher, because this is the "stupid" recursive way where we are not memoizing. In fact, the constraint counts themselves will be a Fibonacci number in this circuit.
+> However, this is the "stupid" recursive way where we are not memoizing: every call creates two more components, so the number of components grows exponentially with `n`, just like the Fibonacci numbers themselves. That makes the circuit much larger and much slower to compile.
+
+## Constraint Count
+
+`Fibonacci(n)` has **0** non-linear constraints! Every step is an addition, i.e. a linear constraint, which is free. So no matter how large `n` is, this circuit costs nothing to prove, which is a nice reminder that only multiplications of signals have a cost.

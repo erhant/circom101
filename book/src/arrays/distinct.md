@@ -5,19 +5,7 @@ We may often require to check if an array has non-repeating values, also known a
 ## `AssertDistinct`
 
 ```cs
-template AssertDistinct(n) {
-  signal input in[n];
-
-  var acc = 0;
-  for (var i = 0; i < n-1; i++){
-    for (var j = i+1; j < n; j++){
-      var eq = IsEqual()([in[i], in[j]]);
-      acc += 1 - eq;
-    }
-  }
-
-  acc === n * (n - 1) / 2;
-}
+{{#include ../../../circuits/arrays/distinct.circom:AssertDistinct}}
 ```
 
 To assert that an array has distinct values, we can loop over the values and check each unique pair to be non-equal using the `IsEqual` template. For example, in an array of 4 elements this corresponds to the following checks:
@@ -36,23 +24,13 @@ We could have a constraint on each iteration, but instead we can sum all the res
 ## `IsDistinct`
 
 ```cs
-template IsDistinct(n) {
-  signal input in[n];
-  signal output out;
-
-  var acc = 0;
-  for (var i = 0; i < n-1; i++){
-    for (var j = i+1; j < n; j++){
-      var eq = IsEqual()([in[i], in[j]]);
-      acc += eq;
-    }
-  }
-
-  signal outs <== acc;
-  out <== IsZero()(outs);
-}
+{{#include ../../../circuits/arrays/distinct.circom:IsDistinct}}
 ```
 
 If you would like to return a bit-signal based on whether an array has all distinct values or not, you can slightly modify the `AssertDistinct` template to obtain that functionality. Instead of asserting each `IsZero` check, we accumulate them and then return whether that final sum is equal to zero or not.
 
 > Note that technically it is possible for `acc` to overflow and wrap back to 0, however, that is unlikely to happen given how large the prime-field is and we would need that many components to be able to overflow using 1+1+...+1 only.
+
+## Constraint Count
+
+Both circuits compare every pair of elements with an `IsEqual`, so `AssertDistinct(n)` has $n(n-1)$ non-linear constraints, e.g. 90 for 10 elements, and `IsDistinct(n)` has two more for its final `IsZero`. This quadratic cost is worth keeping in mind for large arrays.

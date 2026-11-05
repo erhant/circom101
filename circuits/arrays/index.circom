@@ -16,6 +16,7 @@ include "../control-flow/index.circom";
 //
 // Outputs:
 // - out: value at `in[index]`
+// ANCHOR: ArrayRead
 template ArrayRead(n) {
   signal input in[n];
   signal input index;
@@ -29,6 +30,7 @@ template ArrayRead(n) {
 
   out <== Adder(n)(intermediate);
 }
+// ANCHOR_END: ArrayRead
 
 // Array write `in[index] <== value`.
 //
@@ -42,6 +44,7 @@ template ArrayRead(n) {
 //
 // Outputs:
 // - out: array
+// ANCHOR: ArrayWrite
 template ArrayWrite(n) {
   signal input in[n];
   signal input index;
@@ -53,4 +56,5 @@ template ArrayWrite(n) {
     out[i] <== IfElse()(isIndex, value, in[i]);
   }
 }
+// ANCHOR_END: ArrayWrite
 

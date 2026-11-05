@@ -1,26 +1,12 @@
-# `MissingNumber`
-
-```cs
-template MissingNumber(n) {
-  signal input nums[n];
-  signal output out;
-
-  // without these checks, `out` would be meaningless for an invalid `nums`
-  for (var i = 0; i < n; i++) {
-    AssertInRange(0, n)(nums[i]);
-  }
-  AssertDistinct(n)(nums);
-
-  // the missing number is the sum of 0, 1, ..., n minus the sum of `nums`
-  var sum = 0;
-  for (var i = 0; i < n; i++) {
-    sum += nums[i];
-  }
-  out <== n * (n + 1) \ 2 - sum;
-}
-```
+# Missing Number
 
 This is [LeetCode 268](https://leetcode.com/problems/missing-number/): given an array `nums` of `n` distinct numbers in the range $[0, n]$, find the only number in that range that is missing from the array. For example, for `nums = [3, 0, 1]` the answer is 2.
+
+## `MissingNumber`
+
+```cs
+{{#include ../../../../circuits/examples/simple/missing-number.circom:MissingNumber}}
+```
 
 ## The Famous Trick
 
@@ -61,7 +47,7 @@ A proof that "the missing number is 2" would be meaningless here. So, just like 
 
 With these, `nums` is exactly $\{0, 1, \ldots, n\}$ with one number removed, and the formula gives the right answer.
 
-## Cost
+## Constraint Count
 
 The formula is free, but the checks are not. `AssertDistinct` compares every pair of numbers, so the cost grows quadratically:
 

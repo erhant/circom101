@@ -1,39 +1,11 @@
-# `IntDiv`
+# Integer Division
+
+Integer division returns the quotient of two numbers, rounded down, e.g. $7 / 2 = 3$. This is different from the division in a prime field, where $7 / 2$ is the field element that gives 7 when multiplied by 2.
+
+## `IntDiv`
 
 ```cs
-template IntDiv(n) {
-  // ensures that `quot * in[1] + rem` can not wrap around the field
-  assert(n <= 125);
-  signal input in[2];
-  signal output out;
-
-  // divisor must be non-zero
-  signal is_non_zero <== IsZero()(in[1]);
-  0 === is_non_zero;
-
-  // compute the quotient and remainder outside the circuit
-  var quot_hint = in[0] \ in[1];
-  var rem_hint = in[0] % in[1];
-  signal quot <-- quot_hint;
-  signal rem <-- rem_hint;
-
-  // quotient & remainder must be n-bit numbers, otherwise a dishonest prover can
-  // pick a "negative" remainder (a large field element) that still passes the
-  // `rem < in[1]` check, or a quotient that is a field division `in[0] / in[1]`
-  _ <== Num2Bits(n)(quot);
-  _ <== Num2Bits(n)(rem);
-
-  // constrain the division operation
-  // in[0] / in[1] is defined as the unique pair (q, r) s.t.
-  // in[0] = in[1] * q + r and 0 <= r < |in[1]|
-  in[0] === quot * in[1] + rem;
-
-  component remIsLess = LessThan(n);
-  remIsLess.in <== [rem, in[1]];
-  remIsLess.out === 1;
-
-  out <== quot;
-}
+{{#include ../../../circuits/arithmetic/int-div.circom:IntDiv}}
 ```
 
 Doing integer division within a circuit is more costly than what one might one expect! Consider two $n$-bit numbers $a$ and $b$. An integer division implies the following equation:
@@ -72,3 +44,7 @@ To prevent this, we range-check both the quotient and the remainder using `Num2B
 Finally, we must make sure that $q \times b + r$ can not wrap around the field, otherwise the equation $a = q \times b + r$ would only hold "modulo $p$" instead of over the integers. As $q$ and $r$ are $n$-bit numbers, and $b$ can be at most $n+1$ bits (otherwise `LessThan` fails), the result is less than $2^{2n+2}$. The `assert(n <= 125)` ensures that this is less than the prime of BN254, which is around $2^{253}$.
 
 > With these checks, the circuit has a unique solution for given $a$ and $b$: the quotient $q$ and remainder $r$ of the usual integer division.
+
+## Constraint Count
+
+`IntDiv(n)` has $3n + 2$ non-linear constraints, e.g. 50 for 16-bit numbers. Almost all of them come from the bit decompositions: the two range checks of the quotient & the remainder, and the $(n+1)$-bit decomposition within `LessThan`.

@@ -1,27 +1,19 @@
-# `Inverse`
-
-```cs
-template Inverse() {
-  signal input in;
-  signal output out;
-
-  assert(in != 0);
-
-  signal inv <-- in != 0 ? 1 / in : 0;
-  signal isZero <== 1 - (in * inv);
-
-  // if isZero, since in = 0 this holds
-  // otherwise, it holds due to in * 0 == 0
-  in * isZero === 0;
-  inv * isZero === 0;
-
-  out <== inv;
-}
-```
+# Inversion
 
 The (multiplicative) inverse of an element $n$ within a prime field is denoted as $n^{-1}$ such that $n \times n^{-1} = 1$. An additive inverse of $n$ is shown as $-n$ and it holds that $n + (-n) = 0$. Inverting an element within the circuit is inefficient, so the inverse is computed off-circuit and a constraint is added to make sure their multiplications result in 1.
 
-Zero does not have a multiplicative inverse though, and we can have a run-time assertion `assert(in != 0)` as shown above to prevent that. However, a run-time assertion does not prevent a malicious prover to provide an altered witness that has a zero value for `in`. We must handle that case as well, to output a certain value fo `inv` when the input is zero. In the circuit above, we set `inv` to be zero as well, and the constraint `inv * isZero === 0` holds when the input is non-zero but `inv` is zero.
+## `Inverse`
+
+```cs
+{{#include ../../../circuits/arithmetic/inverse.circom:Inverse}}
+```
+
+Zero does not have a multiplicative inverse though. The `assert(in != 0)` above only runs while computing the witness, and it does not add any constraint, so a malicious prover could still provide a witness with `in = 0`. So the circuit handles that case with constraints as well, very much like [`IsZero`](../comparators/#iszero):
+
+- If `in` is not zero, `in * isZero === 0` forces `isZero = 0`, which means `in * inv = 1`, i.e. `inv` is the inverse of `in`.
+- If `in` is zero, then `isZero = 1`, and `inv * isZero === 0` forces `inv = 0`.
+
+So the circuit returns 0 for an input of 0, and it is up to the caller to make sure that this is acceptable, or that the input is non-zero.
 
 > There are two ways to find an inverse outside the circuit:
 >
@@ -29,3 +21,7 @@ Zero does not have a multiplicative inverse though, and we can have a run-time a
 > 2. Use Fermat's Little Theorem
 >
 > Interested reader can check them out on the web!
+
+## Constraint Count
+
+`Inverse` has 3 non-linear constraints: one for `isZero`, and one for each of the two checks.
