@@ -55,17 +55,17 @@ template BinaryMerkleProof(n) {
   signal output root;
 
   // the path from the leaf to the root
-  signal path[n];
+  signal path[n+1];
 
   // the last element in the path is the leaf hash
-  path[n-1] <== Poseidon(1)([in]);
-  
+  path[n] <== Poseidon(1)([in]);
+
   // compute the "audit path" w.r.t indices
-  signal children[n-1][2];
-  for (var i = n-1; i != 0; i--) {
+  signal children[n][2];
+  for (var i = n; i != 0; i--) {
     // index 0: sibling is on the right
     // index 1: sibling is on the left
-    children[i-1] <== Switch()(indices[i], [path[i], siblings[i]]);
+    children[i-1] <== Switch()(indices[i-1], [path[i], siblings[i-1]]);
     path[i-1] <== Poseidon(2)(children[i-1]);
   }
 

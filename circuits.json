@@ -1,4 +1,10 @@
 {
+  "$schema": "./node_modules/circomkit/circuits.schema.json",
+  "multiplier_3": {
+    "file": "./arithmetic/multiplier",
+    "template": "Multiplier",
+    "params": [3]
+  },
   "sudoku_9x9": {
     "file": "./examples/intermediate/sudoku",
     "template": "Sudoku",

@@ -19,7 +19,6 @@
     "preliminary": "Custom",
     "advanced": "Font"
   },
-  "jestrunner.jestCommand": "bun test",
   "github.copilot.enable": {
     "markdown": true
   }

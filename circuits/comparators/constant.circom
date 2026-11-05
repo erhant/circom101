@@ -103,6 +103,8 @@ template CompConstant(constant) {
   component num2bits = Num2Bits(135);
   num2bits.in <== out_bits;
   out <== num2bits.out[127];
+  // only bit 127 is needed, supress "unused" warning with `_ <==`
+  _ <== num2bits.out; 
 }
 
 // Asserts that a 254-bit value is within the prime field.

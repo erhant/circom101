@@ -31,7 +31,7 @@ function binaryMerkleTree(leafs: bigint[]) {
 }
 
 describe("binary merkle tree", () => {
-  const [LEFT, RIGHT] = [1, 0] as const;
+  const [LEFT, RIGHT] = [1, 0] as const; // which side the sibling is on
 
   describe("n = 1", () => {
     const leafs = [123n, 345n];
@@ -74,13 +74,13 @@ describe("binary merkle tree", () => {
 
       /**
        *          (0)
-       *      <1>     (2)     right, node[1]
-       *    3    4 (5)   <6>  left,  node[6]
+       *      <1>     (2)     sibling node[1] on the left
+       *    3    4 (5)   <6>  sibling node[6] on the right
        *            2 (index)
        */
       const [siblings, indices] = [
         [tree.nodes[1], tree.nodes[6]],
-        [RIGHT, LEFT],
+        [LEFT, RIGHT],
       ];
       await circuit.expectPass({ in: leafs[2], siblings, indices }, { root: tree.root });
     });
