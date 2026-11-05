@@ -35,7 +35,9 @@ template IsEqual() {
 }
 
 // Returns a bit-signal indicating whether `in[0] < in[1]` and both are `n` bits.
-// If one of the signals is larger than `n` bits, this will give an error.
+// The inputs are NOT range-checked here: if one of the signals is larger than
+// `n` bits, the result may be silently wrong, e.g. `-1 < 0` (where `-1` is a large
+// field element) returns 1. The caller must ensure that both inputs are `n` bits.
 //
 // Parameters:
 // - n: number of bits
@@ -57,6 +59,7 @@ template LessThan(n) {
   toBits.in <== ((1 << n) + in[0]) - in[1];
 
   out <== 1 - toBits.out[n];
+  _ <== toBits.out; // only the n'th bit is needed
 }
 
 // Returns a bit-signal indicating whether `in[0] <= in[1]` and both are `n` bits.

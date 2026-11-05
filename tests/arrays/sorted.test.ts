@@ -7,6 +7,8 @@ describe("sorted", () => {
   const B = 16; // 16-bits
   const sorted = Array.from({ length: N }, (_, i) => i);
   const notSorted = Array.from({ length: N }, (_, i) => N - i);
+  // sorted except for the last pair
+  const almostSorted = [...sorted.slice(0, N - 2), N - 1, N - 2];
 
   describe("is sorted", () => {
     let circuit: WitnessTester<["in"], ["out"]>;
@@ -26,6 +28,10 @@ describe("sorted", () => {
 
     it("should return 0 for not sorted array", async () => {
       await circuit.expectPass({ in: notSorted }, { out: 0 });
+    });
+
+    it("should return 0 for an array with a single pair out of order", async () => {
+      await circuit.expectPass({ in: almostSorted }, { out: 0 });
     });
   });
 
@@ -47,6 +53,10 @@ describe("sorted", () => {
 
     it("should fail for not sorted array", async () => {
       await circuit.expectFail({ in: notSorted });
+    });
+
+    it("should fail for an array with a single pair out of order", async () => {
+      await circuit.expectFail({ in: almostSorted });
     });
   });
 });

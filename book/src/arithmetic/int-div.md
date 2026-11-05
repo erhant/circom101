@@ -2,6 +2,8 @@
 
 ```cs
 template IntDiv(n) {
+  // ensures that `quot * in[1] + rem` can not wrap around the field
+  assert(n <= 125);
   signal input in[2];
   signal output out;
 
@@ -15,17 +17,20 @@ template IntDiv(n) {
   signal quot <-- quot_hint;
   signal rem <-- rem_hint;
 
-  // contrain the division operation
+  // quotient & remainder must be n-bit numbers, otherwise a dishonest prover can
+  // pick a "negative" remainder (a large field element) that still passes the
+  // `rem < in[1]` check, or a quotient that is a field division `in[0] / in[1]`
+  _ <== Num2Bits(n)(quot);
+  _ <== Num2Bits(n)(rem);
+
+  // constrain the division operation
   // in[0] / in[1] is defined as the unique pair (q, r) s.t.
   // in[0] = in[1] * q + r and 0 <= r < |in[1]|
   in[0] === quot * in[1] + rem;
 
-  // OPTIONAL: quot edge case is when `rem = 0` and `in[1] = 1`
-  // signal quot_is_valid <== LessEqThan(n)([quot, in[0]]);
-  // 1 === quot_is_valid;
-
-  signal rem_is_valid <== LessThan(n)([rem, in[1]]);
-  1 === rem_is_valid;
+  component remIsLess = LessThan(n);
+  remIsLess.in <== [rem, in[1]];
+  remIsLess.out === 1;
 
   out <== quot;
 }
@@ -49,10 +54,21 @@ $$
 5 = 1 \times 2 + 3
 $$
 
-which would be wrong! On a side note, one may look at the case if we allowed $q > a$ such as the following:
+which would be wrong! This is why we constrain the remainder with `LessThan`, to ensure $r < b$.
+
+However, that check alone is not enough. Remember that we are working in a prime field, where a "negative" number such as $-1$ is actually a very large number $p - 1$. Consider the following:
 
 $$
-5 = 3 \times 2 - 1
+10 = 4 \times 3 + (-2)
 $$
 
-which is again wrong. Thankfully, the constraint on remainder prevents this as well; here we get $r = -1$ which corresponds to a very large number in the prime field, much larger than $b$ in most cases. If the integer division takes place over very large numbers, one may additionally check for $0 \leq q < a$.
+This is a quotient $q = 4$ with a remainder $r = -2$, which is wrong since $10 / 3$ should give $q = 3$. Is $-2 < 3$? It should not be in the field, as $-2$ is a very large number there; however, `LessThan(n)` is only correct for $n$-bit inputs! It computes $2^n + r - b = 2^n - 5$, which is an $(n+1)$-bit number with its $n$'th bit unset, so it says that $r < b$. A dishonest prover could then claim that $10 / 3 = 4$.
+
+To prevent this, we range-check both the quotient and the remainder using `Num2Bits(n)`:
+
+- With $0 \leq r < 2^n$, the remainder can not be "negative" anymore, and `LessThan(n)` can safely check $r < b$.
+- With $0 \leq q < 2^n$, the quotient can not be a field element like $(a - r) \cdot b^{-1}$, which would satisfy $a = q \times b + r$ in the field for _any_ $r$.
+
+Finally, we must make sure that $q \times b + r$ can not wrap around the field, otherwise the equation $a = q \times b + r$ would only hold "modulo $p$" instead of over the integers. As $q$ and $r$ are $n$-bit numbers, and $b$ can be at most $n+1$ bits (otherwise `LessThan` fails), the result is less than $2^{2n+2}$. The `assert(n <= 125)` ensures that this is less than the prime of BN254, which is around $2^{253}$.
+
+> With these checks, the circuit has a unique solution for given $a$ and $b$: the quotient $q$ and remainder $r$ of the usual integer division.

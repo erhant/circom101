@@ -10,24 +10,23 @@ template IsSorted(n, b) {
     _ <== Num2Bits(b)(in[i]);
   }
 
-  // accumulator for in[i-1] < in[1] checks
+  // accumulator for in[i-1] <= in[i] checks
   var acc = 0;
   for (var i = 1; i < n; i++) {
     var isLessThan = LessEqThan(b)([in[i-1], in[i]]);
     acc += isLessThan;
   }
 
-  // note that technically it is possible for `acc` to overflow
-  // and wrap back to 0, however, that is unlikely to happen given
-  // how large the prime-field is and we would need that many components
-  // to be able to overflow
-  signal outs <== acc;
-  var outsIsZero = IsZero()(outs);
-  out <== 1 - outsIsZero;
+  // sorted only if all `n - 1` pairs are ordered
+  out <== IsEqual()([acc, n - 1]);
 }
 ```
 
-If we need an array to be sorted, we could instead sort the array out-of-circuit and pass in the sorted array, finally asserting that it is sorted indeed. To do this, we can simply check that consecutive elements are ordered, that is $a_{i-1} \leq a_{i}$ for all $1 \leq i \lt n$. Since the correctness of `LessEqThan(b)` is guaranteed only for inputs of at most `b` bits, we also add a range check using `Num2Bits(b)`, which internally asserts that the input fits within `b` bits
+If we need an array to be sorted, we could instead sort the array out-of-circuit and pass in the sorted array, finally asserting that it is sorted indeed. To do this, we can simply check that consecutive elements are ordered, that is $a_{i-1} \leq a_{i}$ for all $1 \leq i \lt n$. Since the correctness of `LessEqThan(b)` is guaranteed only for inputs of at most `b` bits, we also add a range check using `Num2Bits(b)`, which internally asserts that the input fits within `b` bits.
+
+Each `LessEqThan` returns 1 for an ordered pair, so `acc` counts the ordered pairs. There are $n-1$ pairs, and the array is sorted only if **all** of them are ordered, so we return whether `acc` equals $n-1$.
+
+> Be careful to not check whether `acc` is non-zero instead: that only tells that _some_ pair is ordered, and an array like `[0, 1, 2, 4, 3]` would be considered sorted!
 
 # `AssertSorted`
 
@@ -40,7 +39,7 @@ template AssertSorted(n, b) {
     _ <== Num2Bits(b)(in[i]);
   }
 
-  // accumulator for in[i-1] < in[1] checks
+  // accumulator for in[i-1] <= in[i] checks
   var acc = 0;
   for (var i = 1; i < n; i++) {
     var isLessThan = LessEqThan(b)([in[i-1], in[i]]);
@@ -51,4 +50,4 @@ template AssertSorted(n, b) {
 }
 ```
 
-If you would like to **assert** that the array is sorted instead of returning 0 or 1, you can simply check that `acc === n-1` at the end. This is because we make $n-1$ comparisons and accumulate all of them within `acc` variable. If all passes check, that should sum up to $n-1$.
+If you would like to **assert** that the array is sorted instead of returning 0 or 1, you can simply constrain `acc === n-1` at the end, instead of comparing it with `IsEqual`.

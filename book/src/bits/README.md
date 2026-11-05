@@ -90,10 +90,10 @@ We use `bit_value` to keep track of $2^i$, and this entire sum expression is sto
 function nbits(n) {
   var ans = 0;
 
-  var tmp = 1;
-  while (tmp - 1 < n) {
-      ans++;
-      tmp <<= 1;
+  // shift `n` to the right until all of its bits are consumed
+  while (n != 0) {
+    n >>= 1;
+    ans++;
   }
 
   return ans;
@@ -102,4 +102,6 @@ function nbits(n) {
 
 We might want to find the minimum number of bits required to represent a **known** value; we use a function called `nbits` (as in Circomlib) for that. Here, our parameter `n` is known at compile time, perhaps a generic argument or some constant somewhere.
 
-The idea of this function is to construct $2^i - 1$ until it becomes greater than our input.
+The idea of this function is to shift the number to the right one bit at a time, counting how many shifts it takes until nothing is left. For example, $9 = (1001)_2$ becomes $(100)_2$, $(10)_2$, $(1)_2$ and finally $0$, so `nbits(9) = 4`.
+
+> You may think of a loop such as `while (2**ans - 1 < n)` instead, but beware: Circom compares field elements as **signed** numbers, where values larger than $p/2$ are negative. For example, `-1 < 0` is true, even though `-1` is actually $p - 1$ in the field. Shifts on the other hand work with the actual value, so with shifts `nbits(-1)` correctly returns the number of bits of the largest field element, which is 254 for BN254.

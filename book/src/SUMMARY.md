@@ -13,7 +13,7 @@
 - [Bits](./bits/README.md)
   - [Logic Gates](./bits/logic-gates.md)
 - [Comparators](./comparators/README.md)
-  - [Constant Comparisons 🚧](./comparators/constant.md)
+  - [Constant Comparisons](./comparators/constant.md)
   - [Range Check](./comparators/range-check.md)
 - [Control Flow](./control-flow/README.md)
   - [Multiplexing](./control-flow/multiplexing.md)

@@ -67,34 +67,39 @@ BOARD_SIZES.map((N) =>
       await circuit.expectPass(INPUT);
     });
 
+    // returns a copy of the input with `solution[i][j]` set to `value`
+    const withCell = (i: number, j: number, value: number) => {
+      const solution = INPUT.solution.map((row) => [...row]);
+      solution[i][j] = value;
+      return { ...INPUT, solution };
+    };
+
     it("should NOT accept non-distinct rows", async () => {
-      const badInput = { ...INPUT };
-      badInput.solution[0][0] = badInput.solution[0][1];
-      await circuit.expectFail(badInput);
+      await circuit.expectFail(withCell(0, 0, INPUT.solution[0][1]));
     });
 
     it("should NOT accept non-distinct columns", async () => {
-      const badInput = { ...INPUT };
-      badInput.solution[0][0] = badInput.solution[1][0];
-      await circuit.expectFail(badInput);
+      await circuit.expectFail(withCell(0, 0, INPUT.solution[1][0]));
     });
 
     it("should NOT accept non-distinct square", async () => {
-      const badInput = { ...INPUT };
-      badInput.solution[0][0] = badInput.solution[1][1];
-      await circuit.expectFail(badInput);
+      await circuit.expectFail(withCell(0, 0, INPUT.solution[1][1]));
     });
 
     it("should NOT accept empty value in solution", async () => {
-      const badInput = { ...INPUT };
-      badInput.solution[0][0] = 0;
-      await circuit.expectFail(badInput);
+      await circuit.expectFail(withCell(0, 0, 0));
     });
 
     it("should NOT accept out-of-range values", async () => {
-      const badInput = { ...INPUT };
-      badInput.solution[0][0] = 99999;
-      await circuit.expectFail(badInput);
+      await circuit.expectFail(withCell(0, 0, N + 1));
+      await circuit.expectFail(withCell(0, 0, 99999));
+    });
+
+    it("should NOT accept a solution that disagrees with the puzzle", async () => {
+      // solution is valid, but the puzzle gives a different clue at a cell
+      const puzzle = INPUT.puzzle.map((row) => [...row]);
+      puzzle[0][1] = INPUT.solution[0][3];
+      await circuit.expectFail({ ...INPUT, puzzle });
     });
   }),
 );

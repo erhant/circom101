@@ -73,6 +73,7 @@ template LessThan(n) {
   toBits.in <== ((1 << n) + in[0]) - in[1];
 
   out <== 1 - toBits.out[n];
+  _ <== toBits.out; // only the n'th bit is needed
 }
 ```
 
@@ -83,6 +84,8 @@ The trick of `LessThan` is to think of bitwise-subtraction. Think of subtracting
 If `a` is less than `b`, then during this subtraction `a` will have to borrow that n'th bit. Otherwise, it is large enough that `b` can be subtracted without needing to borrow. To see if `a < b` we can simply check if n'th bit is borrowed or not during a subtraction. Since n'th bit will be 0 if it is borrwed, we must do a logical NOT operation (simply subtract the result from 1) as we assign it to the output.
 
 The role of `assert(n <= 252)` is to ensure we can safely set n'th bit to 1. That would be a problem if `n` were to be greater than 252, as that is where the order of scalar field of our curve (BN254 in this case) is cut-off.
+
+> `LessThan` does **not** check that its inputs are `n`-bit numbers, and if they are not, the result may be silently wrong. For example, `-1` is a very large number in the field, yet `LessThan(n)([-1, 0])` returns 1 since $2^n - 1$ is an $(n+1)$-bit number with its $n$'th bit unset. So the caller must range-check the inputs, e.g. with `Num2Bits(n)`, unless they are already known to be small enough. See [integer division](../arithmetic/int-div.md) for an example where forgetting this breaks the circuit.
 
 ## `LessEqThan`
 

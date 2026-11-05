@@ -1,8 +1,10 @@
+pragma circom 2.1.0;
+
 // "2-to-1" multiplexer.
 //
 // Inputs:
 // - in: inputs
-// - sel: selector bit
+// - sel: selector bit, NOT constrained to be a bit here; the caller must ensure it is
 //
 // Outputs:
 // - out: equals in[sel]
@@ -18,7 +20,7 @@ template Mux1() {
 //
 // Inputs:
 // - in: inputs
-// - sel: selector bits
+// - sel: selector bits, NOT constrained to be bits here; the caller must ensure they are
 //
 // Outputs:
 // - out: equals in[2*sel[1] + sel[0]]

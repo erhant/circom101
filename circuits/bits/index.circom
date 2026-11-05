@@ -7,12 +7,12 @@ pragma circom 2.1.0;
 function nbits(n) {
   var ans = 0;
 
-  var tmp = 1;
-  while (tmp - 1 < n) {
-      ans++;
-      tmp <<= 1;
+  // shift `n` to the right until all of its bits are consumed
+  while (n != 0) {
+    n >>= 1;
+    ans++;
   }
-  
+
   return ans;
 }
 

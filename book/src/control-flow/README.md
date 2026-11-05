@@ -45,6 +45,8 @@ template IfElse() {
 
 Following our description above, an `if-else` is defined by the given circuit. Remember that both `ifTrue` and `ifFalse` signals are computed, regardless of the condition, but only one of them is returned.
 
+> `IfElse` (and `Switch` below) does **not** constrain `cond` to be a bit. If `cond` is some other value, the output is a mix of both branches, which a dishonest prover can often exploit. The caller must ensure that `cond` is a bit, e.g. with `AssertBit`, unless it is already the output of a bit-returning circuit such as `IsEqual`.
+
 ### Conditional Constraints
 
 In your application, there may be cases where `ifTrue` and `ifFalse` can't be valid at the same time, due to some condition; `ifTrue` might constrain a signal to be 0 but `ifFalse` might constrain that same signal to something else.

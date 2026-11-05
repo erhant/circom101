@@ -9,7 +9,7 @@ include "../bits/index.circom";
 // - constant: a constant value
 //
 // Inputs:
-// - in: 254-bit binary representation of a number
+// - in: 254-bit binary representation of a number, NOT constrained to be bits here; the caller must ensure it is
 //
 // Outputs:
 // - out: 1 if `in > constant`
@@ -17,16 +17,15 @@ template CompConstant(constant) {
   signal input in[254];
   signal output out;
 
-  // `a` is the penalty added when the signal pair is LESS than the constant pair.
-  // `b` is the reward added when the signal pair is GREATER than the constant pair.
+  // The input is compared with the constant pair-by-pair, i.e. as 127 base-4 digits.
+  // At pair i, we add:
+  //   a_i = 2^i         if the signal pair is LESS than the constant pair
+  //   b_i = 2^128 - 2^i if the signal pair is GREATER than the constant pair
   //
-  // They start at a=1, b=2^128-1 and converge toward each other, doubling the
-  // step each iteration. At pair i: a_i = 2^i, b_i = 2^128 - 2^i.
-  //
-  // The key invariant: a single "win" at position i (contributing b_i = 2^128 - 2^i)
-  // always outweighs all possible "losses" at lower positions combined
-  // (worst case: sum of a_j for j < i = 2^i - 1 < b_i).
-  // So the most-significant differing pair decides the outcome — just like
+  // Note that b_i is -2^i in 128-bit two's complement, so modulo 2^128 the sum is:
+  //   (sum of 2^i over "less" pairs) - (sum of 2^i over "greater" pairs)
+  // The most-significant differing pair outweighs all lower ones combined
+  // (2^i > 2^(i-1) + ... + 1), so its sign is the sign of the sum, just like
   // ordinary magnitude comparison.
   var a = 1;
   var b = (1 << (128)) - 1;
@@ -90,9 +89,10 @@ template CompConstant(constant) {
     bit_value <<= 1;
   }
 
-  // The sum encodes the comparison result in bit 127:
-  //   - If in > constant, wins dominate → sum >= 2^127, so bit 127 is set.
-  //   - If in <= constant, losses dominate → sum < 2^127, so bit 127 is clear.
+  // Bit 127 is the sign bit of the sum in 128-bit two's complement:
+  //   - If in > constant, the sum is "negative" modulo 2^128, so bit 127 is set.
+  //   - If in <= constant, the sum is "non-negative" modulo 2^128, so bit 127 is clear.
+  // Bits above 127 are just the overflow of the 2^128 terms, and are ignored.
   //
   // 135 bits are needed because the maximum possible sum is:
   //   sum_max = Σ(i=0..126) b_i = Σ(i=0..126) (2^128 - 2^i)
@@ -103,14 +103,14 @@ template CompConstant(constant) {
   component num2bits = Num2Bits(135);
   num2bits.in <== out_bits;
   out <== num2bits.out[127];
-  // only bit 127 is needed, supress "unused" warning with `_ <==`
+  // only bit 127 is needed, suppress "unused" warning with `_ <==`
   _ <== num2bits.out; 
 }
 
 // Asserts that a 254-bit value is within the prime field.
 //
 // Inputs:
-// - in: 254-bit binary representation of a number
+// - in: 254-bit binary representation of a number, NOT constrained to be bits here; the caller must ensure it is
 template AliasCheck() {
   signal input in[254];
 
@@ -127,7 +127,7 @@ template AliasCheck() {
 // it is defined to be positive; otherwise negative.
 //
 // Inputs:
-// - in: 254-bit binary representation of a number
+// - in: 254-bit binary representation of a number, NOT constrained to be bits here; the caller must ensure it is
 //
 // Outputs:
 // - out: 0 if positive, 1 if negative.

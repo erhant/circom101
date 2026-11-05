@@ -1,6 +1,7 @@
 pragma circom 2.1.0;
 
 include "circomlib/circuits/poseidon.circom";
+include "../bits/index.circom";
 include "../control-flow/index.circom";
 
 // Binary Merkle Tree
@@ -65,6 +66,10 @@ template BinaryMerkleProof(n) {
   for (var i = n; i != 0; i--) {
     // index 0: sibling is on the right
     // index 1: sibling is on the left
+    //
+    // the index MUST be a bit, otherwise `Switch` returns a mix of the
+    // path and the sibling, which can be crafted to forge a proof
+    AssertBit()(indices[i-1]);
     children[i-1] <== Switch()(indices[i-1], [path[i], siblings[i-1]]);
     path[i-1] <== Poseidon(2)(children[i-1]);
   }

@@ -22,20 +22,15 @@ template IsSorted(n, b) {
     _ <== Num2Bits(b)(in[i]);
   }
 
-  // accumulator for in[i-1] < in[1] checks
+  // accumulator for in[i-1] <= in[i] checks
   var acc = 0;
   for (var i = 1; i < n; i++) {
     var isLessThan = LessEqThan(b)([in[i-1], in[i]]);
     acc += isLessThan;
   }
 
-  // note that technically it is possible for `acc` to overflow
-  // and wrap back to 0, however, that is unlikely to happen given
-  // how large the prime-field is and we would need that many components
-  // to be able to overflow
-  signal outs <== acc;
-  var outsIsZero = IsZero()(outs);
-  out <== 1 - outsIsZero;
+  // sorted only if all `n - 1` pairs are ordered
+  out <== IsEqual()([acc, n - 1]);
 }
 
 // Asserts that an array is sorted (ascending).
@@ -54,7 +49,7 @@ template AssertSorted(n, b) {
     _ <== Num2Bits(b)(in[i]);
   }
 
-  // accumulator for in[i-1] < in[1] checks
+  // accumulator for in[i-1] <= in[i] checks
   var acc = 0;
   for (var i = 1; i < n; i++) {
     var isLessThan = LessEqThan(b)([in[i-1], in[i]]);

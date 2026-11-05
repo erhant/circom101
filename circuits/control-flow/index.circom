@@ -3,7 +3,7 @@ pragma circom 2.1.0;
 // Conditionally returns one of the signals.
 //
 // Inputs:
-// - cond: a boolean condition
+// - cond: a boolean condition, NOT constrained to be a bit here; the caller must ensure it is
 // - ifTrue: signal to be returned if condition is true
 // - ifFalse: signal to be returned if condition is false
 //
@@ -21,7 +21,7 @@ template IfElse() {
 // Swaps `in[0]` and `in[1]` if `cond` is true.
 //
 // Inputs:
-// - cond: a boolean condition
+// - cond: a boolean condition, NOT constrained to be a bit here; the caller must ensure it is
 // - in: two signals
 //
 // Outputs:

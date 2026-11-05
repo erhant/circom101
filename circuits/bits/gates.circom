@@ -1,5 +1,8 @@
 pragma circom 2.1.0;
 
+// Note that none of these gates constrain their inputs to be bits;
+// the caller must ensure that, e.g. with `AssertBit`.
+
 // Logical AND operation.
 //
 // Inputs:

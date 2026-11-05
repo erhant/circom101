@@ -1,5 +1,5 @@
 import type { WitnessTester } from "circomkit";
-import { circomkit } from "../common";
+import { circomkit, primes } from "../common";
 import { describe, beforeAll, it } from "bun:test";
 
 describe("integer division", () => {
@@ -35,5 +35,21 @@ describe("integer division", () => {
   it("should return 0 when dividend is zero", async () => {
     const M = Math.round(Math.random() * 1000);
     await circuit.expectPass({ in: [0, M] }, { out: 0 });
+  });
+
+  it("should NOT accept a forged quotient with a negative remainder", async () => {
+    // 10 = 4 * 3 + (-2), so a dishonest prover claims 10 / 3 = 4
+    const [a, b, q, r] = [10n, 3n, 4n, primes.bn128 - 2n];
+
+    // `LessThan` computes 2^N + r - b, which is a N-bit value for r = -2,
+    // so it would say that r < b if `r` is not range-checked
+    const lt = (1n << BigInt(N)) + r - b - primes.bn128;
+    const edits: Record<string, bigint> = { "main.out": q, "main.rem": r, "main.remIsLess.toBits.in": lt };
+    for (let i = 0; i <= N; i++) {
+      edits[`main.remIsLess.toBits.out[${i}]`] = (lt >> BigInt(i)) & 1n;
+    }
+
+    const witness = await circuit.calculateWitness({ in: [a, b] });
+    await circuit.expectConstraintFail(await circuit.editWitness(witness, edits));
   });
 });

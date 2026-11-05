@@ -1,16 +1,32 @@
 pragma circom 2.1.0;
 
-// Prove that you know an N-by-N Magic Square with the magic `sum`.
+include "../../arrays/distinct.circom";
+include "../../comparators/range.circom";
+
+// Prove that you know an N-by-N normal Magic Square,
+// i.e. one that uses each of the numbers 1, 2, ..., N^2 exactly once.
 //
 // Parameters:
 // - n: width/height of the square
 //
 // Inputs:
 // - in: an N-by-N square
-// - sum (public): the magic sum
 template MagicSquare(n) {
   signal input in[n][n];
-  signal input sum;
+
+  // the magic sum of a normal magic square
+  var sum = n * (n*n + 1) \ 2;
+
+  // ensure all values are in range [1, n^2] and distinct,
+  // so that each of 1, 2, ..., n^2 is used exactly once
+  signal flat[n*n];
+  for (var i = 0; i < n; i++) {
+    for (var j = 0; j < n; j++) {
+      AssertInRange(1, n*n)(in[i][j]);
+      flat[i*n + j] <== in[i][j];
+    }
+  }
+  AssertDistinct(n*n)(flat);
 
   // sum diagonals
   var diags[2];

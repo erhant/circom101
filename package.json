@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "test": "bun test",
+    "test:fresh": "rm -rf build/.witness-tester && bun test",
     "format": "yarn format:ts",
     "format:ts": "npx prettier --check ./tests/**/*.ts",
     "format:md": "echo todo",

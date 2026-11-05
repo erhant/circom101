@@ -13,6 +13,8 @@ include "../comparators/index.circom";
 // Outputs:
 // - out: `in[0] / in[1]`
 template IntDiv(n) {
+  // ensures that `quot * in[1] + rem` can not wrap around the field
+  assert(n <= 125);
   signal input in[2];
   signal output out;
 
@@ -26,17 +28,20 @@ template IntDiv(n) {
   signal quot <-- quot_hint;
   signal rem <-- rem_hint;
 
-  // contrain the division operation
+  // quotient & remainder must be n-bit numbers, otherwise a dishonest prover can
+  // pick a "negative" remainder (a large field element) that still passes the
+  // `rem < in[1]` check, or a quotient that is a field division `in[0] / in[1]`
+  _ <== Num2Bits(n)(quot);
+  _ <== Num2Bits(n)(rem);
+
+  // constrain the division operation
   // in[0] / in[1] is defined as the unique pair (q, r) s.t.
   // in[0] = in[1] * q + r and 0 <= r < |in[1]|
   in[0] === quot * in[1] + rem;
 
-  // OPTIONAL: quot edge case is when `rem = 0` and `in[1] = 1`
-  // signal quot_is_valid <== LessEqThan(n)([quot, in[0]]);
-  // 1 === quot_is_valid;
-
-  signal rem_is_valid <== LessThan(n)([rem, in[1]]);
-  1 === rem_is_valid;
+  component remIsLess = LessThan(n);
+  remIsLess.in <== [rem, in[1]];
+  remIsLess.out === 1;
 
   out <== quot;
 }
