@@ -67,6 +67,8 @@ arr_i =
 
 In the paper [xJsnark](https://akosba.github.io/papers/xjsnark.pdf), this method is referred to as "Linear Scan".
 
+> If `index` is not within $[0, n)$, all of the equality checks are 0, and `ArrayRead` simply returns 0 instead of failing. If the index comes from the prover, you should range-check it yourself; see [Two Sum](../examples/intermediate/two-sum.md) for an example where forgetting this breaks the circuit.
+
 ## `ArrayWrite`
 
 ```cs
