@@ -39,5 +39,7 @@
   - [Sudoku](./examples/intermediate/sudoku.md)
   - [Two Sum](./examples/intermediate/two-sum.md)
   - [N-Queens](./examples/intermediate/n-queens.md)
+  - [Fixed-Point Arithmetic](./examples/intermediate/fixed-point.md)
 - [Advanced](./examples/advanced/README.md)
   - [Filtering Tuples](./examples/advanced/filter.md)
+  - [Tornado Cash](./examples/advanced/tornado.md)

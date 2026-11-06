@@ -49,6 +49,10 @@ A circuit proves a statement about its inputs, and the inputs are chosen by the 
 - The famous formula of [Missing Number](./examples/simple/missing-number.md#the-catch) returns a meaningless answer for repeated or out-of-range numbers.
 - [Sudoku](./examples/intermediate/sudoku.md#why-this-is-enough) needs both the range checks and the distinctness checks, as neither is enough on its own.
 
+## Bind Every Public Input
+
+A public input that does not appear in any constraint may not be bound to the proof, so the same proof could be valid for another value of it. [Tornado Cash](./examples/advanced/tornado.md#binding-the-public-inputs) squares its recipient for this reason, so that nobody can copy a proof from the mempool and change the recipient to themselves.
+
 ## Hash Different Things Differently
 
 When the same hash function is used for different kinds of data, a value of one kind may be passed off as another. In a Merkle tree, an internal node could be presented as a leaf, which is the [second-preimage attack](./merkle-trees/bmt.md#hashing-leaves--nodes-differently). Hash leaves and nodes differently, and if the depth of a tree is an input, make sure that it is the actual depth, as in the [Incremental Merkle Tree](./merkle-trees/imt.md#membership-proofs).

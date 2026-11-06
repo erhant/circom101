@@ -21,7 +21,7 @@ The book is organized as follows:
 - [Merkle Trees](./merkle-trees/) describes Merkle Trees and their usage in Circom circuits, from binary Merkle trees to sparse Merkle trees and Merkle mountain ranges.
 - [Common Pitfalls](./pitfalls.md) collects the mistakes that come up again and again in Circom circuits, and how to avoid them.
 - [Further Topics](./advanced/) covers topics beyond writing circuits, such as alternative provers, large circuits and folding.
-- [Examples](./examples/simple/) puts everything together in complete circuits, from simple ones like Fibonacci & Magic Squares, to puzzles like Sudoku & N-Queens, some well-known LeetCode problems, and a ZK puzzle from Axiom.
+- [Examples](./examples/simple/) puts everything together in complete circuits, from simple ones like Fibonacci & Magic Squares, to puzzles like Sudoku & N-Queens, some well-known LeetCode problems, fixed-point arithmetic, a ZK puzzle from Axiom, and Tornado Cash.
 
 ## Counting Constraints
 
