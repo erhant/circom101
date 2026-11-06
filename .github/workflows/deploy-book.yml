@@ -1,7 +1,5 @@
-# https://github.com/rust-lang/mdBook/wiki/Automated-Deployment%3A-GitHub-Actions
 name: book
 
-# https://github.com/orgs/vercel/discussions/3307
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -12,11 +10,10 @@ jobs:
   deploy-book:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # To push a branch
-      pull-requests: write # To create a PR from that branch
+      contents: read
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: Install mdbook
         uses: extractions/setup-crate@v1
@@ -30,21 +27,25 @@ jobs:
         with:
           owner: lzanini
           name: mdbook-katex
+          version: "0.10.0-alpha-binaries" # the release tag that has the binaries
 
       - name: Install Mermaid preprocessor
         uses: extractions/setup-crate@v1
         with:
           owner: badboy
           name: mdbook-mermaid
+          version: "0.17.0"
 
       - name: Setup Node.js (required to install Vercel CLI)
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
 
       - name: Generate static content for the book
         run: npm run book:build
 
       - name: Install Vercel CLI
-        run: npm install --global vercel
+        run: npm install --global vercel@65.12.1
 
       - name: Pull Vercel environment information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
